@@ -26,4 +26,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //parse
+    implementation 'com.parse.bolts:bolts-android:1.4.0'
+    implementation 'com.parse:parse-android:1.17.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 }
