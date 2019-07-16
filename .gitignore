@@ -83,3 +83,5 @@ lint/tmp/
 
 # local file
 local.properties
+
+app/.DS_Store
