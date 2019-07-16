@@ -1,5 +1,4 @@
-Group Project - README Template
-===
+our special project - README Template
 
 # APP_NAME_HERE
 
