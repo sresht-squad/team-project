@@ -1,4 +1,4 @@
-Group Project - README Template
+Team Project - README Template
 ===
 
 # APP_NAME_HERE
