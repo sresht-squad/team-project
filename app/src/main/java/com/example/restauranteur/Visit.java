@@ -33,7 +33,7 @@ public class Visit extends ParseObject {
         return getParseUser(KEY_CUSTOMER);
     }
 
-    // get and setter for waiter
+    // get and setter for server
     public void setServer(ParseUser server) {
         put(KEY_SERVER, server);
     }

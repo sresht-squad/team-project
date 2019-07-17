@@ -26,7 +26,6 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         tvId = findViewById(R.id.tvId);
 
-//        ParseUser.getCurrentUser().fetchInBackground();
 
         logout = findViewById(R.id.ivLogout);
 
