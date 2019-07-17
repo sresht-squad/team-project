@@ -1,4 +1,4 @@
-package com.example.restauranteur.Models;
+package com.example.restauranteur;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -10,7 +10,7 @@ public class Order extends ParseObject {
 
     public static final String KEY_TABLENUMBER = "tableNumber";
     public static final String KEY_CUSTOMER = "customer";
-    public static final String KEY_WAITER = "waiter";
+    public static final String KEY_SERVER = "waiter";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -31,13 +31,14 @@ public class Order extends ParseObject {
     }
 
     // get and setter for waiter
-    public void setWaiter(ParseUser waiter) {
-        put(KEY_WAITER, waiter);
+    public void setServer(ParseUser server) {
+        put(KEY_SERVER, server);
     }
 
     public ParseUser getWaiter() {
-        return getParseUser(KEY_WAITER);
+        return getParseUser(KEY_SERVER);
     }
+
 
 
     //From the order class include the waiter table and customer table

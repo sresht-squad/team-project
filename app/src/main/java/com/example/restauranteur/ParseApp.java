@@ -3,6 +3,7 @@ package com.example.restauranteur;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,8 +13,8 @@ public class ParseApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //LATER: let parse know about the model class subclass
-//        ParseObject.registerSubclass(____.class);
+        //let parse know about the model class subclass
+        ParseObject.registerSubclass(Order.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
