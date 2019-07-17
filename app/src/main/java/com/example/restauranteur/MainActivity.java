@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.R;
-import com.example.simpleChat.ChatActivity;
 
 public class MainActivity extends AppCompatActivity {
 

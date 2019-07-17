@@ -2,7 +2,7 @@ package com.example.restauranteur;
 
 import android.app.Application;
 
-import com.example.simpleChat.Message;
+import com.example.restauranteur.simpleChat.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
