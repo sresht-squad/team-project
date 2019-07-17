@@ -35,6 +35,11 @@ public class ServerID extends ParseObject {
             whereEqualTo("idNumber", idNumber);
             return this;
         }
+
+        public Query getIDWithServer(String serverObjectId){
+            whereEqualTo("objectId", serverObjectId);
+            return this;
+        }
     }
 
 
