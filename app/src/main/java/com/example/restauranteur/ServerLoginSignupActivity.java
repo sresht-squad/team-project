@@ -74,7 +74,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
                     Log.i("Login","Login success");
-                    final Intent intent = new Intent(ServerLoginSignupActivity.this,AccountTypeActivity.class);
+                    final Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else{
