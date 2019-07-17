@@ -27,6 +27,16 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
 
+        //user persisting
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(CustomerLoginSignupActivity.this,CustomerHomeActivity.class);
+            intent.putExtra("myUsername", currentUser.getUsername());
+            startActivity(intent);
+            finish();
+        }
+
+
         usernameInput = findViewById(R.id.etUsername);
         passwordInput = findViewById(R.id.etPassword);
         btLogin = findViewById(R.id.btnLogin);

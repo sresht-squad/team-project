@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 public class AccountTypeActivity extends AppCompatActivity {
 
     Button btnCustomer;
     Button btnServer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

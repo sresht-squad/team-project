@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ServerHomeActivity"></activity>
-        <!-- <activity android:name=".CustomerHomeActivity"></activity> -->
+         <activity android:name=".CustomerHomeActivity"></activity>
         <activity android:name=".AccountTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
