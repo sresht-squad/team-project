@@ -2,6 +2,7 @@ package com.example.restauranteur;
 
 import android.app.Application;
 
+import com.example.simpleChat.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -14,7 +15,8 @@ public class ParseApp extends Application {
         super.onCreate();
 
         //let parse know about the model class subclass
-        ParseObject.registerSubclass(Order.class);
+        ParseObject.registerSubclass(Visit.class);
+        ParseObject.registerSubclass(Message.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();

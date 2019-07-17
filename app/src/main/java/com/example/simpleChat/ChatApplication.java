@@ -2,6 +2,7 @@ package com.example.simpleChat;
 
 import android.app.Application;
 
+import com.example.restauranteur.Visit;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

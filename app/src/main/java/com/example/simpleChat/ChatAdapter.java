@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.restauranteur.R;
+import com.example.restauranteur.Visit;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
