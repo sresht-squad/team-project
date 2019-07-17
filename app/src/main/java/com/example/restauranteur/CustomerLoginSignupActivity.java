@@ -13,18 +13,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class CustomerLoginSignupActivity extends AppCompatActivity {
 
-    EditText usernameInput = findViewById(R.id.etUsernameCustomer);
-    EditText passwordInput = findViewById(R.id.etPasswordCustomer);
-    Button btLogin = findViewById(R.id.btLoginCustomer);
-    TextView btSignUp = findViewById(R.id.btSignupCustomer);
+    EditText usernameInput;
+    EditText passwordInput;
+    Button btLogin;
+    TextView btSignUp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_login_signup);
+
+        usernameInput = findViewById(R.id.etUsernameCustomer);
+        passwordInput = findViewById(R.id.etPasswordCustomer);
+        btLogin = findViewById(R.id.btLoginCustomer);
+        btSignUp = findViewById(R.id.btSignupCustomer);
+
 
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +47,30 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String username = usernameInput.getText().toString();
+                final String password = passwordInput.getText().toString();
+                signUp(username, password);
+            }
+        });
+    }
 
+    private void signUp(final String username, final String password){
+        // Create the ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(username);
+        user.setPassword(password);
+        user.
+        // Invoke signUpInBackground
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    finish();
+                    login(username, password);
+                } else {
+                    Log.d("Sign up", "sign up failure");
+                    e.printStackTrace();
+                }
             }
         });
     }

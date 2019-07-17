@@ -21,17 +21,24 @@
                 </intent-filter>
             </activity>
 
-        <activity android:name=".CustomerLoginSignupActivity"></activity>
-
-        <activity android:name=".ServerLoginSignupActivity" />
-        <activity android:name=".MainActivity">
-
+        <activity android:name=".CustomerLoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ServerLoginSignupActivity" ></activity>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
