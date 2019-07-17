@@ -1,6 +1,10 @@
 package com.example.restauranteur;
 
+import android.util.Log;
+
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -9,11 +13,9 @@ import com.parse.ParseUser;
 public class Visit extends ParseObject {
 
     public static final String BODY_KEY = "body";
-    public static final String SERVER_ID_KEY = "server";
-    public static final String USER_ID_KEY = "user";
     public static final String KEY_TABLENUMBER = "tableNumber";
     public static final String KEY_CUSTOMER = "customer";
-    public static final String KEY_SERVER = "waiter";
+    public static final String KEY_SERVER = "server";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -38,8 +40,13 @@ public class Visit extends ParseObject {
         put(KEY_SERVER, server);
     }
 
-    public ParseUser getWaiter() {
-        return getParseUser(KEY_SERVER);
+    public ParseUser getServer() {
+        try {
+            return fetchIfNeeded().getParseUser(KEY_SERVER);
+        } catch (ParseException e) {
+            Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
+            return null;
+        }
     }
 
     //From the order class include the waiter table and customer table
@@ -53,19 +60,11 @@ public class Visit extends ParseObject {
             return this;
         }
 
-        public Visit.Query withWaiter() {
-            include("waiter");
+        public Visit.Query withServer() {
+            include("server");
             return this;
         }
 
-    }
-
-    public String getServer() {
-        return getString(SERVER_ID_KEY);
-    }
-
-    public String getUser() {
-        return getString(USER_ID_KEY);
     }
 
     public String getBody() {

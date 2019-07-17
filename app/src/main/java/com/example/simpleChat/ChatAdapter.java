@@ -1,6 +1,7 @@
 package com.example.simpleChat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Visit;
+import com.parse.ParseUser;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
@@ -43,35 +47,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
         Visit visit = (Visit) message.getVisit();
-        final boolean isMe = visit.getCustomer() != null && (visit.getUser().equals(mUserId));
+        String author = (message.getAuthor()).getObjectId();
+        final boolean isMe = (this.mUserId == author);
 
         if (isMe) {
-            holder.imageMe.setVisibility(View.VISIBLE);
-            holder.imageOther.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+            holder.body.setBackgroundColor(0xADD8E6);
+            Log.i("MY", "MESSAGE");
         } else {
-            holder.imageOther.setVisibility(View.VISIBLE);
-            holder.imageMe.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
-
-        final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(visit.getUser())).into(profileView);
         holder.body.setText(message.getBody());
-    }
-
-    // Create a gravatar image based on the hash value obtained from userId
-    private static String getProfileUrl(final String userId) {
-        String hex = "";
-        try {
-            final MessageDigest digest = MessageDigest.getInstance("MD5");
-            final byte[] hash = digest.digest(userId.getBytes());
-            final BigInteger bigInt = new BigInteger(hash);
-            hex = bigInt.abs().toString(16);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "https://www.gravatar.com/avatar/" + hex + "?d=identicon";
+        /*
+        final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
+        Glide.with(mContext).load(getProfileUrl(getCurrentUser().getObjectId())).into(profileView);
+        */
     }
 
     @Override
@@ -80,14 +70,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageOther;
-        ImageView imageMe;
         TextView body;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageOther = itemView.findViewById(R.id.ivProfileOther);
-            imageMe = itemView.findViewById(R.id.ivProfileMe);
             body = itemView.findViewById(R.id.tvBody);
         }
     }

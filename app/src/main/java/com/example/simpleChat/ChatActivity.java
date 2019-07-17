@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
+import com.example.restauranteur.Visit;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
@@ -48,28 +49,10 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        // User login
-        if (getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
-        } else { // If not logged in, login as a new anonymous user
-            login();
-        }
+        startWithCurrentUser();
+        refreshMessages();
     }
 
-
-    // Create an anonymous user using ParseAnonymousUtils and set sUserId
-    void login() {
-        ParseAnonymousUtils.logIn(new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Anonymous login failed: ", e);
-                } else {
-                    startWithCurrentUser();
-                }
-            }
-        });
-    }
 
     // Get the userId from the cached currentUser object
     void startWithCurrentUser() {
@@ -101,7 +84,7 @@ public class ChatActivity extends AppCompatActivity {
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                getCurrentUser().getObjectId();
+                message.setAuthor(getCurrentUser());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -128,9 +111,23 @@ public class ChatActivity extends AppCompatActivity {
             // This is equivalent to a SELECT query with SQL
             query.findInBackground(new FindCallback<Message>() {
                 public void done(List<Message> messages, ParseException e) {
+                    Visit v;
                     if (e == null) {
                         mMessages.clear();
-                        mMessages.addAll(messages);
+                        for (int i = 0; i < messages.size(); i++){
+                            Message m = messages.get(i);
+                            v = (Visit) m.getVisit();
+                            ParseUser s = v.getServer();
+                            String serverId = s.getObjectId();
+                            String userId = getCurrentUser().getObjectId();
+                            Log.i("", "");
+                            if (serverId.equalsIgnoreCase(userId));
+                            {
+                                mMessages.add(m);
+                            }
+                        }
+                        mMessages.add(messages.get(5));
+                       // mMessages.addAll(messages);
                         mAdapter.notifyDataSetChanged(); // update adapter
                         // Scroll to the bottom of the list on initial load
                         if (mFirstLoad) {
