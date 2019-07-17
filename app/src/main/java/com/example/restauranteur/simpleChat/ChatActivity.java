@@ -1,4 +1,4 @@
-package com.example.simpleChat;
+package com.example.restauranteur.simpleChat;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Visit;
 import com.parse.FindCallback;
-import com.parse.LogInCallback;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -114,20 +112,19 @@ public class ChatActivity extends AppCompatActivity {
                     Visit v;
                     if (e == null) {
                         mMessages.clear();
+                        //only show the messages for visits that involve the current logged-in server
                         for (int i = 0; i < messages.size(); i++){
                             Message m = messages.get(i);
                             v = (Visit) m.getVisit();
                             ParseUser s = v.getServer();
                             String serverId = s.getObjectId();
                             String userId = getCurrentUser().getObjectId();
-                            Log.i("", "");
-                            if (serverId.equalsIgnoreCase(userId));
+                            if (serverId.equals(userId))
                             {
+                                Log.i(serverId, userId);
                                 mMessages.add(m);
                             }
                         }
-                        mMessages.add(messages.get(5));
-                       // mMessages.addAll(messages);
                         mAdapter.notifyDataSetChanged(); // update adapter
                         // Scroll to the bottom of the list on initial load
                         if (mFirstLoad) {

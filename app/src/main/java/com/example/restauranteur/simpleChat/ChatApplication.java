@@ -1,4 +1,4 @@
-package com.example.simpleChat;
+package com.example.restauranteur.simpleChat;
 
 import android.app.Application;
 

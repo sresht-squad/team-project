@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRole;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     //query.include(Post.KEY_USER)
     void newServer (){
-        ParseUser user =  new ParseUser();
+        final ParseUser user =  new ParseUser();
         // Set core properties
         final String newUsername = etGetUsername.getText().toString();
         final String newPassword = etGetPassword.getText().toString();
@@ -97,16 +98,29 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         user.setPassword(newPassword);
         user.put("server", true);
 
-        ServerID serverID = new ServerID();
-        serverID.setServer(ParseUser.getCurrentUser());
-        serverID.setIdNumber(getRandomAlphaNum(10));
-
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
+                    ServerID serverID = new ServerID();
+
+                    serverID.setServer(user);
+                    serverID.setIdNumber(getRandomAlphaNum(10));
+
+                    serverID.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null){
+                                Log.d("Saving","Error while saving");
+                                e.printStackTrace();
+                                return;
+                            }else{
+                                Log.d("Saving", "success");
+                            }
+                        }
+                    });
                     login(newUsername, newPassword);
                 }else {
                     Log.i("ServerSignup", "New server failed");
