@@ -33,14 +33,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
 
-        //user persisting
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
-            intent.putExtra("myUsername", currentUser.getUsername());
-            startActivity(intent);
-            finish();
-        }
 
         //connecting to layout
         etGetUsername = findViewById(R.id.etUsername);

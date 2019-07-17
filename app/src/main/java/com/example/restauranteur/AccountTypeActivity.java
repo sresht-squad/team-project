@@ -23,6 +23,15 @@ public class AccountTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_type);
 
+        //user persisting
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(AccountTypeActivity.this,ServerHomeActivity.class);
+            intent.putExtra("myUsername", currentUser.getUsername());
+            startActivity(intent);
+            finish();
+        }
+
         btnCustomer = findViewById(R.id.btnCustomer);
         btnServer = findViewById(R.id.btnServer);
 
