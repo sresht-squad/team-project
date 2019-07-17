@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
@@ -33,9 +38,23 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 ParseUser currentCustomer = ParseUser.getCurrentUser();
 
                 if (serverId.equals(currentCustomer.getString("serverId"))){
-                    Visit visit = new Visit();
+                    final Visit visit = new Visit();
                     visit.setCustomer(currentCustomer);
-//                    visit.setServer();
+                    final ServerID.Query serverIdQuery = new ServerID.Query();
+                    serverIdQuery.getServerWithID(serverId);
+
+                    serverIdQuery.findInBackground(new FindCallback<ServerID>() {
+                        @Override
+                        public void done(List<ServerID> objects, ParseException e) {
+                            if (e == null) {
+                                ParseUser server = objects.get(0).getServer();
+                                visit.setServer(server);
+                                visit.setTableNumber("2");
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
             }
         });
