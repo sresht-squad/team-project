@@ -12,28 +12,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class CustomerLoginSignupActivity extends AppCompatActivity {
 
-    EditText usernameInput = findViewById(R.id.etUsernameCustomer);
-    EditText passwordInput = findViewById(R.id.etPasswordCustomer);
-    Button btLogin = findViewById(R.id.btLoginCustomer);
-    TextView btSignUp = findViewById(R.id.btSignupCustomer);
+    EditText usernameInput;
+    EditText passwordInput;
+    Button btLogin;
+    TextView btSignUp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_login_signup);
 
-        final String username = usernameInput.getText().toString();
-        final String password = passwordInput.getText().toString();
+        usernameInput = findViewById(R.id.etUsernameCustomer);
+        passwordInput = findViewById(R.id.etPasswordCustomer);
+        btLogin = findViewById(R.id.btLoginCustomer);
+        btSignUp = findViewById(R.id.btSignupCustomer);
+
 
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String username = usernameInput.getText().toString();
+                final String password = passwordInput.getText().toString();
                 login(username, password);
             }
         });
@@ -42,6 +47,8 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String username = usernameInput.getText().toString();
+                final String password = passwordInput.getText().toString();
                 signUp(username, password);
             }
         });
