@@ -39,8 +39,6 @@ public class Order extends ParseObject {
         return getParseUser(KEY_SERVER);
     }
 
-
-
     //From the order class include the waiter table and customer table
     public static class Query extends ParseQuery<Order> {
         public Query() {
