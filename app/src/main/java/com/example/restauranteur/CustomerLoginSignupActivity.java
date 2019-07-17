@@ -1,3 +1,5 @@
+package com.example.restauranteur;
+
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
