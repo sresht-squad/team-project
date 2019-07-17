@@ -5,8 +5,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-@ParseClassName("Order")
-public class Order extends ParseObject {
+@ParseClassName("Visit")
+public class Visit extends ParseObject {
 
     public static final String KEY_TABLENUMBER = "tableNumber";
     public static final String KEY_CUSTOMER = "customer";
@@ -41,9 +41,9 @@ public class Order extends ParseObject {
 
 
     //From the order class include the waiter table and customer table
-    public static class Query extends ParseQuery<Order> {
+    public static class Query extends ParseQuery<Visit> {
         public Query() {
-            super(Order.class);
+            super(Visit.class);
         }
 
         public Query withCustomer() {
