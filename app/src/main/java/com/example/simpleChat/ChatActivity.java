@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.simpleChat;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
@@ -21,6 +22,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -46,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         // User login
-        if (ParseUser.getCurrentUser() != null) { // start with existing user
+        if (getCurrentUser() != null) { // start with existing user
             startWithCurrentUser();
         } else { // If not logged in, login as a new anonymous user
             login();
@@ -81,7 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         rvChat = findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-        final String userId = ParseUser.getCurrentUser().getObjectId();
+        final String userId = getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
@@ -94,13 +97,11 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                //ParseObject message = ParseObject.create("Message");
-                //message.put(Message.USER_ID_KEY, userId);
-                //message.put(Message.BODY_KEY, data);
+
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                getCurrentUser().getObjectId();
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

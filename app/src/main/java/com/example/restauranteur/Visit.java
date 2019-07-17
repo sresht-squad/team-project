@@ -1,4 +1,4 @@
-package com.example.restauranteur.Models;
+package com.example.restauranteur;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -8,9 +8,12 @@ import com.parse.ParseUser;
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
 
+    public static final String BODY_KEY = "body";
+    public static final String SERVER_ID_KEY = "server";
+    public static final String USER_ID_KEY = "user";
     public static final String KEY_TABLENUMBER = "tableNumber";
     public static final String KEY_CUSTOMER = "customer";
-    public static final String KEY_WAITER = "waiter";
+    public static final String KEY_SERVER = "waiter";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -31,14 +34,13 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for waiter
-    public void setWaiter(ParseUser waiter) {
-        put(KEY_WAITER, waiter);
+    public void setServer(ParseUser server) {
+        put(KEY_SERVER, server);
     }
 
     public ParseUser getWaiter() {
-        return getParseUser(KEY_WAITER);
+        return getParseUser(KEY_SERVER);
     }
-
 
     //From the order class include the waiter table and customer table
     public static class Query extends ParseQuery<Visit> {
@@ -46,15 +48,34 @@ public class Visit extends ParseObject {
             super(Visit.class);
         }
 
-        public Query withCustomer() {
+        public Visit.Query withCustomer() {
             include("customer");
             return this;
         }
 
-        public Query withWaiter() {
+        public Visit.Query withWaiter() {
             include("waiter");
             return this;
         }
 
     }
+
+    public String getServer() {
+        return getString(SERVER_ID_KEY);
+    }
+
+    public String getUser() {
+        return getString(USER_ID_KEY);
+    }
+
+    public String getBody() {
+        return getString(BODY_KEY);
+    }
+
+    public void setBody(String body) {
+        put(BODY_KEY, body);
+    }
+
+
+
 }

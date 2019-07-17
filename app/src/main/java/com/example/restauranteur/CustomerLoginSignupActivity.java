@@ -55,11 +55,14 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     }
 
     private void signUp(final String username, final String password){
+        Log.d("signup","signup pressed");
         // Create the ParseUser
         ParseUser user = new ParseUser();
+
         // Set core properties
         user.setUsername(username);
         user.setPassword(password);
+        user.put("server", false);
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {

@@ -2,6 +2,7 @@ package com.example.restauranteur;
 
 import android.app.Application;
 
+import com.example.simpleChat.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -13,8 +14,9 @@ public class ParseApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //LATER: let parse know about the model class subclass
-//        ParseObject.registerSubclass(____.class);
+        //let parse know about the model class subclass
+        ParseObject.registerSubclass(Visit.class);
+        ParseObject.registerSubclass(Message.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -28,7 +30,7 @@ public class ParseApp extends Application {
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("restauranteur")
                 .clientKey("jesuskellynamitasresht")
-                .server("http://fbu-restauranteur.herokuapp.com/parse")
+                .server("https://fbu-restauranteur.herokuapp.com/parse")
                 .build();
         Parse.initialize(configuration);
     }
