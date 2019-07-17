@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Visit;
 
@@ -42,7 +43,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
         Visit visit = (Visit) message.getVisit();
-        final boolean isMe = visit.getCustomer() != null;  //&& message.getCustomer().equals(mUserId);
+        final boolean isMe = visit.getCustomer() != null && (visit.getUser().equals(mUserId));
 
         if (isMe) {
             holder.imageMe.setVisibility(View.VISIBLE);
@@ -55,7 +56,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-       // Glide.with(mContext).load(getProfileUrl(getRealUserId(visit))).into(profileView);
+        Glide.with(mContext).load(getProfileUrl(visit.getUser())).into(profileView);
         holder.body.setText(message.getBody());
     }
 
