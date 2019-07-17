@@ -55,6 +55,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     }
 
     private void signUp(final String username, final String password){
+        Log.d("signup","signup pressed");
         // Create the ParseUser
         ParseUser user = new ParseUser();
 
