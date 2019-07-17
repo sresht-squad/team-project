@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,18 +19,18 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     EditText usernameInput;
     EditText passwordInput;
     Button btLogin;
-    TextView btSignUp;
+    Button btSignUp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_login_signup);
+        setContentView(R.layout.activity_login_signup);
 
-        usernameInput = findViewById(R.id.etUsernameCustomer);
-        passwordInput = findViewById(R.id.etPasswordCustomer);
-        btLogin = findViewById(R.id.btLoginCustomer);
-        btSignUp = findViewById(R.id.btSignupCustomer);
+        usernameInput = findViewById(R.id.etUsername);
+        passwordInput = findViewById(R.id.etPassword);
+        btLogin = findViewById(R.id.btnLogin);
+        btSignUp = findViewById(R.id.btnSignup);
 
 
         btLogin.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +82,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
                     Log.d("Login","Login success");
-                    final Intent intent = new Intent(CustomerLoginSignupActivity.this, MainActivity.class);
+                    final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else{
