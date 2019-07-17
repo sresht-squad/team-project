@@ -1,3 +1,5 @@
+package com.example.restauranteur;
+
 import android.app.Application;
 
 import com.parse.Parse;
