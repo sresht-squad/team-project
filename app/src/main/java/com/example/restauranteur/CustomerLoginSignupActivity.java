@@ -49,12 +49,12 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
-                    Log.d("LoginActivity","Login success");
+                    Log.d("Login","Login success");
                     final Intent intent = new Intent(CustomerLoginSignupActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else{
-                    Log.e("LoginActivity", "Login failure");
+                    Log.e("Login", "Login failure");
                     e.printStackTrace();
                 }
             }

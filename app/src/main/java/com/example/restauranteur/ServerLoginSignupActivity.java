@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.R;
 
-import butterknife.ButterKnife;
-
 public class ServerLoginSignupActivity extends AppCompatActivity {
 
     @Override
