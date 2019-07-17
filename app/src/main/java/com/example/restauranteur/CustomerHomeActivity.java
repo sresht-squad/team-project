@@ -24,9 +24,22 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
         etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
-
-
         logout = findViewById(R.id.ivLogout);
+
+        btnCreateVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverId = etServerId.getText().toString();
+                ParseUser currentCustomer = ParseUser.getCurrentUser();
+
+                if (serverId.equals(currentCustomer.getString("serverId"))){
+                    Visit visit = new Visit();
+                    visit.setCustomer(currentCustomer);
+//                    visit.setServer();
+                }
+            }
+        });
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +49,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
+
 }

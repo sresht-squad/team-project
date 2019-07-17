@@ -96,7 +96,10 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         user.setUsername(newUsername);
         user.setPassword(newPassword);
         user.put("server", true);
-        user.put("serverId", getRandomAlphaNum(10));
+
+        ServerID serverID = new ServerID();
+        serverID.setServer(ParseUser.getCurrentUser());
+        serverID.setIdNumber(getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
@@ -104,8 +107,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
-                    Intent intent = new Intent(ServerLoginSignupActivity.this, ServerHomeActivity.class);
-                    startActivity(intent);
+                    login(newUsername, newPassword);
                 }else {
                     Log.i("ServerSignup", "New server failed");
                 }
