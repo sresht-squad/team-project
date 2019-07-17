@@ -25,7 +25,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         //matching server to customer
 
         tvId = findViewById(R.id.tvId);
-        tvId.setText(getRandomAlphaNum(10));
+
+//        ParseUser.getCurrentUser().fetchInBackground();
 
         logout = findViewById(R.id.ivLogout);
 
@@ -38,19 +39,9 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        tvId.setText(currentUser.getString("serverId"));
     }
 
-    protected String getRandomAlphaNum(int len) {
-        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder randString = new StringBuilder();
-        Random rnd = new Random();
-        while (randString.length() < len) {
-            int index = (int) (rnd.nextFloat() * CHARS.length());
-            randString.append(CHARS.charAt(index));
-        }
-        String finalStr = randString.toString();
-        return finalStr;
-
-    }
 
 }

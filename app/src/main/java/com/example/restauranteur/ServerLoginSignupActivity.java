@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.List;
+import java.util.Random;
 
 public class ServerLoginSignupActivity extends AppCompatActivity {
 
@@ -32,7 +33,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
-
 
         //connecting to layout
         etGetUsername = findViewById(R.id.etUsername);
@@ -96,6 +96,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         user.setUsername(newUsername);
         user.setPassword(newPassword);
         user.put("server", true);
+        user.put("serverId", getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
@@ -113,4 +114,18 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     }
 
+    protected String getRandomAlphaNum(int len) {
+        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder randString = new StringBuilder();
+        Random rnd = new Random();
+        while (randString.length() < len) {
+            int index = (int) (rnd.nextFloat() * CHARS.length());
+            randString.append(CHARS.charAt(index));
+        }
+        String finalStr = randString.toString();
+        return finalStr;
+
+    }
+
 }
+

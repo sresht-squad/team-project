@@ -13,7 +13,7 @@ import com.parse.ParseUser;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
-    EditText etWaiterId;
+    EditText etServerId;
     Button btnCreateVisit;
     ImageView logout;
 
@@ -22,7 +22,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
 
-        etWaiterId = findViewById(R.id.etWaiterId);
+        etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
 
 
