@@ -55,7 +55,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(getRealUserId(visit))).into(profileView);
+       // Glide.with(mContext).load(getProfileUrl(getRealUserId(visit))).into(profileView);
         holder.body.setText(message.getBody());
     }
 
@@ -90,4 +90,5 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             body = itemView.findViewById(R.id.tvBody);
         }
     }
+
 }
