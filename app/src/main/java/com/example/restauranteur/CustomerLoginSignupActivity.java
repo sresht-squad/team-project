@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class CustomerLoginSignupActivity extends AppCompatActivity {
 
@@ -26,11 +28,12 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_login_signup);
 
+        final String username = usernameInput.getText().toString();
+        final String password = passwordInput.getText().toString();
+
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = usernameInput.getText().toString();
-                final String password = passwordInput.getText().toString();
                 login(username, password);
             }
         });
@@ -39,7 +42,27 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                signUp(username, password);
+            }
+        });
+    }
 
+    private void signUp(final String username, final String password){
+        // Create the ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(username);
+        user.setPassword(password);
+        // Invoke signUpInBackground
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    finish();
+                    login(username, password);
+                } else {
+                    Log.d("Sign up", "sign up failure");
+                    e.printStackTrace();
+                }
             }
         });
     }
