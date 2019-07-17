@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
-    EditText etWaiterId;
+    EditText etServerId;
     Button btnCreateVisit;
 
     @Override
@@ -16,7 +16,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
 
-        etWaiterId = findViewById(R.id.etWaiterId);
+        etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
 
 

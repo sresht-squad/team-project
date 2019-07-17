@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 import java.util.Random;
 
 public class ServerHomeActivity extends AppCompatActivity {
@@ -20,21 +22,13 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         tvId = findViewById(R.id.tvId);
 
-        tvId.setText(getRandomAlphaNum(10));
+//        ParseUser.getCurrentUser().fetchInBackground();
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        tvId.setText(currentUser.getString("serverID"));
 
     }
 
-    protected String getRandomAlphaNum(int len) {
-        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder randString = new StringBuilder();
-        Random rnd = new Random();
-        while (randString.length() < len) {
-            int index = (int) (rnd.nextFloat() * CHARS.length());
-            randString.append(CHARS.charAt(index));
-        }
-        String finalStr = randString.toString();
-        return finalStr;
 
-    }
 
 }
