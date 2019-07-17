@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.simpleChat;
 
 import android.app.Application;
 
@@ -14,6 +14,7 @@ public class ChatApplication extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Visit.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -25,10 +26,9 @@ public class ChatApplication extends Application {
         // set applicationId and server based on the values in the Heroku settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("simplechat-client") // should correspond to APP_ID env variable
-                .clientKey(null)
-                .clientBuilder(builder)
-                .server("https://codepath-chat-lab.herokuapp.com/parse/").build());
+                .applicationId("restauranteur")
+                .clientKey("jesuskellynamitasresht")
+                .server("https://fbu-restauranteur.herokuapp.com/parse").build());
 
     }
 }
