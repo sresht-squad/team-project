@@ -26,12 +26,12 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_login_signup);
+        setContentView(R.layout.activity_login_signup);
 
-        usernameInput = findViewById(R.id.etUsernameCustomer);
-        passwordInput = findViewById(R.id.etPasswordCustomer);
-        btLogin = findViewById(R.id.btLoginCustomer);
-        btSignUp = findViewById(R.id.btSignupCustomer);
+        usernameInput = findViewById(R.id.etUsername);
+        passwordInput = findViewById(R.id.etPassword);
+        btLogin = findViewById(R.id.btLogin);
+        btSignUp = findViewById(R.id.btSignup);
 
 
         btLogin.setOnClickListener(new View.OnClickListener() {
