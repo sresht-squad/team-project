@@ -36,8 +36,8 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         //connecting to layout
         etGetUsername = findViewById(R.id.etUsername);
         etGetPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btLogin);
-        btnSignup = findViewById(R.id.btSignup);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnSignup = findViewById(R.id.btnSignup);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

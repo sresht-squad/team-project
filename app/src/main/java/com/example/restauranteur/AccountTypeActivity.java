@@ -2,12 +2,16 @@ package com.example.restauranteur;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class AccountTypeActivity extends AppCompatActivity {
+
     Button btnCustomer;
     Button btnServer;
 
@@ -15,7 +19,6 @@ public class AccountTypeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_type);
-
 
         btnCustomer = findViewById(R.id.btnCustomer);
         btnServer = findViewById(R.id.btnServer);
@@ -36,5 +39,6 @@ public class AccountTypeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
     }
 }
