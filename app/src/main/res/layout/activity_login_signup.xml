@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btSignupCustomer"
+            android:id="@+id/btSignup"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginStart="32dp"
@@ -22,11 +22,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btLoginCustomer"
+            app:layout_constraintTop_toBottomOf="@+id/btLogin"
             app:layout_constraintVertical_bias="0.126" />
 
     <Button
-        android:id="@+id/btLoginCustomer"
+        android:id="@+id/btLogin"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
@@ -41,10 +41,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordCustomer" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <EditText
-        android:id="@+id/etUsernameCustomer"
+        android:id="@+id/etUsername"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
@@ -60,10 +60,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeCustomer" />
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
 
     <EditText
-        android:id="@+id/etPasswordCustomer"
+        android:id="@+id/etPassword"
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="32dp"
@@ -78,10 +78,10 @@
         android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsernameCustomer" />
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <TextView
-        android:id="@+id/tvWelcomeCustomer"
+        android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -90,7 +90,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="Welcome, Customer!"
+        android:text="Welcome!"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

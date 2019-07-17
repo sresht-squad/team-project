@@ -31,13 +31,13 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.server_login_signup);
+        setContentView(R.layout.activity_login_signup);
 
         //connecting to layout
-        etGetUsername = findViewById(R.id.etUsernameServer);
-        etGetPassword = findViewById(R.id.etPasswordServer);
-        btnLogin = findViewById(R.id.btnLoginServer);
-        btnSignup = findViewById(R.id.btnSignupServer);
+        etGetUsername = findViewById(R.id.etUsername);
+        etGetPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btLogin);
+        btnSignup = findViewById(R.id.btSignup);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
                     Log.i("Login","Login success");
-                    final Intent intent = new Intent(ServerLoginSignupActivity.this, CustomerLoginSignupActivity.class);
+                    final Intent intent = new Intent(ServerLoginSignupActivity.this,AccountTypeActivity.class);
                     startActivity(intent);
                     finish();
                 } else{
@@ -102,7 +102,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
-                    Intent intent = new Intent(ServerLoginSignupActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ServerLoginSignupActivity.this, AccountTypeActivity.class);
                     startActivity(intent);
                 }else {
                     Log.i("ServerSignup", "New server failed");
