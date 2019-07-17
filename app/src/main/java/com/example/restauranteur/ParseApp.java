@@ -30,7 +30,7 @@ public class ParseApp extends Application {
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("restauranteur")
                 .clientKey("jesuskellynamitasresht")
-                .server("http://fbu-restauranteur.herokuapp.com/parse")
+                .server("https://fbu-restauranteur.herokuapp.com/parse")
                 .build();
         Parse.initialize(configuration);
     }
