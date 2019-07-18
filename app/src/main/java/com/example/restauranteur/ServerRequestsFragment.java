@@ -36,11 +36,9 @@ public class ServerRequestsFragment extends Fragment {
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
+    EditText etMessage;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
-
-    EditText etMessage;
-    Button btSend;
 
     public ServerRequestsFragment() {
         // Required empty public constructor
@@ -63,33 +61,10 @@ public class ServerRequestsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         // Find the text field and button
         etMessage = view.findViewById(R.id.etMessage);
-        btSend = view.findViewById(R.id.btSend);
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = etMessage.getText().toString();
-
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                message.setAuthor(getCurrentUser());
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
-                    }
-                });
-                etMessage.setText(null);
-            }
-        });
 
         final String userId = getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
@@ -99,37 +74,9 @@ public class ServerRequestsFragment extends Fragment {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
+        refreshMessages();
     }
 
-    // Get the userId from the cached currentUser object
-    void startWithCurrentUser() {
-        setupMessagePosting();
-    }
-
-    // Setup button event handler which posts the entered message to Parse
-    void setupMessagePosting() {
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = etMessage.getText().toString();
-
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                message.setAuthor(getCurrentUser());
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
-                    }
-                });
-                etMessage.setText(null);
-            }
-        });
-    }
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
@@ -147,26 +94,26 @@ public class ServerRequestsFragment extends Fragment {
                 Visit v;
                 if (e == null) {
                     mMessages.clear();
-                    //only show the messages for visits that involve the current logged-in server
-                    for (int i = 0; i < messages.size(); i++){
-                        Message m = messages.get(i);
-                        v = (Visit) m.getVisit();
-                        ParseUser s = v.getServer();
-                        String serverId = s.getObjectId();
-                        String userId = getCurrentUser().getObjectId();
-                        if (serverId.equals(userId))
-                        {
-                            Log.i(serverId, userId);
-                            mMessages.add(m);
-                        }
+                }
+                //only show the messages for visits that involve the current logged-in server
+                for (int i = 0; i < messages.size(); i++) {
+                    Message m = messages.get(i);
+                    v = (Visit) m.getVisit();
+                    ParseUser s = v.getServer();
+                    String serverId = s.getObjectId();
+                    String userId = getCurrentUser().getObjectId();
+                    if (serverId.equals(userId)) {
+                        Log.i(serverId, userId);
+                        mMessages.add(m);
                     }
-                    mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
-                    }
+                }
+                mAdapter.notifyDataSetChanged(); // update adapter
+                // Scroll to the bottom of the list on initial load
+                if (mFirstLoad) {
+                    rvChat.scrollToPosition(0);
+                    mFirstLoad = false;
                 } else {
+
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
