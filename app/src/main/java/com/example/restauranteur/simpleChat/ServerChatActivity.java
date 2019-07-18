@@ -43,54 +43,11 @@ public class ServerChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_chat);
-        startWithCurrentUser();
-        refreshMessages();
+        if (mMessages != null) {
+            refreshMessages();
+        }
     }
 
-
-    // Get the userId from the cached currentUser object
-    void startWithCurrentUser() {
-        setupMessagePosting();
-    }
-
-    // Setup button event handler which posts the entered message to Parse
-    void setupMessagePosting() {
-        // Find the text field and button
-        etMessage = findViewById(R.id.etMessage);
-        btSend = findViewById(R.id.btSend);
-        rvChat = findViewById(R.id.rvChat);
-        mMessages = new ArrayList<>();
-        mFirstLoad = true;
-        final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(ServerChatActivity.this, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
-
-        // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServerChatActivity.this);
-        rvChat.setLayoutManager(linearLayoutManager);
-
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = etMessage.getText().toString();
-
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                message.setAuthor(getCurrentUser());
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(ServerChatActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
-                    }
-                });
-                etMessage.setText(null);
-            }
-        });
-    }
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
@@ -108,26 +65,26 @@ public class ServerChatActivity extends AppCompatActivity {
                 Visit v;
                 if (e == null) {
                     mMessages.clear();
-                    //only show the messages for visits that involve the current logged-in server
-                    for (int i = 0; i < messages.size(); i++){
-                        Message m = messages.get(i);
-                        v = (Visit) m.getVisit();
-                        ParseUser s = v.getServer();
-                        String serverId = s.getObjectId();
-                        String userId = getCurrentUser().getObjectId();
-                        if (serverId.equals(userId))
-                        {
-                            Log.i(serverId, userId);
-                            mMessages.add(m);
-                        }
+                }
+                //only show the messages for visits that involve the current logged-in server
+                for (int i = 0; i < messages.size(); i++) {
+                    Message m = messages.get(i);
+                    v = (Visit) m.getVisit();
+                    ParseUser s = v.getServer();
+                    String serverId = s.getObjectId();
+                    String userId = getCurrentUser().getObjectId();
+                    if (serverId.equals(userId)) {
+                        Log.i(serverId, userId);
+                        mMessages.add(m);
                     }
-                    mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
-                    }
+                }
+                mAdapter.notifyDataSetChanged(); // update adapter
+                // Scroll to the bottom of the list on initial load
+                if (mFirstLoad) {
+                    rvChat.scrollToPosition(0);
+                    mFirstLoad = false;
                 } else {
+
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }

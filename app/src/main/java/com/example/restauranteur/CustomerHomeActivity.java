@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.restauranteur.simpleChat.CustomerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -75,6 +76,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+                Intent intent = new Intent(CustomerHomeActivity.this, CustomerChatActivity.class);
+                startActivity(intent);
             }
         });
 
