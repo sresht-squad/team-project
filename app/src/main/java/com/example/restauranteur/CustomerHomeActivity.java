@@ -85,15 +85,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        btnTestCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String getCheck = "Ready for check"; 
-
-            }
-        });
-    }
+        
 
 
 
