@@ -2,11 +2,9 @@ package com.example.restauranteur;
 
 import android.util.Log;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @ParseClassName("Visit")
@@ -50,7 +48,7 @@ public class Visit extends ParseObject {
     }
 
     //From the order class include the waiter table and customer table
-    public static class Query extends ParseQuery<Visit> {
+    /*public static class Query extends ParseQuery<Visit> {
         public Query() {
             super(Visit.class);
         }
@@ -65,7 +63,7 @@ public class Visit extends ParseObject {
             return this;
         }
 
-    }
+    }*/
 
     public String getBody() {
         return getString(BODY_KEY);

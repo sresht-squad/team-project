@@ -40,6 +40,13 @@ public class ServerID extends ParseObject {
             whereEqualTo("objectId", serverObjectId);
             return this;
         }
+
+        public Query withUser() {
+            include("User");
+            return this;
+        }
+
+
     }
 
 

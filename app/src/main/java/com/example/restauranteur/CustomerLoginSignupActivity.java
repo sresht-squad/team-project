@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.simpleChat.ChatActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -83,7 +82,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
                     Log.d("Login","Login success");
-                    final Intent intent = new Intent(CustomerLoginSignupActivity.this, ChatActivity.class);
+                    final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     //final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);
                     finish();
