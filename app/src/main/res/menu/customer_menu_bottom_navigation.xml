@@ -9,11 +9,4 @@
         android:title="Check"
         app:showAsAction="ifRoom" />
 
-    <!--<item-->
-        <!--android:id="@+id/action_schedules"-->
-        <!--android:enabled="true"-->
-        <!--android:icon="@drawable/assistance_icon"-->
-        <!--android:title="Assistance"-->
-        <!--app:showAsAction="ifRoom" />-->
-
 </menu>
