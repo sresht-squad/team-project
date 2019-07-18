@@ -35,7 +35,7 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
 
-
+        //set the text to the serverId
         ParseUser currentUser = ParseUser.getCurrentUser();
         String serverId = currentUser.getString("serverId");
         tvId.setText(serverId);

@@ -97,6 +97,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         user.setUsername(newUsername);
         user.setPassword(newPassword);
         user.put("server", true);
+        //include a randomized serverId
         user.put("serverId",getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
@@ -105,6 +106,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
+                    //log them in directly
                     login(newUsername, newPassword);
                 }else {
                     Log.i("ServerSignup", "New server failed");
@@ -114,6 +116,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     }
 
+    //generate a len length random alphanumeric string
     protected String getRandomAlphaNum(int len) {
         String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder randString = new StringBuilder();
