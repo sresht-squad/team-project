@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ServerHomeActivity"></activity>
-         <activity android:name=".CustomerHomeActivity"></activity>
+        <activity android:name=".simpleChat.CustomerChatActivity"></activity>
+        <activity android:name=".ServerHomeActivity" />
+        <activity android:name=".CustomerHomeActivity" />
         <activity android:name=".AccountTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".simpleChat.ChatActivity">
+        <activity android:name=".simpleChat.ServerChatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
