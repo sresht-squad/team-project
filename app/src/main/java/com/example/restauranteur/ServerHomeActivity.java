@@ -2,36 +2,58 @@ package com.example.restauranteur;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.restauranteur.simpleChat.ServerChatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
-    TextView tvId;
     ImageView logout;
-    Button viewOrders;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
 
-        //matching server to customer
+        //implementing fragments
+        bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
-        tvId = findViewById(R.id.tvId);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // define fragments here
+        final Fragment profile = new ServerProfileFragment();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment;
+                switch (menuItem.getItemId()) {
+                    case R.id.profile:
+                        fragment = profile;
+                        break;
+                    default:
+                        fragment = profile;
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
+                return true;
+            }
+        });
+        //set default
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+
 
         logout = findViewById(R.id.ivLogout);
-
-        viewOrders = findViewById(R.id.btViewOrders);
-
-
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,18 +63,5 @@ public class ServerHomeActivity extends AppCompatActivity {
 
             }
         });
-
-        viewOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent s = new Intent(ServerHomeActivity.this, ServerChatActivity.class);
-                startActivity(s);
-            }
-        });
-
-        //set the text to the serverId
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        String serverId = currentUser.getString("serverId");
-        tvId.setText(serverId);
     }
 }
