@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -36,23 +37,22 @@ public class CustomerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
-                ParseUser currentCustomer = ParseUser.getCurrentUser();
                 final Visit visit = new Visit();
+
+                ParseUser currentCustomer = ParseUser.getCurrentUser();
                 visit.setCustomer(currentCustomer);
 
-                //query for server who the serverID points to
-                final ServerID.Query serverIdQuery = new ServerID.Query();
-                serverIdQuery.getServerWithID(serverId);
+                final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+                parseQuery.whereEqualTo("serverId", serverId);
 
-                serverIdQuery.findInBackground(new FindCallback<ServerID>() {
+                parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
-                    public void done(List<ServerID> objects, ParseException e) {
+                    public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            Log.d("create new visit", "serverID retrieval success");
-                            ParseUser server = objects.get(0).getServer();
+                            Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
+                            ParseUser server = objects.get(0);
                             visit.setServer(server);
                             visit.setTableNumber("2");
-
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -65,9 +65,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
                         } else {
-                            Log.d("create new visit", "serverID retrieval failure");
                             e.printStackTrace();
                         }
                     }

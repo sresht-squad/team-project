@@ -55,16 +55,6 @@ public class Visit extends ParseObject {
             super(Visit.class);
         }
 
-        public Visit.Query withCustomer() {
-            include("customer");
-            return this;
-        }
-
-        public Visit.Query withServer() {
-            include("server");
-            return this;
-        }
-
     }
 
     public String getBody() {

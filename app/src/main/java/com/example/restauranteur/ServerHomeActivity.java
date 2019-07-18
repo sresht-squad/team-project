@@ -42,41 +42,10 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        tvId.setText(currentUser.getString("serverId"));
 
-//        //query for server who the serverID points to
-//        final ServerID.Query serverIdQuery = new ServerID.Query();
-//        serverIdQuery.getServerWithID(serverId);
-//
-//        serverIdQuery.findInBackground(new FindCallback<ServerID>() {
-//            @Override
-//            public void done(List<ServerID> objects, ParseException e) {
-//                if (e == null) {
-//                    Log.d("create new visit", "serverID retrieval success");
-//                    ParseUser server = objects.get(0).getServer();
-//                    visit.setServer(server);
-//                    visit.setTableNumber("2");
-//
-//                    visit.saveInBackground(new SaveCallback() {
-//                        @Override
-//                        public void done(ParseException e) {
-//                            if (e != null){
-//                                Log.d("Saving","Error while saving");
-//                                e.printStackTrace();
-//                                return;
-//                            }else{
-//                                Log.d("Saving", "success");
-//                            }
-//                        }
-//                    });
-//
-//                } else {
-//                    Log.d("create new visit", "serverID retrieval failure");
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String serverId = currentUser.getString("serverId");
+        tvId.setText(serverId);
     }
 
 

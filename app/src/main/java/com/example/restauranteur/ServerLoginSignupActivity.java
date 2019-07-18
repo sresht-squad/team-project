@@ -97,6 +97,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         user.setUsername(newUsername);
         user.setPassword(newPassword);
         user.put("server", true);
+        user.put("serverId",getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
@@ -104,23 +105,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
-                    ServerID serverID = new ServerID();
-
-                    serverID.setServer(user);
-                    serverID.setIdNumber(getRandomAlphaNum(10));
-
-                    serverID.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null){
-                                Log.d("Saving","Error while saving");
-                                e.printStackTrace();
-                                return;
-                            }else{
-                                Log.d("Saving", "success");
-                            }
-                        }
-                    });
                     login(newUsername, newPassword);
                 }else {
                     Log.i("ServerSignup", "New server failed");
