@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restauranteur.simpleChat.CustomerChatActivity;
+import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -23,8 +25,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnCreateVisit;
     ImageView logout;
-    Button btnTestCheck;
-    Visit visit;
+    Button btnCheckTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,14 @@ public class CustomerHomeActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
-        btnTestCheck = findViewById(R.id.btnTestCheck);
+        btnCheckTest = findViewById(R.id.btnTestCheck);
 
         //create a new visit
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
-                visit = new Visit();
+                final Visit visit = new Visit();
 
                 //set the customer of this visit to the current customer
                 //the table number is 2 for now TODO: set table numbers
@@ -78,6 +79,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+                Intent intent = new Intent(CustomerHomeActivity.this, CustomerChatActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -91,11 +94,23 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+        btnCheckTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String readyForCheck = "Ready for Check";
+
+                //setting the new message
+                Message readyCheckMessage = new Message();
+                readyCheckMessage.setAuthor(ParseUser.getCurrentUser());
+                readyCheckMessage.setBody(readyForCheck);
 
 
 
 
+            }
+        });
 
 
+    }
 
 }
