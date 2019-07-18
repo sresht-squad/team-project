@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
-import com.example.restauranteur.Visit;
 
 import java.util.List;
 

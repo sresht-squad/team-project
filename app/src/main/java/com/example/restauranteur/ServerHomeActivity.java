@@ -32,6 +32,7 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         // define fragments here
         final Fragment profile = new ServerProfileFragment();
+        final Fragment requests = new ServerRequestsFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -40,6 +41,9 @@ public class ServerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         fragment = profile;
+                        break;
+                    case R.id.requests:
+                        fragment = requests;
                         break;
                     default:
                         fragment = profile;
