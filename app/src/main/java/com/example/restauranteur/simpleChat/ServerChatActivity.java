@@ -25,13 +25,9 @@ import java.util.List;
 import static com.parse.ParseUser.getCurrentUser;
 
 
-public class ChatActivity extends AppCompatActivity {
-    static final String TAG = ChatActivity.class.getSimpleName();
+public class ServerChatActivity extends AppCompatActivity {
+    static final String TAG = ServerChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-
-
-    static final String USER_ID_KEY = "userId";
-    static final String BODY_KEY = "body";
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
@@ -46,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_server_chat);
         startWithCurrentUser();
         refreshMessages();
     }
@@ -66,11 +62,11 @@ public class ChatActivity extends AppCompatActivity {
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
+        mAdapter = new ChatAdapter(ServerChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServerChatActivity.this);
         rvChat.setLayoutManager(linearLayoutManager);
 
         // When send button is clicked, create message object on Parse
@@ -86,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                        Toast.makeText(ServerChatActivity.this, "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
                         refreshMessages();
                     }
