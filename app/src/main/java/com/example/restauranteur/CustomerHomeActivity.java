@@ -1,7 +1,5 @@
 package com.example.restauranteur;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -23,6 +23,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnCreateVisit;
     ImageView logout;
+    Button btnTestCheck;
+    Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,13 @@ public class CustomerHomeActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
+        btnTestCheck = findViewById(R.id.btnTestCheck);
 
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
-                final Visit visit = new Visit();
+                visit = new Visit();
 
                 ParseUser currentCustomer = ParseUser.getCurrentUser();
                 visit.setCustomer(currentCustomer);
@@ -82,6 +85,20 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnTestCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String getCheck = "Ready for check"; 
+
+            }
+        });
     }
+
+
+
+
+
+
 
 }
