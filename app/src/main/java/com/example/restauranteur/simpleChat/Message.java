@@ -6,6 +6,7 @@ import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
+
         public static final String VISIT_KEY = "visit";
         public static final String BODY_KEY = "body";
         public static final String AUTHOR_ID_KEY = "author";
