@@ -34,15 +34,20 @@ public class CustomerHomeActivity extends AppCompatActivity {
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
 
+        //create a new visit
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
                 final Visit visit = new Visit();
 
+                //set the customer of this visit to the current customer
+                //the table number is 2 for now TODO: set table numbers
                 ParseUser currentCustomer = ParseUser.getCurrentUser();
                 visit.setCustomer(currentCustomer);
+                visit.setTableNumber("2");
 
+                //query for the server with the serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
                 parseQuery.whereEqualTo("serverId", serverId);
 
@@ -52,8 +57,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         if (e == null) {
                             Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
                             ParseUser server = objects.get(0);
+                            //set the server
                             visit.setServer(server);
-                            visit.setTableNumber("2");
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
