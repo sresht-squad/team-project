@@ -95,25 +95,30 @@ public class ServerRequestsFragment extends Fragment {
                 if (e == null) {
                     mMessages.clear();
                 }
+               // mMessages.addAll(messages);
+                Message m;
+                ParseUser server;
+                String serverId;
+                String userId;
+                int size = messages.size();
                 //only show the messages for visits that involve the current logged-in server
-                for (int i = 0; i < messages.size(); i++) {
-                    Message m = messages.get(i);
+               for (int i = 0; i < size; i++) {
+                    m = messages.get(i);
                     v = (Visit) m.getVisit();
-                    ParseUser s = v.getServer();
-                    String serverId = s.getObjectId();
-                    String userId = getCurrentUser().getObjectId();
-                    if (serverId.equals(userId)) {
-                        Log.i(serverId, userId);
+                    serverId = v.getServer().getObjectId();
+                    userId = getCurrentUser().getObjectId();
+                   if (serverId.equals(userId)) {
+                        //Log.i(serverId, userId);
                         mMessages.add(m);
                     }
                 }
+
                 mAdapter.notifyDataSetChanged(); // update adapter
                 // Scroll to the bottom of the list on initial load
                 if (mFirstLoad) {
                     rvChat.scrollToPosition(0);
                     mFirstLoad = false;
                 } else {
-
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
