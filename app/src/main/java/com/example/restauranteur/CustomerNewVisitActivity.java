@@ -2,6 +2,7 @@ package com.example.restauranteur;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,6 +69,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                         return;
                                     }else{
                                         Log.d("Saving", "success");
+                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
                             });
