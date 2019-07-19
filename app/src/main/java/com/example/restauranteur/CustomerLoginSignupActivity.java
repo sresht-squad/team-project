@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class CustomerLoginSignupActivity extends AppCompatActivity {
 
@@ -66,8 +69,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    finish();
-                    login(username, password);
+                    Toast.makeText(CustomerLoginSignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
                 } else {
                     Log.d("Sign up", "sign up failure");
                     e.printStackTrace();
