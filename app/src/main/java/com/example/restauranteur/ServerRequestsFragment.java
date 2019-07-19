@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
-import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -31,11 +30,12 @@ import static com.parse.ParseUser.getCurrentUser;
 
 
 public class ServerRequestsFragment extends Fragment {
-    static final String TAG = ServerChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
+
     EditText etMessage;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;

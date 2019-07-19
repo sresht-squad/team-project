@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.ParseUser;
 
 public class ServerProfileFragment extends Fragment {
