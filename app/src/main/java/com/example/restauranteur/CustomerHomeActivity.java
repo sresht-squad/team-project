@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.simpleChat.Message;
+import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,6 +27,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     Button btnTestCheck;
     EditText etTableNumber;
+    Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
                 String tableNum = etTableNumber.getText().toString();
-                final Visit visit = new Visit();
+                visit = new Visit();
 
                 //set the customer of this visit to the current customer
                 //the table number is 2 for now TODO: set table numbers
@@ -104,7 +106,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 readyForCheck.setAuthor(ParseUser.getCurrentUser());
                 readyForCheck.setBody(checkMessage);
 
-
+                Intent intent = new Intent(CustomerHomeActivity.this, ServerChatActivity.class);
+                intent.putExtra("readyForCheck", readyForCheck);
 
 
             }

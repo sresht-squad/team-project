@@ -42,6 +42,7 @@ public class ServerChatActivity extends AppCompatActivity {
         if (mMessages != null) {
             refreshMessages();
         }
+
     }
 
 
@@ -69,10 +70,13 @@ public class ServerChatActivity extends AppCompatActivity {
                     ParseUser s = v.getServer();
                     String serverId = s.getObjectId();
                     String userId = getCurrentUser().getObjectId();
+
+
                     if (serverId.equals(userId)) {
                         Log.i(serverId, userId);
                         mMessages.add(m);
                     }
+
                 }
                 mAdapter.notifyDataSetChanged(); // update adapter
                 // Scroll to the bottom of the list on initial load
@@ -85,5 +89,7 @@ public class ServerChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }
