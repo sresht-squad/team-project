@@ -59,10 +59,47 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     }
 
+    //being able to identify between the customer and server
+    /*ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+    // Create the ParseUser
+        userQuery.whereEqualTo("server", "True");
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+        public void done(List<ParseUser> results, ParseException e) {
+            // results has the list of users who are admins
+        }
+    });*/
+
+    //query.include(Post.KEY_USER)
+    void newServer (){
+        final Server server =  new Server();
+        // Set core properties
+        final String newUsername = etGetUsername.getText().toString();
+        final String newPassword = etGetPassword.getText().toString();
+
+        server.setUsername(newUsername);
+        server.setPassword(newPassword);
+        //include a randomized serverId
+        server.put("serverId",getRandomAlphaNum(10));
+
+        // Invoke signUpInBackground
+        server.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null ){
+                    Log.i("ServerSignup", "New Server created");
+                    //log them in directly
+                    login(newUsername, newPassword);
+                }else {
+                    Log.i("ServerSignup", "New server failed");
+                }
+            }
+        });
+    }
+
     //Server decides to login
     private void login(final String username, final String password){
 
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
+        Server.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
@@ -76,44 +113,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-    //being able to identify between the customer and server
-    /*ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-    // Create the ParseUser
-        userQuery.whereEqualTo("server", "True");
-        userQuery.findInBackground(new FindCallback<ParseUser>() {
-        public void done(List<ParseUser> results, ParseException e) {
-            // results has the list of users who are admins
-        }
-    });*/
-
-    //query.include(Post.KEY_USER)
-    void newServer (){
-        final ParseUser user =  new ParseUser();
-        // Set core properties
-        final String newUsername = etGetUsername.getText().toString();
-        final String newPassword = etGetPassword.getText().toString();
-
-        user.setUsername(newUsername);
-        user.setPassword(newPassword);
-        user.put("server", true);
-        //include a randomized serverId
-        user.put("serverId",getRandomAlphaNum(10));
-
-        // Invoke signUpInBackground
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(com.parse.ParseException e) {
-                if (e == null ){
-                    Log.i("ServerSignup", "New Server created");
-                    //log them in directly
-                    login(newUsername, newPassword);
-                }else {
-                    Log.i("ServerSignup", "New server failed");
-                }
-            }
-        });
-
     }
 
     //generate a len length random alphanumeric string
