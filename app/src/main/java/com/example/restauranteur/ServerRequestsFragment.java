@@ -1,15 +1,20 @@
-package com.example.restauranteur.simpleChat;
+package com.example.restauranteur;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.R;
-import com.example.restauranteur.Visit;
+import com.example.restauranteur.simpleChat.ChatAdapter;
+import com.example.restauranteur.simpleChat.Message;
+import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -21,27 +26,52 @@ import java.util.List;
 import static com.parse.ParseUser.getCurrentUser;
 
 
-public class ServerChatActivity extends AppCompatActivity {
+public class ServerRequestsFragment extends Fragment {
+
     static final String TAG = ServerChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
+    EditText etMessage;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
-    EditText etMessage;
-    Button btSend;
+    public ServerRequestsFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_server_chat);
-        if (mMessages != null) {
-            refreshMessages();
-        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_server_requests, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+        // Find the text field and button
+        etMessage = view.findViewById(R.id.etMessage);
+        rvChat = view.findViewById(R.id.rvChat);
+
+        mMessages = new ArrayList<>();
+        mFirstLoad = true;
+
+        final String userId = getCurrentUser().getObjectId();
+        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
+        rvChat.setAdapter(mAdapter);
+
+        // associate the LayoutManager with the RecyclerView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvChat.setLayoutManager(linearLayoutManager);
+
+        refreshMessages();
     }
 
 

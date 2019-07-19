@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
@@ -32,6 +31,7 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         // define fragments here
         final Fragment profile = new ServerProfileFragment();
+        final Fragment requests = new ServerRequestsFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -40,6 +40,9 @@ public class ServerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         fragment = profile;
+                        break;
+                    case R.id.requests:
+                        fragment = requests;
                         break;
                     default:
                         fragment = profile;
