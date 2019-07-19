@@ -4,6 +4,7 @@ import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -17,11 +18,11 @@ public class Message extends ParseObject {
         public void setVisit(Visit visit) {
             put(VISIT_KEY, visit); }
 
-        public Customer getAuthor() {
-            return new Customer(getParseUser(AUTHOR_ID_KEY));
+        public ParseUser getAuthor() {
+            return getParseUser(AUTHOR_ID_KEY);
         }
 
-        public void setAuthor(Customer author) {
+        public void setAuthor(ParseUser author) {
         put(AUTHOR_ID_KEY, author); }
 
         public String getBody() {

@@ -1,19 +1,23 @@
-package com.example.restauranteur.simpleChat;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.restauranteur.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.restauranteur.models.Customer;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.restauranteur.R;
-import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.simpleChat.ChatAdapter;
+import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -24,31 +28,53 @@ import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
 
-public class CustomerChatActivity extends AppCompatActivity{
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+public class CustomerChatFragment extends Fragment {
+
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
-
     EditText etMessage;
     Button btSend;
-    // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
+    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_chat);
-        startWithCurrentUser();
-        loadOrders();
+    public CustomerChatFragment(){
+        //empty constructor required
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        // Defines the xml file for the fragment
+        return inflater.inflate(R.layout.fragment_customer_chat, parent, false);
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        // Find the text field and button
+        etMessage = view.findViewById(R.id.etMessage);
+        btSend = view.findViewById(R.id.btSend);
+        rvChat = view.findViewById(R.id.rvChat);
+        mMessages = new ArrayList<>();
+        mFirstLoad = true;
+        final String userId = getCurrentUser().getObjectId();
+        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
+        rvChat.setAdapter(mAdapter);
+
+        startWithCurrentUser();
+        loadOrders();
+
+    }
 
     // Get the userId from the cached currentUser object
     void startWithCurrentUser() {
         setupMessagePosting();
     }
-
 
 
     void loadOrders() {
@@ -63,7 +89,6 @@ public class CustomerChatActivity extends AppCompatActivity{
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
-                Visit v;
                 if (e == null) {
                     mMessages.clear();
                     //only show the messages created by this user during this visit
@@ -91,18 +116,8 @@ public class CustomerChatActivity extends AppCompatActivity{
 
     // Setup button event handler which posts the entered message to Parse
     void setupMessagePosting() {
-        // Find the text field and button
-        etMessage = findViewById(R.id.etMessage);
-        btSend = findViewById(R.id.btSend);
-        rvChat = findViewById(R.id.rvChat);
-        mMessages = new ArrayList<>();
-        mFirstLoad = true;
-        final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(CustomerChatActivity.this, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
-
         // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CustomerChatActivity.this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
         // When send button is clicked, create message object on Parse
@@ -114,11 +129,11 @@ public class CustomerChatActivity extends AppCompatActivity{
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setAuthor (getCurrentUser());
+                message.setAuthor(getCurrentUser());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(CustomerChatActivity.this, "Successfully created message on Parse",
+                        Toast.makeText(getContext(), "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
                         loadOrders();
                     }
