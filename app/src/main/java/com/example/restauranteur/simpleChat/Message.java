@@ -1,6 +1,7 @@
 package com.example.restauranteur.simpleChat;
 
-import com.example.restauranteur.Visit;
+import com.example.restauranteur.models.Customer;
+import com.example.restauranteur.models.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -20,7 +21,8 @@ public class Message extends ParseObject {
             put(VISIT_KEY, visit); }
 
         public ParseUser getAuthor() {
-        return getParseUser(AUTHOR_ID_KEY); }
+            return getParseUser(AUTHOR_ID_KEY);
+        }
 
         public void setAuthor(ParseUser author) {
         put(AUTHOR_ID_KEY, author); }

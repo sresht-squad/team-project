@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.models;
 
 import android.util.Log;
 
@@ -11,10 +11,9 @@ import com.parse.ParseUser;
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
 
-    public static final String BODY_KEY = "body";
-    public static final String KEY_TABLENUMBER = "tableNumber";
-    public static final String KEY_CUSTOMER = "customer";
-    public static final String KEY_SERVER = "server";
+    private static final String KEY_TABLENUMBER = "tableNumber";
+    private static final String KEY_CUSTOMER = "customer";
+    private static final String KEY_SERVER = "server";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -26,22 +25,22 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for customer
-    public void setCustomer(ParseUser customer) {
+    public void setCustomer(Customer customer) {
         put(KEY_CUSTOMER, customer);
     }
 
-    public ParseUser getCustomer() {
-        return getParseUser(KEY_CUSTOMER);
+    public Customer getCustomer() {
+        return new Customer(getParseUser(KEY_CUSTOMER));
     }
 
     // get and setter for server
-    public void setServer(ParseUser server) {
+    public void setServer(Server server) {
         put(KEY_SERVER, server);
     }
 
-    public ParseUser getServer() {
+    public Server getServer() {
         try {
-            return fetchIfNeeded().getParseUser(KEY_SERVER);
+            return new Server(fetchIfNeeded().getParseUser(KEY_SERVER));
         } catch (ParseException e) {
             Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
             return null;
@@ -54,14 +53,6 @@ public class Visit extends ParseObject {
             super(Visit.class);
         }
 
-    }
-
-    public String getBody() {
-        return getString(BODY_KEY);
-    }
-
-    public void setBody(String body) {
-        put(BODY_KEY, body);
     }
 
 

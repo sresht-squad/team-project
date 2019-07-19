@@ -1,16 +1,17 @@
-package com.example.restauranteur.fragment;
+package com.example.restauranteur;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import com.example.restauranteur.R;
+import com.example.restauranteur.models.Server;
 import com.parse.ParseUser;
 
 public class ServerProfileFragment extends Fragment {
@@ -38,8 +39,8 @@ public class ServerProfileFragment extends Fragment {
         tvId = view.findViewById(R.id.tvId);
 
         //set the text to the serverId
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        String serverId = currentUser.getString("serverId");
+        Server currentServer = Server.getCurrentUser();
+        String serverId = currentServer.getString("serverId");
         tvId.setText(serverId);
     }
 }

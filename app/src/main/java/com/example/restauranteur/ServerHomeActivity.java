@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.fragment.ServerProfileFragment;
-import com.example.restauranteur.fragment.ServerRequestsFragment;
+import com.example.restauranteur.models.Server;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.ParseUser;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
@@ -62,7 +60,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.logOut();
+                Server.logOut();
                 Intent intent = new Intent(ServerHomeActivity.this, AccountTypeActivity.class);
                 startActivity(intent);
 

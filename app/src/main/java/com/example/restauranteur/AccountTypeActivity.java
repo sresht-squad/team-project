@@ -1,18 +1,20 @@
 package com.example.restauranteur;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.restauranteur.models.Server;
 import com.parse.ParseUser;
 
 public class AccountTypeActivity extends AppCompatActivity {
 
     Button btnCustomer;
     Button btnServer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +26,11 @@ public class AccountTypeActivity extends AppCompatActivity {
         if (currentUser != null) {
             if (currentUser.getBoolean("server") == true){
                 Intent intent = new Intent(AccountTypeActivity.this,ServerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }else{
+                //ADD PERSISTING VISIT HERE
                 Intent intent = new Intent(AccountTypeActivity.this,CustomerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }
