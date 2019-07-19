@@ -23,7 +23,7 @@ import java.util.List;
 public class CustomerNewVisitActivity extends AppCompatActivity {
 
     EditText etServerId;
-    Button btnCreateVisit;
+    Button btnNewVisit;
     EditText etTableNumber;
     Visit visit;
 
@@ -33,11 +33,11 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_new_visit);
 
         etServerId = findViewById(R.id.etServerId);
-        btnCreateVisit = findViewById(R.id.btnCreateVisit);
+        btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.etTableNumber);
 
         //create a new visit
-        btnCreateVisit.setOnClickListener(new View.OnClickListener() {
+        btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
