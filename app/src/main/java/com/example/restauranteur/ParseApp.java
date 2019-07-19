@@ -21,6 +21,8 @@ public class ParseApp extends Application {
         //let parse know about the model class subclass
         ParseObject.registerSubclass(Visit.class);
         ParseObject.registerSubclass(Message.class);
+        ParseUser.registerSubclass(Server.class);
+        ParseUser.registerSubclass(Customer.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();

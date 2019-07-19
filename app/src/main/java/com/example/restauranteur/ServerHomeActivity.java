@@ -30,8 +30,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments here
-        final Fragment profile = new ServerProfileFragment();
-        final Fragment requests = new ServerRequestsFragment();
+        final Fragment profile = new com.example.restauranteur.ServerProfileFragment();
+        final Fragment requests = new com.example.restauranteur.ServerRequestsFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

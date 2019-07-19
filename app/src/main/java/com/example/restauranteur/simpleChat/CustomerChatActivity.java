@@ -114,7 +114,7 @@ public class CustomerChatActivity extends AppCompatActivity{
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setAuthor(getCurrentUser());
+                message.setAuthor((Customer)getCurrentUser());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
