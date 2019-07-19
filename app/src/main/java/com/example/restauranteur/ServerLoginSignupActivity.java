@@ -6,16 +6,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.models.Server;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.Random;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class ServerLoginSignupActivity extends AppCompatActivity {
 
@@ -49,6 +53,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newServer();
+                Toast.makeText(ServerLoginSignupActivity.this, "You are now signed up as a server, click above to login!", LENGTH_LONG).show();
             }
         });
 
@@ -82,8 +87,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null ){
                     Log.i("ServerSignup", "New Server created");
-                    //log them in directly
-                    login(newUsername, newPassword);
                 }else {
                     Log.i("ServerSignup", "New server failed");
                 }
