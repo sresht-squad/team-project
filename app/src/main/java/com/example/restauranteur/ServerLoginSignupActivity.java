@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.models.Server;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -78,6 +78,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
         server.setUsername(newUsername);
         server.setPassword(newPassword);
+
         //include a randomized serverId
         server.put("serverId",getRandomAlphaNum(10));
 
