@@ -79,7 +79,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         Customer.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (e == null){
+                if (e == null && user instanceof Customer){
                     Log.d("Login","Login success");
                     final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);

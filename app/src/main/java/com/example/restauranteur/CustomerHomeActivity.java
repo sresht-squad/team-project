@@ -24,6 +24,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnCreateVisit;
     ImageView logout;
+    Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
-                final Visit visit = new Visit();
+                visit = new Visit();
 
                 //set the customer of this visit to the current customer
                 //the table number is 2 for now TODO: set table numbers
-                ParseUser currentCustomer = ParseUser.getCurrentUser();
+                Customer currentCustomer = (Customer) ParseUser.getCurrentUser();
                 visit.setCustomer(currentCustomer);
                 visit.setTableNumber("2");
 
@@ -56,7 +57,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
-                            ParseUser server = objects.get(0);
+                            Server server = (Server) objects.get(0);
                             //set the server
                             visit.setServer(server);
                             visit.saveInBackground(new SaveCallback() {
@@ -85,7 +86,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.logOut();
+                Customer.logOut();
                 Intent intent = new Intent(CustomerHomeActivity.this, AccountTypeActivity.class);
                 startActivity(intent);
             }

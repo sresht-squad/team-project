@@ -26,14 +26,12 @@ public class AccountTypeActivity extends AppCompatActivity {
         //user persisting
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            if (currentUser.getBoolean("server") == true){
+            if (currentUser instanceof Server){
                 Intent intent = new Intent(AccountTypeActivity.this,ServerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }else{
                 Intent intent = new Intent(AccountTypeActivity.this,CustomerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }

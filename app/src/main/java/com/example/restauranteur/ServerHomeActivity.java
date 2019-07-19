@@ -61,7 +61,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.logOut();
+                Server.logOut();
                 Intent intent = new Intent(ServerHomeActivity.this, AccountTypeActivity.class);
                 startActivity(intent);
 
