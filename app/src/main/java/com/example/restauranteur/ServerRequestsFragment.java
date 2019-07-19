@@ -11,17 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.restauranteur.models.Server;
+import com.example.restauranteur.models.Visit;
 import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +30,13 @@ import static com.parse.ParseUser.getCurrentUser;
 public class ServerRequestsFragment extends Fragment {
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
-    RecyclerView rvChat;
-    ArrayList<Message> mMessages;
-    ChatAdapter mAdapter;
+    private RecyclerView rvChat;
+    private ArrayList<Message> mMessages;
+    private ChatAdapter mAdapter;
 
-    EditText etMessage;
+    private EditText etMessage;
     // Keep track of initial load to scroll to the bottom of the ListView
-    boolean mFirstLoad;
+    private boolean mFirstLoad;
 
     public ServerRequestsFragment() {
         // Required empty public constructor
@@ -79,7 +77,7 @@ public class ServerRequestsFragment extends Fragment {
 
 
     // Query messages from Parse so we can load them into the chat adapter
-    void refreshMessages() {
+    private void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         // Configure limit and sort order
@@ -97,7 +95,7 @@ public class ServerRequestsFragment extends Fragment {
                 }
                // mMessages.addAll(messages);
                 Message m;
-                ParseUser server;
+                Server server;
                 String serverId;
                 String userId;
                 int size = messages.size();

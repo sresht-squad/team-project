@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restauranteur.models.Customer;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -55,15 +56,14 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
 
     private void signUp(final String username, final String password){
         Log.d("signup","signup pressed");
-        // Create the ParseUser
-        ParseUser user = new ParseUser();
+        // Create the Customer
+        Customer customer = new Customer();
 
         // Set core properties
-        user.setUsername(username);
-        user.setPassword(password);
-        user.put("server", false);
+        customer.setUsername(username);
+        customer.setPassword(password);
         // Invoke signUpInBackground
-        user.signUpInBackground(new SignUpCallback() {
+        customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
                     finish();
@@ -77,10 +77,10 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     }
 
     private void login(final String username, final String password){
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
+        Customer.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (e == null){
+                if (e == null && user instanceof Customer){
                     Log.d("Login","Login success");
                     final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);

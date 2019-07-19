@@ -9,17 +9,12 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.R;
-import com.parse.FindCallback;
+import com.example.restauranteur.models.Server;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseRole;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
-import java.util.List;
 import java.util.Random;
 
 public class ServerLoginSignupActivity extends AppCompatActivity {
@@ -59,24 +54,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     }
 
-    //Server decides to login
-    private void login(final String username, final String password){
-
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e == null){
-                    Log.i("Login","Login success");
-                    final Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else{
-                    Log.e("Login", "Login failure");
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
     //being able to identify between the customer and server
     /*ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
     // Create the ParseUser
@@ -89,19 +66,18 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     //query.include(Post.KEY_USER)
     void newServer (){
-        final ParseUser user =  new ParseUser();
+        final Server server =  new Server();
         // Set core properties
         final String newUsername = etGetUsername.getText().toString();
         final String newPassword = etGetPassword.getText().toString();
 
-        user.setUsername(newUsername);
-        user.setPassword(newPassword);
-        user.put("server", true);
+        server.setUsername(newUsername);
+        server.setPassword(newPassword);
         //include a randomized serverId
-        user.put("serverId",getRandomAlphaNum(10));
+        server.put("serverId",getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
-        user.signUpInBackground(new SignUpCallback() {
+        server.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e == null ){
@@ -113,7 +89,25 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    //Server decides to login
+    private void login(final String username, final String password){
+
+        Server.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null && user instanceof Server){
+                    Log.i("Login","Login success");
+                    final Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else{
+                    Log.e("Login", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //generate a len length random alphanumeric string

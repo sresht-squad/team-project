@@ -2,14 +2,12 @@ package com.example.restauranteur;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import com.example.restauranteur.models.Server;
 import com.parse.ParseUser;
 
 public class AccountTypeActivity extends AppCompatActivity {
@@ -26,15 +24,13 @@ public class AccountTypeActivity extends AppCompatActivity {
         //user persisting
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            if (currentUser.getBoolean("server") == true){
+            if (currentUser instanceof Server){
                 Intent intent = new Intent(AccountTypeActivity.this,ServerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }else{
                 //ADD PERSISTING VISIT HERE
                 Intent intent = new Intent(AccountTypeActivity.this,CustomerHomeActivity.class);
-                intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
                 finish();
             }

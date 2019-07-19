@@ -1,8 +1,5 @@
 package com.example.restauranteur;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.restauranteur.models.Server;
 import com.parse.ParseUser;
 
 public class ServerProfileFragment extends Fragment {
@@ -41,8 +39,8 @@ public class ServerProfileFragment extends Fragment {
         tvId = view.findViewById(R.id.tvId);
 
         //set the text to the serverId
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        String serverId = currentUser.getString("serverId");
+        Server currentServer = (Server) ParseUser.getCurrentUser();
+        String serverId = currentServer.getString("serverId");
         tvId.setText(serverId);
     }
 }

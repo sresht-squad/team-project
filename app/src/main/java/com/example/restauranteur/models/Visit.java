@@ -1,8 +1,7 @@
-package com.example.restauranteur;
+package com.example.restauranteur.models;
 
 import android.util.Log;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -12,10 +11,9 @@ import com.parse.ParseUser;
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
 
-    public static final String BODY_KEY = "body";
-    public static final String KEY_TABLENUMBER = "tableNumber";
-    public static final String KEY_CUSTOMER = "customer";
-    public static final String KEY_SERVER = "server";
+    private static final String KEY_TABLENUMBER = "tableNumber";
+    private static final String KEY_CUSTOMER = "customer";
+    private static final String KEY_SERVER = "server";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -55,14 +53,6 @@ public class Visit extends ParseObject {
             super(Visit.class);
         }
 
-    }
-
-    public String getBody() {
-        return getString(BODY_KEY);
-    }
-
-    public void setBody(String body) {
-        put(BODY_KEY, body);
     }
 
 
