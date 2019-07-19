@@ -40,7 +40,6 @@ public class CustomerChatActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_chat);
         startWithCurrentUser();
-        refreshMessages();
         loadOrders();
     }
 
@@ -70,13 +69,10 @@ public class CustomerChatActivity extends AppCompatActivity{
                     //only show the messages created by this user during this visit
                     for (int i = 0; i < messages.size(); i++){
                         Message m = messages.get(i);
-                        v = (Visit) m.getVisit();
-                        ParseUser c = v.getCustomer();
-                        String customerId = c.getObjectId();
-                        String userId = getCurrentUser().getObjectId();
-                        if (customerId.equals(userId))
+                        String author = m.getAuthor().getObjectId();
+                        String user = getCurrentUser().getObjectId();
+                        if (user.equals(author))
                         {
-                            Log.i(customerId, userId);
                             mMessages.add(m);
                         }
                     }
@@ -124,53 +120,10 @@ public class CustomerChatActivity extends AppCompatActivity{
                     public void done(ParseException e) {
                         Toast.makeText(CustomerChatActivity.this, "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
-                        refreshMessages();
+                        loadOrders();
                     }
                 });
                 etMessage.setText(null);
-            }
-        });
-    }
-
-
-    // Query messages from Parse so we can load them into the chat adapter
-    void refreshMessages() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
-            public void done(List<Message> messages, ParseException e) {
-                Visit v;
-                if (e == null) {
-                    mMessages.clear();
-                }
-                //only show the messages for visits that involve the current logged-in server
-                for (int i = 0; i < messages.size(); i++) {
-                    Message m = messages.get(i);
-                    v = (Visit) m.getVisit();
-                    ParseUser s = v.getServer();
-                    String serverId = s.getObjectId();
-                    String userId = getCurrentUser().getObjectId();
-                    if (serverId.equals(userId)) {
-                        Log.i(serverId, userId);
-                        mMessages.add(m);
-                    }
-                }
-                mAdapter.notifyDataSetChanged(); // update adapter
-                // Scroll to the bottom of the list on initial load
-                if (mFirstLoad) {
-                    rvChat.scrollToPosition(0);
-                    mFirstLoad = false;
-                } else {
-
-                    Log.e("message", "Error Loading Messages" + e);
-                }
             }
         });
     }
