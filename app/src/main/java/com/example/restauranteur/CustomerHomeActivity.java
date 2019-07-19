@@ -15,6 +15,7 @@ import com.example.restauranteur.models.Server;
 import com.example.restauranteur.models.Visit;
 import com.example.restauranteur.simpleChat.CustomerChatActivity;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -47,7 +48,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
                 //set the customer of this visit to the current customer
                 //the table number is 2 for now TODO: set table numbers
-                Customer currentCustomer = (Customer) ParseUser.getCurrentUser();
+                ParseUser user = ParseUser.getCurrentUser();
+
+                Customer currentCustomer = Customer.getCurrentUser();
                 visit.setCustomer(currentCustomer);
                 visit.setTableNumber("2");
 
@@ -60,7 +63,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
-                            Server server = (Server) objects.get(0);
+                            Server server = new Server(objects.get(0));
                             //set the server
                             visit.setServer(server);
                             visit.saveInBackground(new SaveCallback() {
@@ -80,8 +83,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         }
                     }
                 });
-                Intent i = new Intent(CustomerHomeActivity.this, CustomerChatActivity.class);
-                startActivity(i);
+                Log.d("visit", visit.toString());
             }
         });
 

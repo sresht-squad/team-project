@@ -71,7 +71,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     //query.include(Post.KEY_USER)
     void newServer (){
-        final Server server =  new Server();
+        final Server server =  new Server(new ParseUser());
         // Set core properties
         final String newUsername = etGetUsername.getText().toString();
         final String newPassword = etGetPassword.getText().toString();
@@ -101,7 +101,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         Server.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (e == null && user instanceof Server){
+                if (e == null){
                     Log.i("Login","Login success");
                     final Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
                     startActivity(intent);
