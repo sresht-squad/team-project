@@ -1,23 +1,19 @@
 package com.example.restauranteur;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.simpleChat.Message;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import java.util.List;
+import com.example.restauranteur.fragment.CustomerQuickRequestFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
@@ -26,12 +22,41 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     Button btnTestCheck;
     EditText etTableNumber;
+    BottomNavigationView customerBottomNavigation;
     Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
+
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        customerBottomNavigation = findViewById(R.id.bottom_navigation);
+
+
+        customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = new CustomerQuickRequestFragment();
+
+                switch (menuItem.getItemId()) {
+                    case R.id.action_request:
+                        fragment = new CustomerQuickRequestFragment();
+                        Toast.makeText(CustomerHomeActivity.this, "fragment", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_visit:
+                        fragment = new CustomerQuickRequestFragment();
+                        Toast.makeText(CustomerHomeActivity.this, "fragment", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
+                return true;
+            }
+        });
+
 
         etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
@@ -40,7 +65,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         etTableNumber = findViewById(R.id.etTableNumber);
 
 
-        //create a new visit
+        /*//create a new visit
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,45 +111,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+    }*/
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOut();
-                Intent intent = new Intent(CustomerHomeActivity.this, AccountTypeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnTestCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Visit mVisit = new Visit();
-                String checkMessage = "Ready for Check";
-
-                Message readyForCheck = new Message();
-                readyForCheck.setAuthor(ParseUser.getCurrentUser());
-                readyForCheck.setBody(checkMessage);
-
-                readyForCheck.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("customerHomeActivity", "check message on parse");
-                    }
-                });
-
-
-                if (mVisit != null){
-                    readyForCheck.setVisit(mVisit);
-                    Log.i("customerHomeActiviy", "visit is not null");
-                }
-                else{
-                    Log.i("customerHomeActiviy", "visit is null");
-                }
-            }
-        });
 
     }
-
-
 }

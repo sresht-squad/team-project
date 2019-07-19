@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_check"
+        android:id="@+id/action_visit"
         android:enabled="true"
         android:icon="@drawable/check_icon"
-        android:title="Check"
+        android:title="Visit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_request"
+        android:enabled="true"
+        android:icon="@drawable/request_icon"
+        android:title="QuickRequest"
         app:showAsAction="ifRoom" />
 
 </menu>
