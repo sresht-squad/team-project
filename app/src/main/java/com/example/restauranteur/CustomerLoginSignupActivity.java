@@ -83,7 +83,6 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
                 if (e == null){
                     Log.d("Login","Login success");
                     final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
-                    //final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else{

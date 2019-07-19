@@ -32,6 +32,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }else{
+                //ADD PERSISTING VISIT HERE
                 Intent intent = new Intent(AccountTypeActivity.this,CustomerHomeActivity.class);
                 intent.putExtra("myUsername", currentUser.getUsername());
                 startActivity(intent);
