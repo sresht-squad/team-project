@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restauranteur.simpleChat.CustomerChatActivity;
 import com.example.restauranteur.simpleChat.Message;
 import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
@@ -63,7 +65,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
+                            int size_of_query_result = Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
                             ParseUser server = objects.get(0);
                             //set the server
                             visit.setServer(server);
@@ -100,20 +102,31 @@ public class CustomerHomeActivity extends AppCompatActivity {
         btnTestCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Visit mVisit = new Visit();
                 String checkMessage = "Ready for Check";
 
                 Message readyForCheck = new Message();
                 readyForCheck.setAuthor(ParseUser.getCurrentUser());
                 readyForCheck.setBody(checkMessage);
 
-                Intent intent = new Intent(CustomerHomeActivity.this, ServerChatActivity.class);
-                intent.putExtra("readyForCheck", readyForCheck);
+                readyForCheck.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("customerHomeActivity", "check message on parse");
+                    }
+                });
 
 
+                if (mVisit != null){
+                    readyForCheck.setVisit(mVisit);
+                    Log.i("customerHomeActiviy", "visit is not null");
+                }
+                else{
+                    Log.i("customerHomeActiviy", "visit is null");
+                }
             }
         });
-
-
+        
     }
 
 

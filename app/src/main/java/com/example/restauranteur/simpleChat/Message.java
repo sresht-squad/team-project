@@ -3,6 +3,7 @@ package com.example.restauranteur.simpleChat;
 import com.example.restauranteur.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @ParseClassName("Message")
@@ -30,6 +31,20 @@ public class Message extends ParseObject {
 
         public void setBody(String body) {
         put(BODY_KEY, body);
+    }
+
+
+
+    public static class Query extends ParseQuery<Message> {
+        public Query() {
+            super(Message.class);
+        }
+
+        public Query withUser(){
+            include("vist");
+            return this;
+        }
+
     }
 }
 

@@ -1,24 +1,27 @@
 package com.example.restauranteur;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
-import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +30,12 @@ import static com.parse.ParseUser.getCurrentUser;
 
 
 public class ServerRequestsFragment extends Fragment {
-
-    static final String TAG = ServerChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
+
     EditText etMessage;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
@@ -92,25 +95,30 @@ public class ServerRequestsFragment extends Fragment {
                 if (e == null) {
                     mMessages.clear();
                 }
+               // mMessages.addAll(messages);
+                Message m;
+                ParseUser server;
+                String serverId;
+                String userId;
+                int size = messages.size();
                 //only show the messages for visits that involve the current logged-in server
-                for (int i = 0; i < messages.size(); i++) {
-                    Message m = messages.get(i);
+               for (int i = 0; i < size; i++) {
+                    m = messages.get(i);
                     v = (Visit) m.getVisit();
-                    ParseUser s = v.getServer();
-                    String serverId = s.getObjectId();
-                    String userId = getCurrentUser().getObjectId();
-                    if (serverId.equals(userId)) {
-                        Log.i(serverId, userId);
+                    serverId = v.getServer().getObjectId();
+                    userId = getCurrentUser().getObjectId();
+                   if (serverId.equals(userId)) {
+                        //Log.i(serverId, userId);
                         mMessages.add(m);
                     }
                 }
+
                 mAdapter.notifyDataSetChanged(); // update adapter
                 // Scroll to the bottom of the list on initial load
                 if (mFirstLoad) {
                     rvChat.scrollToPosition(0);
                     mFirstLoad = false;
                 } else {
-
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
