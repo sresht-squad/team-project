@@ -7,13 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.simpleChat.CustomerChatActivity;
 import com.example.restauranteur.simpleChat.Message;
-import com.example.restauranteur.simpleChat.ServerChatActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -39,7 +36,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
-        btnTestCheck = findViewById(R.id.btnTestCheck);
+        btnTestCheck = findViewById(R.id.btnCheck);
         etTableNumber = findViewById(R.id.etTableNumber);
 
 
@@ -126,7 +123,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 }
             }
         });
-        
+
     }
 
 
