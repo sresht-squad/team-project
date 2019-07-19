@@ -25,6 +25,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     Button btnCreateVisit;
     ImageView logout;
     Button btnTestCheck;
+    EditText etTableNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +36,22 @@ public class CustomerHomeActivity extends AppCompatActivity {
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
         btnTestCheck = findViewById(R.id.btnTestCheck);
+        etTableNumber = findViewById(R.id.etTableNumber);
+
 
         //create a new visit
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverId = etServerId.getText().toString();
+                String tableNum = etTableNumber.getText().toString();
                 final Visit visit = new Visit();
 
                 //set the customer of this visit to the current customer
                 //the table number is 2 for now TODO: set table numbers
                 ParseUser currentCustomer = ParseUser.getCurrentUser();
                 visit.setCustomer(currentCustomer);
-                visit.setTableNumber("2");
+                visit.setTableNumber(tableNum);
 
                 //query for the server with the serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
