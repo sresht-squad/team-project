@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseUser;

@@ -1,10 +1,9 @@
 package com.example.restauranteur.simpleChat;
 
-import com.example.restauranteur.Customer;
-import com.example.restauranteur.Visit;
+import com.example.restauranteur.models.Customer;
+import com.example.restauranteur.models.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {

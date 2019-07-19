@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restauranteur.models.Customer;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

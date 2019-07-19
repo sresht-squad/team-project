@@ -9,17 +9,12 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.R;
-import com.parse.FindCallback;
+import com.example.restauranteur.models.Server;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseRole;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
-import java.util.List;
 import java.util.Random;
 
 public class ServerLoginSignupActivity extends AppCompatActivity {

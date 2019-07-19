@@ -11,13 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.restauranteur.Customer;
+import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.R;
-import com.example.restauranteur.Visit;
+import com.example.restauranteur.models.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
