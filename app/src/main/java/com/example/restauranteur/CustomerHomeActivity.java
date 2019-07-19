@@ -1,7 +1,9 @@
 package com.example.restauranteur;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.restauranteur.fragment.CustomerChatFragment;
 import com.example.restauranteur.fragment.CustomerQuickRequestFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
@@ -46,7 +50,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         Toast.makeText(CustomerHomeActivity.this, "fragment", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_visit:
-                        fragment = new CustomerQuickRequestFragment();
+                        fragment = new CustomerChatFragment();
                         Toast.makeText(CustomerHomeActivity.this, "fragment", Toast.LENGTH_SHORT).show();
                         break;
                     default:
@@ -57,13 +61,24 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+        logout = findViewById(R.id.ivLogout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.getCurrentUser().logOut();
+                Intent intent = new Intent(CustomerHomeActivity.this, AccountTypeActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        etServerId = findViewById(R.id.etServerId);
+
+        //Not deleted because this has to do with the activity in which the customer enters table number and server id//
+
+        /*etServerId = findViewById(R.id.etServerId);
         btnCreateVisit = findViewById(R.id.btnCreateVisit);
         logout = findViewById(R.id.ivLogout);
         btnTestCheck = findViewById(R.id.btnCheck);
-        etTableNumber = findViewById(R.id.etTableNumber);
-
+        etTableNumber = findViewById(R.id.etTableNumber);*/
 
         /*//create a new visit
         btnCreateVisit.setOnClickListener(new View.OnClickListener() {

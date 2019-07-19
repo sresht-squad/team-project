@@ -45,8 +45,8 @@ public class CustomerQuickRequestFragment extends Fragment {
         getCheck = (Button) view.findViewById(R.id.btnCheck);
         getWater = (Button) view.findViewById(R.id.btnWater);
 
-
-
+        //sending the waiter request to get the check
+        //still need to connect to visit
         getCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +66,8 @@ public class CustomerQuickRequestFragment extends Fragment {
             }
         });
 
+        //sending the waiter a request to get the water
+        //still need to connect to visit
         getWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
