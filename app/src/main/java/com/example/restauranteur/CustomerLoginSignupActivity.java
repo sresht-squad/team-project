@@ -57,7 +57,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
     private void signUp(final String username, final String password){
         Log.d("signup","signup pressed");
         // Create the Customer
-        Customer customer = new Customer();
+        Customer customer = new Customer(new ParseUser());
 
         // Set core properties
         customer.setUsername(username);
@@ -80,7 +80,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         Customer.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (e == null && user instanceof Customer){
+                if (e == null){
                     Log.d("Login","Login success");
                     final Intent intent = new Intent(CustomerLoginSignupActivity.this, CustomerHomeActivity.class);
                     startActivity(intent);
