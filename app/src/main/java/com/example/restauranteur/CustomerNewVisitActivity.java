@@ -15,6 +15,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -42,8 +43,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String tableNum = etTableNumber.getText().toString();
                 visit = new Visit();
 
-                //set the customer of this visit to the current customer
-                //the table number is 2 for now TODO: set table numbers
                 Customer currentCustomer = new Customer(ParseUser.getCurrentUser());
                 visit.setCustomer(currentCustomer);
                 visit.setTableNumber(tableNum);
@@ -81,6 +80,4 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         });
 
     }
-    }
-
 }
