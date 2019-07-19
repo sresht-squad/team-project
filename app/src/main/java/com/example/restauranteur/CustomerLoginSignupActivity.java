@@ -89,7 +89,6 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
                     finish();
                 } else{
                     Log.e("Login", "Login failure");
-                    e.printStackTrace();
                 }
             }
         });

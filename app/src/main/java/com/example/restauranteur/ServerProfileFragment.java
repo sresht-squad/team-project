@@ -16,7 +16,6 @@ import com.parse.ParseUser;
 
 public class ServerProfileFragment extends Fragment {
     TextView tvId;
-    Button viewOrders;
 
     public ServerProfileFragment() {
         // Required empty public constructor

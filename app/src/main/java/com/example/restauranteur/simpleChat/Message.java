@@ -7,29 +7,29 @@ import com.parse.ParseObject;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-        public static final String VISIT_KEY = "visit";
-        public static final String BODY_KEY = "body";
-        public static final String AUTHOR_ID_KEY = "author";
+        private static final String VISIT_KEY = "visit";
+        private static final String BODY_KEY = "body";
+        private static final String AUTHOR_ID_KEY = "author";
 
         public ParseObject getVisit() {
         return getParseObject(VISIT_KEY); }
 
-        public void setVisit(Visit visit) {
+        void setVisit(Visit visit) {
             put(VISIT_KEY, visit); }
 
-        public Customer getAuthor() {
+        Customer getAuthor() {
             Customer author = (Customer) getParseUser(AUTHOR_ID_KEY);
             return author;
         }
 
-        public void setAuthor(Customer author) {
+        void setAuthor(Customer author) {
         put(AUTHOR_ID_KEY, author); }
 
-        public String getBody() {
+        String getBody() {
         return getString(BODY_KEY);
     }
 
-        public void setBody(String body) {
+        void setBody(String body) {
         put(BODY_KEY, body);
     }
 }
