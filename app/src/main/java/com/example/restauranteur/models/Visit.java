@@ -7,6 +7,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.parceler.Parcel;
+
+
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
 

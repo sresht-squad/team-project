@@ -17,7 +17,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     ArrayList<Visit> mVisit;
     Context context;
 
-    public VisitAdapter(ArrayList<Visit> visit) {
+    public VisitAdapter(ArrayList<Visit> mVisit) {
         this.mVisit = mVisit;
     }
 
@@ -43,7 +43,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public int getItemCount() {
         return mVisit.size();
     }
-    
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView etActiveVisit;

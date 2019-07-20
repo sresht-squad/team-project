@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
-import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -130,6 +129,7 @@ public class CustomerChatFragment extends Fragment {
                 Message message = new Message();
                 message.setBody(data);
                 message.setAuthor(getCurrentUser());
+                message.setActive(true);
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
