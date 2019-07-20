@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -56,7 +59,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            int size_of_query_result = Log.d("SIZE OF QUERY RESULT", Integer.toString(objects.size()));
                             Server server = new Server(objects.get(0));
                             //set the server
                             visit.setServer(server);
@@ -66,10 +68,10 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                     if (e != null){
                                         Log.d("Saving","Error while saving");
                                         e.printStackTrace();
-                                        return;
                                     }else{
                                         Log.d("Saving", "success");
                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                        intent.putExtra("VISIT", visit);
                                         startActivity(intent);
                                         finish();
                                     }
