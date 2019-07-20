@@ -1,9 +1,5 @@
 package com.example.restauranteur.simpleChat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.restauranteur.models.Customer;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.restauranteur.R;
 import com.example.restauranteur.models.Visit;
 import com.parse.FindCallback;
@@ -114,7 +113,7 @@ public class CustomerChatActivity extends AppCompatActivity{
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setAuthor((Customer)getCurrentUser());
+                message.setAuthor (getCurrentUser());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

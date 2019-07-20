@@ -39,7 +39,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
         String author = (message.getAuthor()).getObjectId();
-        final boolean isMe = (this.mUserId == author);
+        final boolean isMe = (this.mUserId.equals(author));
 
         if (isMe) {
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
@@ -56,10 +56,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         return mMessages.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView body;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
 

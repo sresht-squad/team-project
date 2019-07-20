@@ -6,7 +6,6 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
@@ -52,6 +51,8 @@ public class Visit extends ParseObject {
         public Query() {
             super(Visit.class);
         }
+
+
 
     }
 

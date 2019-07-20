@@ -9,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
-import com.example.restauranteur.Visit;
+import com.example.restauranteur.models.Server;
+import com.example.restauranteur.models.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -67,7 +68,7 @@ public class ServerChatActivity extends AppCompatActivity {
                 for (int i = 0; i < messages.size(); i++) {
                     Message m = messages.get(i);
                     v = (Visit) m.getVisit();
-                    ParseUser s = v.getServer();
+                    Server s =  v.getServer();
                     String serverId = s.getObjectId();
                     String userId = getCurrentUser().getObjectId();
 

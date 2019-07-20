@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.restauranteur.fragment.CustomerChatFragment;
 import com.example.restauranteur.fragment.CustomerQuickRequestFragment;
+import com.example.restauranteur.models.Visit;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 

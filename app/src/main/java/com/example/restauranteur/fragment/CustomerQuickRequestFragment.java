@@ -85,6 +85,8 @@ public class CustomerQuickRequestFragment extends Fragment {
                 });
             }
         });
+
+
     }
 
 

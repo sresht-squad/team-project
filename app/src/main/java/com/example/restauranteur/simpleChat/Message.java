@@ -1,15 +1,12 @@
 package com.example.restauranteur.simpleChat;
 
-import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-
         public static final String VISIT_KEY = "visit";
         public static final String BODY_KEY = "body";
         public static final String AUTHOR_ID_KEY = "author";
@@ -33,20 +30,6 @@ public class Message extends ParseObject {
 
         public void setBody(String body) {
         put(BODY_KEY, body);
-    }
-
-
-
-    public static class Query extends ParseQuery<Message> {
-        public Query() {
-            super(Message.class);
-        }
-
-        public Query withUser(){
-            include("vist");
-            return this;
-        }
-
     }
 }
 

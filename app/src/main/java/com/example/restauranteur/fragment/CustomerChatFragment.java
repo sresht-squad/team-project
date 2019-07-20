@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
-import com.example.restauranteur.Visit;
 import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
@@ -27,7 +26,6 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.restauranteur.fragment.ServerRequestsFragment.MAX_CHAT_MESSAGES_TO_SHOW;
 import static com.parse.ParseUser.getCurrentUser;
 
 public class CustomerChatFragment extends Fragment {
@@ -39,6 +37,7 @@ public class CustomerChatFragment extends Fragment {
     EditText etMessage;
     Button btSend;
     boolean mFirstLoad;
+    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
     public CustomerChatFragment(){
         //empty constructor required
@@ -90,7 +89,6 @@ public class CustomerChatFragment extends Fragment {
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
-                Visit v;
                 if (e == null) {
                     mMessages.clear();
                     //only show the messages created by this user during this visit
