@@ -17,6 +17,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     ArrayList<Visit> mVisit;
     Context context;
 
+    public VisitAdapter(ArrayList<Visit> visit) {
+        this.mVisit = mVisit;
+    }
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
