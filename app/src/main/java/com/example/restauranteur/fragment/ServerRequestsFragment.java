@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.restauranteur.fragment.ChatAdapter;
 import com.example.restauranteur.models.Server;
 import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.simpleChat.ChatAdapter;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -77,7 +77,7 @@ public class ServerRequestsFragment extends Fragment {
 
 
     // Query messages from Parse so we can load them into the chat adapter
-    private void refreshMessages() {
+     void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         // Configure limit and sort order
@@ -101,15 +101,17 @@ public class ServerRequestsFragment extends Fragment {
                 int size = messages.size();
                 //only show the messages for visits that involve the current logged-in server
                for (int i = 0; i < size; i++) {
-                    m = messages.get(i);
-                    v = (Visit) m.getVisit();
-                    serverId = v.getServer().getObjectId();
-                    userId = getCurrentUser().getObjectId();
-                   if (serverId.equals(userId)) {
-                        //Log.i(serverId, userId);
-                        mMessages.add(m);
-                    }
-                }
+                   m = messages.get(i);
+                   if (m.getActive()) {
+                       v = (Visit) m.getVisit();
+                       serverId = v.getServer().getObjectId();
+                       userId = getCurrentUser().getObjectId();
+                       if (serverId.equals(userId)) {
+                           //Log.i(serverId, userId);
+                           mMessages.add(m);
+                       }
+                   }
+               }
 
                 mAdapter.notifyDataSetChanged(); // update adapter
                 // Scroll to the bottom of the list on initial load
