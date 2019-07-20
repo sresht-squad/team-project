@@ -69,6 +69,10 @@ public class CustomerChatFragment extends Fragment {
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
+        // associate the LayoutManager with the RecyclerView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvChat.setLayoutManager(linearLayoutManager);
+
         startWithCurrentUser();
         loadOrders();
 
