@@ -29,14 +29,13 @@ public class CustomerHomeActivity extends AppCompatActivity {
     BottomNavigationView customerBottomNavigation;
     Visit visit;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
 
         Intent intent = getIntent();
-        visit = (Visit) intent.getParcelableExtra("VISIT");
+        visit = intent.getParcelableExtra("VISIT");
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -56,6 +55,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                         fragment = new CustomerChatFragment();
                         break;
                     default:
+                        fragment = new CustomerChatFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();

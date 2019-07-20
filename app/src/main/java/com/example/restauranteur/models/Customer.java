@@ -57,4 +57,8 @@ public class Customer {
        return user.getObjectId();
     }
 
+//    public Visit getCurrentVisit(){
+//        return user.get();
+//    }
+
 }

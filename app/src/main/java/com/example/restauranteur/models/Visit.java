@@ -28,7 +28,7 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for customer
-    public void setCustomer(Customer customer) {
+    public void setCustomer(ParseUser customer) {
         put(KEY_CUSTOMER, customer);
     }
 
@@ -37,7 +37,7 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for server
-    public void setServer(Server server) {
+    public void setServer(ParseUser server) {
         put(KEY_SERVER, server);
     }
 

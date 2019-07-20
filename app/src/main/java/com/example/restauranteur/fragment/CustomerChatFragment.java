@@ -15,7 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.CustomerHomeActivity;
 import com.example.restauranteur.R;
+import com.example.restauranteur.models.Customer;
+import com.example.restauranteur.models.Visit;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -35,6 +38,7 @@ public class CustomerChatFragment extends Fragment {
     ChatAdapter mAdapter;
     EditText etMessage;
     Button btSend;
+    Customer customer;
     boolean mFirstLoad;
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
@@ -89,6 +93,7 @@ public class CustomerChatFragment extends Fragment {
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
+                    mMessages.addAll(messages);
                     mMessages.clear();
                     //only show the messages created by this user during this visit
                     for (int i = 0; i < messages.size(); i++){
@@ -118,6 +123,7 @@ public class CustomerChatFragment extends Fragment {
         // associate the LayoutManager with the RecylcerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
+//        Visit visit = getCurrentUser().getVisit();
 
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +135,9 @@ public class CustomerChatFragment extends Fragment {
                 Message message = new Message();
                 message.setBody(data);
                 message.setAuthor(getCurrentUser());
+                CustomerHomeActivity home = (CustomerHomeActivity)getActivity();
+                Visit visit = (Visit) getActivity().getIntent().getParcelableExtra("VISIT");
+                message.setVisit(visit);
                 message.setActive(true);
                 message.saveInBackground(new SaveCallback() {
                     @Override

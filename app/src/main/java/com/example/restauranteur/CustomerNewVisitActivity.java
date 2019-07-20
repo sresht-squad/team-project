@@ -23,6 +23,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import static com.example.restauranteur.models.Customer.getCurrentUser;
+
 public class CustomerNewVisitActivity extends AppCompatActivity {
 
     EditText etServerId;
@@ -47,8 +49,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String tableNum = etTableNumber.getText().toString();
                 visit = new Visit();
 
-                Customer currentCustomer = new Customer(ParseUser.getCurrentUser());
-                visit.setCustomer(currentCustomer);
+               // Customer currentCustomer = new Customer(ParseUser.getCurrentUser());
+                visit.setCustomer(ParseUser.getCurrentUser());
                 visit.setTableNumber(tableNum);
 
                 //query for the server with the serverId that the customer entered
@@ -59,8 +61,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            Server server = new Server(objects.get(0));
-                            //set the server
+                            //Server server = new Server(objects.get(0));
+                            ParseUser server = objects.get(0);
                             visit.setServer(server);
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
