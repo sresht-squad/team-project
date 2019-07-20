@@ -48,8 +48,6 @@ public class CustomerChatActivity extends AppCompatActivity{
         setupMessagePosting();
     }
 
-
-
     void loadOrders() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);

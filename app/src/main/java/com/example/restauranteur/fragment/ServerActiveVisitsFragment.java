@@ -12,20 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.restauranteur.R;
 import com.example.restauranteur.VisitAdapter;
 import com.example.restauranteur.models.Visit;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ServerActiveVisits extends Fragment {
+public class ServerActiveVisitsFragment extends Fragment {
 
     ArrayList<Visit> visit;
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
 
-    public ServerActiveVisits(){
+    public ServerActiveVisitsFragment(){
         //required empty constructor
     }
 
@@ -47,7 +43,6 @@ public class ServerActiveVisits extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-
         visit = new ArrayList<>();
         rvActiveVisit = view.findViewById(R.id.rvActiveVisits);
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -60,30 +55,6 @@ public class ServerActiveVisits extends Fragment {
 
     private void fetchActiveVisit() {
 
-        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("active", true);
-        // Specify the object id
-        query.findInBackground(new FindCallback<Visit>() {
-            @Override
-            public void done(List<Visit> objects, ParseException e) {
-                if (e == null ) {
-                    visit.clear();
-                    visitAdapter.notifyDataSetChanged();
-
-                    for (int i = 0; i < objects.size(); i++) {
-
-                        //
-                        Visit visitObj = objects.get(i);
-                        visit.add(visitObj);
-                        visitAdapter.notifyItemInserted(visit.size() - 1);
-                    }
-                }else {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
     }
 
 }

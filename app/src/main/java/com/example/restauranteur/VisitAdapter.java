@@ -35,7 +35,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
-
         holder.etActiveVisit.setText(visit.getObjectId());
 
     }
@@ -44,18 +43,15 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public int getItemCount() {
         return mVisit.size();
     }
-
-
+    
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView etActiveVisit;
-
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             etActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
-
 
             }
 
@@ -69,7 +65,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             mVisit.addAll(list);
             notifyDataSetChanged();
         }
-
 
     }
 

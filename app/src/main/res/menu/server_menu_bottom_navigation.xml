@@ -16,4 +16,11 @@
         android:title="Requests"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_active"
+        android:title="active"
+        android:enabled = "true"
+        android:icon="@drawable/active_icon"
+        app:showAsAction="ifRoom" />
+
 </menu>
