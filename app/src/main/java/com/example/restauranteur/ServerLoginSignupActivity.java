@@ -53,7 +53,8 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newServer();
-                Toast.makeText(ServerLoginSignupActivity.this, "You are now signed up as a server, click above to login!", LENGTH_LONG).show();
+                Toast.makeText(ServerLoginSignupActivity.this, "You are now signed up as a server, click above to login!", LENGTH_LONG)
+                        .show();
             }
         });
 

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.restauranteur.fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.models.Server;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,6 +44,9 @@ public class ServerHomeActivity extends AppCompatActivity {
                         break;
                     case R.id.requests:
                         fragment = requests;
+                        break;
+                    case R.id.action_active:
+                        fragment = new ServerActiveVisitsFragment();
                         break;
                     default:
                         fragment = profile;

@@ -83,8 +83,13 @@ public class CustomerQuickRequestFragment extends Fragment {
                         Log.i("customerRequestFrag", "Water message on parse");
                     }
                 });
+
             }
         });
+
+
+
+
     }
 
 

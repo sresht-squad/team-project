@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
-import com.example.restauranteur.ServerRequestsFragment;
 import com.example.restauranteur.models.Server;
 import com.example.restauranteur.models.Visit;
 import com.example.restauranteur.simpleChat.Message;

@@ -1,18 +1,15 @@
 package com.example.restauranteur;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.example.restauranteur.models.Server;
-import com.parse.ParseUser;
 
 public class ServerProfileFragment extends Fragment {
     TextView tvId;
@@ -24,7 +21,6 @@ public class ServerProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
