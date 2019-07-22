@@ -63,6 +63,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                             //Server server = new Server(objects.get(0));
                             Server server = new Server(objects.get(0));
                             visit.setServer(server);
+                            visit.setActive(true);
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

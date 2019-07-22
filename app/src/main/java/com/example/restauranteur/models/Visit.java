@@ -17,6 +17,7 @@ public class Visit extends ParseObject {
     private static final String KEY_TABLENUMBER = "tableNumber";
     private static final String KEY_CUSTOMER = "customer";
     private static final String KEY_SERVER = "server";
+    private static final String KEY_ACTIVE = "active";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -48,6 +49,14 @@ public class Visit extends ParseObject {
             Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
             return null;
         }
+    }
+
+    public void setActive(boolean active){
+        put(KEY_ACTIVE, active);
+    }
+
+    public Boolean getActive(){
+       return getBoolean(KEY_ACTIVE);
     }
 
     //From the order class include the waiter table and customer table
