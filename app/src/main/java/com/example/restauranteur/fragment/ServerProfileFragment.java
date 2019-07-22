@@ -34,7 +34,7 @@ public class ServerProfileFragment extends Fragment {
         tvId = view.findViewById(R.id.tvId);
 
         //set the text to the serverId
-        Server currentServer = Server.getCurrentUser();
+        Server currentServer = Server.getCurrentServer();
         String serverId = currentServer.getString("serverId");
         tvId.setText(serverId);
     }
