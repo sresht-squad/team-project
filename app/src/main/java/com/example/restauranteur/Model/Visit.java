@@ -26,8 +26,8 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for customer
-    public void setCustomer(Customer customer) {
-        put(KEY_CUSTOMER, customer.getParseUser());
+    public void addCustomer(Customer customer) {
+        add(KEY_CUSTOMER, customer.getParseUser());
     }
 
     public Customer getCustomer() {

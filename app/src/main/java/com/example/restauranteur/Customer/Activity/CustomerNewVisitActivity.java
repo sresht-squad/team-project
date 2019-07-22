@@ -49,7 +49,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String tableNum = etTableNumber.getText().toString();
                 visit = new Visit();
                 Customer customer = Customer.getCurrentCustomer();
-                visit.setCustomer(customer);
+                visit.addCustomer(customer);
                 visit.setTableNumber(tableNum);
                 visit.setActive(true);
                 customer.setVisit(visit);
