@@ -65,6 +65,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
         // Set core properties
         customer.setUsername(username);
         customer.setPassword(password);
+        customer.put("server", false);
         // Invoke signUpInBackground
         customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
