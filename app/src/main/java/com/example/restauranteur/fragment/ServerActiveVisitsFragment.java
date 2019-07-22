@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
 import com.example.restauranteur.VisitAdapter;
+import com.example.restauranteur.models.Server;
 import com.example.restauranteur.models.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,9 +59,9 @@ public class ServerActiveVisitsFragment extends Fragment {
     }
 
     private void fetchActiveVisit() {
-
         final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("Active",true);
+        query.whereEqualTo("active",true);
+
         // Specify the object id
         query.findInBackground(new FindCallback<Visit>() {
             @Override
@@ -68,11 +69,14 @@ public class ServerActiveVisitsFragment extends Fragment {
                 if (e == null ) {
                     visit.clear();
                     visitAdapter.notifyDataSetChanged();
-
                     for (int i = 0; i < objects.size(); i++) {
                         Visit OneVisit = objects.get(i);
-                        visit.add(OneVisit);
-                        visitAdapter.notifyItemInserted(visit.size() - 1);
+                        String serverId = OneVisit.getServer().getObjectId();
+
+                        if (serverId.equals(Server.getCurrentServer().getObjectId())){
+                            visit.add(OneVisit);
+                            visitAdapter.notifyItemInserted(visit.size() - 1);
+                        }
                     }
                 }else {
                     e.printStackTrace();
