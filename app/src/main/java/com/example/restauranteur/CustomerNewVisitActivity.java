@@ -21,8 +21,6 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
-import static com.example.restauranteur.models.Customer.getCurrentCustomer;
-
 public class CustomerNewVisitActivity extends AppCompatActivity {
 
     EditText etServerId;
@@ -39,7 +37,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
 
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
-        etTableNumber = findViewById(R.id.etTableNumber);
+        etTableNumber = findViewById(R.id.tvTableNumber);
 
         //create a new visit
         btnNewVisit.setOnClickListener(new View.OnClickListener() {

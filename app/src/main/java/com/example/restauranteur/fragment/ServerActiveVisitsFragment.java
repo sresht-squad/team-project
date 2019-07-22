@@ -54,6 +54,9 @@ public class ServerActiveVisitsFragment extends Fragment {
         visitAdapter = new VisitAdapter(visit);
         rvActiveVisit.setAdapter(visitAdapter);
 
+
+
+
         fetchActiveVisit();
 
     }
@@ -72,7 +75,6 @@ public class ServerActiveVisitsFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         Visit OneVisit = objects.get(i);
                         String serverId = OneVisit.getServer().getObjectId();
-
                         if (serverId.equals(Server.getCurrentServer().getObjectId())){
                             visit.add(OneVisit);
                             visitAdapter.notifyItemInserted(visit.size() - 1);
