@@ -21,7 +21,7 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
-import static com.example.restauranteur.models.Customer.getCurrentUser;
+import static com.example.restauranteur.models.Customer.getCurrentCustomer;
 
 public class CustomerNewVisitActivity extends AppCompatActivity {
 
@@ -49,8 +49,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String tableNum = etTableNumber.getText().toString();
                 visit = new Visit();
 
-               // Customer currentCustomer = new Customer(ParseUser.getCurrentUser());
-                visit.setCustomer(ParseUser.getCurrentUser());
+                visit.setCustomer(Customer.getCurrentCustomer());
                 visit.setTableNumber(tableNum);
 
                 //query for the server with the serverId that the customer entered
@@ -62,7 +61,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             //Server server = new Server(objects.get(0));
-                            ParseUser server = objects.get(0);
+                            Server server = new Server(objects.get(0));
                             visit.setServer(server);
                             visit.saveInBackground(new SaveCallback() {
                                 @Override

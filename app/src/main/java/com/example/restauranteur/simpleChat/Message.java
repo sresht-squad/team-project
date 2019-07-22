@@ -1,5 +1,6 @@
 package com.example.restauranteur.simpleChat;
 
+import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -24,12 +25,12 @@ public class Message extends ParseObject {
         public boolean getActive() {
         return getBoolean(STATUS);}
 
-        public ParseUser getAuthor() {
-            return getParseUser(AUTHOR_ID_KEY);
+        public Customer getAuthor() {
+            return new Customer(getParseUser(AUTHOR_ID_KEY));
         }
 
-        public void setAuthor(ParseUser author) {
-        put(AUTHOR_ID_KEY, author); }
+        public void setAuthor(Customer author) {
+        put(AUTHOR_ID_KEY, author.getParseUser()); }
 
         public String getBody() {
         return getString(BODY_KEY);

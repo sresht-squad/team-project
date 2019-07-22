@@ -57,5 +57,9 @@ public class Server {
         return user.getObjectId();
     }
 
+    public ParseUser getParseUser(){
+        return user;
+    }
+
 
 }

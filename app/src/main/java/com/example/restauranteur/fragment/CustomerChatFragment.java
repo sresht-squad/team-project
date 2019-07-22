@@ -65,7 +65,8 @@ public class CustomerChatFragment extends Fragment {
         rvChat = view.findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-        final String userId = getCurrentUser().getObjectId();
+        final String userId = Customer.getCurrentCustomer().getObjectId();
+        Log.d("current customer", userId);
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
@@ -103,7 +104,7 @@ public class CustomerChatFragment extends Fragment {
                     for (int i = 0; i < messages.size(); i++){
                         Message m = messages.get(i);
                         String author = m.getAuthor().getObjectId();
-                        String user = getCurrentUser().getObjectId();
+                        String user = Customer.getCurrentCustomer().getObjectId();
                         if (user.equals(author))
                         {
                             mMessages.add(m);
@@ -138,7 +139,7 @@ public class CustomerChatFragment extends Fragment {
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setAuthor(getCurrentUser());
+                message.setAuthor(Customer.getCurrentCustomer());
                 CustomerHomeActivity home = (CustomerHomeActivity)getActivity();
                 Visit visit = (Visit) getActivity().getIntent().getParcelableExtra("VISIT");
                 message.setVisit(visit);

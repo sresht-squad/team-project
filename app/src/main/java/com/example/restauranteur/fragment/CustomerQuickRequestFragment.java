@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.restauranteur.R;
+import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -53,7 +54,7 @@ public class CustomerQuickRequestFragment extends Fragment {
                 String checkMessage = "Ready for Check";
 
                 Message readyForCheck = new Message();
-                readyForCheck.setAuthor(ParseUser.getCurrentUser());
+                readyForCheck.setAuthor(Customer.getCurrentCustomer());
                 readyForCheck.setBody(checkMessage);
 
                 readyForCheck.saveInBackground(new SaveCallback() {
@@ -74,7 +75,7 @@ public class CustomerQuickRequestFragment extends Fragment {
                 String waterRequest = "Need more water";
 
                 Message waterMessage = new Message();
-                waterMessage.setAuthor(ParseUser.getCurrentUser());
+                waterMessage.setAuthor(Customer.getCurrentCustomer());
                 waterMessage.setBody(waterRequest);
 
                 waterMessage.saveInBackground(new SaveCallback() {

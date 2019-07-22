@@ -44,7 +44,7 @@ public class Customer {
         return user.getString(key);
     }
 
-    public static Customer getCurrentUser(){
+    public static Customer getCurrentCustomer(){
         ParseUser user = ParseUser.getCurrentUser();
         return new Customer(user);
     }
@@ -55,6 +55,10 @@ public class Customer {
 
     public String getObjectId(){
        return user.getObjectId();
+    }
+
+    public ParseUser getParseUser(){
+       return user;
     }
 
 //    public Visit getCurrentVisit(){
