@@ -7,6 +7,15 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import static java.lang.reflect.Array.*;
+
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
@@ -30,9 +39,9 @@ public class Visit extends ParseObject {
         add(KEY_CUSTOMERS, customer.getParseUser());
     }
 
-//    public Customer getCustomer() {
-//        return new Customer(getParseUser("customer"));
-//    }
+    public JSONArray getCustomers() {
+        return getJSONArray("customers");
+    }
 
     // get and setter for server
     public void setServer(Server server) {
