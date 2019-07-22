@@ -55,9 +55,6 @@ public class Visit extends ParseObject {
         public Query() {
             super(Visit.class);
         }
-
-
-
     }
 
 
