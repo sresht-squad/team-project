@@ -12,7 +12,7 @@ import com.parse.ParseQuery;
 public class Visit extends ParseObject {
 
     private static final String KEY_TABLENUMBER = "tableNumber";
-    private static final String KEY_CUSTOMER = "customer";
+    private static final String KEY_CUSTOMERS = "customers";
     private static final String KEY_SERVER = "server";
     private static final String KEY_ACTIVE = "active";
 
@@ -27,12 +27,12 @@ public class Visit extends ParseObject {
 
     // get and setter for customer
     public void addCustomer(Customer customer) {
-        add(KEY_CUSTOMER, customer.getParseUser());
+        add(KEY_CUSTOMERS, customer.getParseUser());
     }
 
-    public Customer getCustomer() {
-        return new Customer(getParseUser(KEY_CUSTOMER));
-    }
+//    public Customer getCustomer() {
+//        return new Customer(getParseUser("customer"));
+//    }
 
     // get and setter for server
     public void setServer(Server server) {
