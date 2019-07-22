@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.restauranteur.fragment.ChatAdapter;
 import com.example.restauranteur.models.Server;
 import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.simpleChat.Message;
+import com.example.restauranteur.models.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

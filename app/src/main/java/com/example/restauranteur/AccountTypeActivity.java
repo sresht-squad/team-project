@@ -30,9 +30,9 @@ public class AccountTypeActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }else{
-                Customer c = new Customer(currentUser);
+                Customer customer = new Customer(currentUser);
                 Intent intent;
-                if (c.getCurrentVisit() == null) {
+                if (customer.getCurrentVisit() == null) {
                     intent = new Intent(AccountTypeActivity.this, CustomerNewVisitActivity.class);
                 }else {
                     intent = new Intent(AccountTypeActivity.this, CustomerHomeActivity.class);

@@ -79,6 +79,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
         server.setUsername(newUsername);
         server.setPassword(newPassword);
+        server.put("server", true);
 
         //include a randomized serverId
         server.put("serverId",getRandomAlphaNum(10));

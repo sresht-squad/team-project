@@ -46,11 +46,11 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String serverId = etServerId.getText().toString();
                 String tableNum = etTableNumber.getText().toString();
                 visit = new Visit();
-                Customer c = Customer.getCurrentCustomer();
-                visit.setCustomer(c);
+                Customer customer = Customer.getCurrentCustomer();
+                visit.setCustomer(customer);
                 visit.setTableNumber(tableNum);
                 visit.setActive(true);
-                c.setVisit(visit);
+                customer.setVisit(visit);
 
                 //query for the server with the serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();

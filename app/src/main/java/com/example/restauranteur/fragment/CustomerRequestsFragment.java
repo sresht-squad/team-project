@@ -15,11 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.CustomerHomeActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.simpleChat.Message;
+import com.example.restauranteur.models.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

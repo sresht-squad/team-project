@@ -41,6 +41,10 @@ public class Customer {
         user.put(key, value);
     }
 
+    public void put(String key, boolean value){
+        user.put(key, value);
+    }
+
     public String getString(String key){
         return user.getString(key);
     }
@@ -65,7 +69,7 @@ public class Customer {
     public void setVisit(Visit visit) {user.put(VISIT_KEY, visit); }
 
     public Visit getCurrentVisit(){
-       return (Visit) user.getParseObject(VISIT_KEY);
+       return (Visit)user.getParseObject(VISIT_KEY);
     }
 
 }
