@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.restauranteur.R;
 import com.example.restauranteur.models.Customer;
+import com.example.restauranteur.models.Visit;
 import com.example.restauranteur.simpleChat.Message;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -45,6 +46,8 @@ public class CustomerQuickRequestFragment extends Fragment {
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         getCheck = (Button) view.findViewById(R.id.btnCheck);
         getWater = (Button) view.findViewById(R.id.btnWater);
+        final Customer c = Customer.getCurrentCustomer();
+        final Visit visit = c.getCurrentVisit();
 
         //sending the waiter request to get the check
         //still need to connect to visit
@@ -54,8 +57,9 @@ public class CustomerQuickRequestFragment extends Fragment {
                 String checkMessage = "Ready for Check";
 
                 Message readyForCheck = new Message();
-                readyForCheck.setAuthor(Customer.getCurrentCustomer());
+                readyForCheck.setAuthor(c);
                 readyForCheck.setBody(checkMessage);
+                readyForCheck.setVisit(visit);
 
                 readyForCheck.saveInBackground(new SaveCallback() {
                     @Override
@@ -77,6 +81,7 @@ public class CustomerQuickRequestFragment extends Fragment {
                 Message waterMessage = new Message();
                 waterMessage.setAuthor(Customer.getCurrentCustomer());
                 waterMessage.setBody(waterRequest);
+                waterMessage.setVisit(visit);
 
                 waterMessage.saveInBackground(new SaveCallback() {
                     @Override
