@@ -10,6 +10,8 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcel;
 
+import static com.example.restauranteur.simpleChat.Message.VISIT_KEY;
+
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
@@ -17,6 +19,7 @@ public class Visit extends ParseObject {
     private static final String KEY_TABLENUMBER = "tableNumber";
     private static final String KEY_CUSTOMER = "customer";
     private static final String KEY_SERVER = "server";
+    static final String STATUS = "active";
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {
@@ -40,6 +43,9 @@ public class Visit extends ParseObject {
     public void setServer(Server server) {
         put(KEY_SERVER, server.getParseUser());
     }
+
+    public void setActive(boolean tf) {
+        put(STATUS, tf); }
 
     public Server getServer() {
         try {

@@ -139,9 +139,9 @@ public class CustomerChatFragment extends Fragment {
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
-                message.setAuthor(Customer.getCurrentCustomer());
-                CustomerHomeActivity home = (CustomerHomeActivity)getActivity();
-                Visit visit = (Visit) getActivity().getIntent().getParcelableExtra("VISIT");
+                Customer c = Customer.getCurrentCustomer();
+                message.setAuthor(c);
+                Visit visit = c.getCurrentVisit();
                 message.setVisit(visit);
                 message.setActive(true);
                 message.saveInBackground(new SaveCallback() {

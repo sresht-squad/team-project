@@ -7,6 +7,7 @@ import com.parse.SignUpCallback;
 
 public class Customer {
    private ParseUser user;
+   private String VISIT_KEY = "visit";
 
    public Customer(ParseUser parseUser){
        user = parseUser;
@@ -61,8 +62,10 @@ public class Customer {
        return user;
     }
 
-//    public Visit getCurrentVisit(){
-//        return user.get();
-//    }
+    public void setVisit(Visit visit) {user.put(VISIT_KEY, visit); }
+
+    public Visit getCurrentVisit(){
+       return (Visit) user.getParseObject(VISIT_KEY);
+    }
 
 }
