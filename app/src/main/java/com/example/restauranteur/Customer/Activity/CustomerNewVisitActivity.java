@@ -39,7 +39,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
 
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
-        etTableNumber = findViewById(R.id.etTableNumber);
+        etTableNumber = findViewById(R.id.tvTableNumber);
 
         //create a new visit
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
