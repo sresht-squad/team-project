@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Server;
 import com.parse.ParseUser;
 
@@ -29,7 +30,13 @@ public class AccountTypeActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }else{
-                Intent intent = new Intent(AccountTypeActivity.this,CustomerNewVisitActivity.class);
+                Customer c = new Customer(currentUser);
+                Intent intent;
+                if (c.getCurrentVisit() == null) {
+                    intent = new Intent(AccountTypeActivity.this, CustomerNewVisitActivity.class);
+                }else {
+                    intent = new Intent(AccountTypeActivity.this, CustomerHomeActivity.class);
+                }
                 startActivity(intent);
                 finish();
             }
