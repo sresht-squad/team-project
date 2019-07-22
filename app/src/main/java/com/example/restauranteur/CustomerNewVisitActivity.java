@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +29,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     Button btnNewVisit;
     EditText etTableNumber;
     Visit visit;
+    ImageView logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,5 +87,14 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             }
         });
 
+        logout = findViewById(R.id.ivLogout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Customer.logOut();
+                Intent intent = new Intent(CustomerNewVisitActivity.this, AccountTypeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
