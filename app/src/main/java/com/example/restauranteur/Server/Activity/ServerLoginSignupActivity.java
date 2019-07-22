@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Server.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.models.Server;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Server;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-
-import java.util.Random;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -91,7 +90,7 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null){
                     Log.i("Login","Login success");
-                    final Intent intent = new Intent(ServerLoginSignupActivity.this,ServerHomeActivity.class);
+                    final Intent intent = new Intent(ServerLoginSignupActivity.this, ServerHomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else{

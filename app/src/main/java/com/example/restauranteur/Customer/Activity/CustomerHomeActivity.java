@@ -1,29 +1,23 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.fragment.CustomerRequestsFragment;
-import com.example.restauranteur.fragment.CustomerQuickRequestFragment;
-import com.example.restauranteur.fragment.CustomerRequestsFragment;
-import com.example.restauranteur.models.Customer;
-import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.Customer.Fragment.CustomerQuickRequestFragment;
+import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Visit;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;

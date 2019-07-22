@@ -1,4 +1,4 @@
-package com.example.restauranteur.models;
+package com.example.restauranteur.Model;
 
 import android.util.Log;
 
@@ -6,9 +6,6 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import org.parceler.Parcel;
 
 
 @ParseClassName("Visit")

@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.models.Customer;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Customer;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

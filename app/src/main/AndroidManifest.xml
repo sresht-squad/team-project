@@ -13,9 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CustomerNewVisitActivity"></activity>
-        <activity android:name=".ServerHomeActivity" />
-        <activity android:name=".CustomerHomeActivity" />
+        <activity android:name=".Customer.Activity.CustomerNewVisitActivity"></activity>
+        <activity android:name=".Server.Activity.ServerHomeActivity" />
+        <activity android:name=".Customer.Activity.CustomerHomeActivity" />
         <activity android:name=".AccountTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ServerLoginSignupActivity" />
-        <activity android:name=".CustomerLoginSignupActivity">
+        <activity android:name=".Server.Activity.ServerLoginSignupActivity" />
+        <activity android:name=".Customer.Activity.CustomerLoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

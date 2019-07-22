@@ -2,8 +2,8 @@ package com.example.restauranteur;
 
 import android.app.Application;
 
-import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.models.Message;
+import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.Model.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.restauranteur.models.Customer;
-import com.example.restauranteur.models.Server;
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
+import com.example.restauranteur.Customer.Activity.CustomerLoginSignupActivity;
+import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
+import com.example.restauranteur.Server.Activity.ServerHomeActivity;
+import com.example.restauranteur.Server.Activity.ServerLoginSignupActivity;
+import com.example.restauranteur.Model.Customer;
 import com.parse.ParseUser;
 
 public class AccountTypeActivity extends AppCompatActivity {
@@ -27,7 +30,7 @@ public class AccountTypeActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             if (currentUser.getBoolean("server")){
-                Intent intent = new Intent(AccountTypeActivity.this,ServerHomeActivity.class);
+                Intent intent = new Intent(AccountTypeActivity.this, ServerHomeActivity.class);
                 startActivity(intent);
                 finish();
             }else{

@@ -1,4 +1,4 @@
-package com.example.restauranteur.models;
+package com.example.restauranteur.Model;
 
 
 import com.parse.LogInCallback;

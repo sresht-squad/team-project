@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Server.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.fragment.ServerActiveVisitsFragment;
-import com.example.restauranteur.models.Server;
+import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
+import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
+import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ServerHomeActivity extends AppCompatActivity {
@@ -31,8 +35,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments here
-        final Fragment profile = new com.example.restauranteur.ServerProfileFragment();
-        final Fragment requests = new com.example.restauranteur.ServerRequestsFragment();
+        final Fragment profile = new ServerProfileFragment();
+        final Fragment requests = new ServerRequestsFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

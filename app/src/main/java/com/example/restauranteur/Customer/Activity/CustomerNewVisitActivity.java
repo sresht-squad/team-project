@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,11 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.models.Customer;
-import com.example.restauranteur.models.Server;
-import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -20,8 +22,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
-
-import static com.example.restauranteur.models.Customer.getCurrentCustomer;
 
 public class CustomerNewVisitActivity extends AppCompatActivity {
 

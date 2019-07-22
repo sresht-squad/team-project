@@ -1,4 +1,4 @@
-package com.example.restauranteur.fragment;
+package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.R;
 import com.example.restauranteur.VisitAdapter;
-import com.example.restauranteur.models.Server;
-import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

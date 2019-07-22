@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.Model.Visit;
 
 import java.util.ArrayList;
 

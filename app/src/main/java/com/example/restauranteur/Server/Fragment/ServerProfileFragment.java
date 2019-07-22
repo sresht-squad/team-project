@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.restauranteur.models.Server;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Model.Server;
 
 public class ServerProfileFragment extends Fragment {
     TextView tvId;

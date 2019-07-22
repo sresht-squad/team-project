@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.fragment.ChatAdapter;
-import com.example.restauranteur.models.Server;
-import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.models.Message;
+import com.example.restauranteur.R;
+import com.example.restauranteur.ChatAdapter;
+import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.Model.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
