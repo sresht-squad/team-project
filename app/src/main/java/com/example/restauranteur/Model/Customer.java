@@ -5,9 +5,16 @@ import com.parse.LogInCallback;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
    private ParseUser user;
    private String VISIT_KEY = "visit";
+   private String ACTIVE_VISIT = "visits";
+
 
    public Customer(ParseUser parseUser){
        user = parseUser;
@@ -71,5 +78,31 @@ public class Customer {
     public Visit getCurrentVisit(){
        return (Visit)user.getParseObject(VISIT_KEY);
     }
+
+    //array of visit
+    public JSONArray getActiveVisits(){
+       return getJSONArray(ACTIVE_VISIT);
+    }
+
+
+   public void ActiveVisit(Customer customer){
+       user.add(ACTIVE_VISIT,customer);
+   }
+
+   public void deactivateVisit(Customer customer){
+       List<Customer> customers = new ArrayList<>();
+       customers.add(customer);
+       removeAll(ACTIVE_VISIT, customers);
+   }
+
+   
+
+
+
+
+
+
+
+
 
 }
