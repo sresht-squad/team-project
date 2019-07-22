@@ -54,9 +54,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 visit.setActive(true);
                 customer.setVisit(visit);
 
-                //query for the server with the serverId that the customer entered
+                //query for the server with the username/serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-                parseQuery.whereEqualTo("serverId", serverId);
+                parseQuery.whereEqualTo("username", serverId);
 
                 parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override

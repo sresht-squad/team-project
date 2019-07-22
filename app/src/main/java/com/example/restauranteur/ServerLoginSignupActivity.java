@@ -60,17 +60,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
 
     }
 
-    //being able to identify between the customer and server
-    /*ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-    // Create the ParseUser
-        userQuery.whereEqualTo("server", "True");
-        userQuery.findInBackground(new FindCallback<ParseUser>() {
-        public void done(List<ParseUser> results, ParseException e) {
-            // results has the list of users who are admins
-        }
-    });*/
-
-    //query.include(Post.KEY_USER)
     void newServer (){
         final Server server =  new Server(new ParseUser());
         // Set core properties
@@ -80,9 +69,6 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
         server.setUsername(newUsername);
         server.setPassword(newPassword);
         server.put("server", true);
-
-        //include a randomized serverId
-        server.put("serverId",getRandomAlphaNum(10));
 
         // Invoke signUpInBackground
         server.signUpInBackground(new SignUpCallback() {
@@ -115,20 +101,5 @@ public class ServerLoginSignupActivity extends AppCompatActivity {
             }
         });
     }
-
-    //generate a len length random alphanumeric string
-    protected String getRandomAlphaNum(int len) {
-        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder randString = new StringBuilder();
-        Random rnd = new Random();
-        while (randString.length() < len) {
-            int index = (int) (rnd.nextFloat() * CHARS.length());
-            randString.append(CHARS.charAt(index));
-        }
-        String finalStr = randString.toString();
-        return finalStr;
-
-    }
-
 }
 
