@@ -15,8 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.fragment.CustomerChatFragment;
+import com.example.restauranteur.fragment.CustomerRequestsFragment;
 import com.example.restauranteur.fragment.CustomerQuickRequestFragment;
+import com.example.restauranteur.fragment.CustomerRequestsFragment;
 import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,27 +42,34 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
         customerBottomNavigation = findViewById(R.id.bottom_navigation);
 
+        final Fragment requests = new CustomerRequestsFragment();
+        final Fragment quickRequests = new CustomerQuickRequestFragment();
+
 
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = new CustomerQuickRequestFragment();
+                Fragment fragment;
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_request:
-                        fragment = new CustomerQuickRequestFragment();
+                        fragment = requests;
                         break;
-                    case R.id.action_visit:
-                        fragment = new CustomerChatFragment();
+                    case R.id.action_quick_request:
+                        fragment = quickRequests;
                         break;
                     default:
-                        fragment = new CustomerChatFragment();
+                        fragment = requests;
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return true;
             }
         });
+
+        //setdefault
+        customerBottomNavigation.setSelectedItemId(R.id.action_request);
+
 
         logout = findViewById(R.id.ivLogout);
         logout.setOnClickListener(new View.OnClickListener() {

@@ -44,7 +44,7 @@ public class Server {
         return user.getString(key);
     }
 
-    public static Server getCurrentUser(){
+    public static Server getCurrentServer(){
         ParseUser user = ParseUser.getCurrentUser();
         return new Server(user);
     }

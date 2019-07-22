@@ -28,10 +28,7 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.parse.ParseUser.getCurrentUser;
-
-public class CustomerChatFragment extends Fragment {
-
+public class CustomerRequestsFragment extends Fragment {
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
@@ -42,7 +39,7 @@ public class CustomerChatFragment extends Fragment {
     boolean mFirstLoad;
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
-    public CustomerChatFragment(){
+    public CustomerRequestsFragment(){
         //empty constructor required
     }
 

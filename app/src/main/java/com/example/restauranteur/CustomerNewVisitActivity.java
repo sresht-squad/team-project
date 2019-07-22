@@ -65,6 +65,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                             //Server server = new Server(objects.get(0));
                             Server server = new Server(objects.get(0));
                             visit.setServer(server);
+                            visit.setActive(true);
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -74,7 +75,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                     }else{
                                         Log.d("Saving", "success");
                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                        intent.putExtra("VISIT", visit);
                                         startActivity(intent);
                                         finish();
                                     }
