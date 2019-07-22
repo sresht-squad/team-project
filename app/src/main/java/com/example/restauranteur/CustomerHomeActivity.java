@@ -45,7 +45,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = new CustomerQuickRequestFragment();
+                Fragment fragment;
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_request:
