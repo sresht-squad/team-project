@@ -102,14 +102,15 @@ public class CustomerRequestsFragment extends Fragment {
                     //only show the messages created by this user during this visit that are active
                     for (int i = 0; i < messages.size(); i++){
                         Message m = messages.get(i);
-                        if (m.getActive()) {
+                       /* if (m.getActive()) {
                             String author = m.getAuthor().getObjectId();
-                            String visit_id = m.getVisit().getObjectId();
+                          //  String visit_id = m.getVisit().getObjectId();
                             String user = Customer.getCurrentCustomer().getObjectId();
                             if (user.equals(author) && visit_id.equals(customer.getCurrentVisit().getObjectId())) {
                                 mMessages.add(m);
                             }
                         }
+                        */
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
@@ -143,7 +144,7 @@ public class CustomerRequestsFragment extends Fragment {
                 Customer c = Customer.getCurrentCustomer();
                 message.setAuthor(c);
                 Visit visit = c.getCurrentVisit();
-                message.setVisit(visit);
+                visit.addMessage(message);
                 message.setActive(true);
                 message.saveInBackground(new SaveCallback() {
                     @Override

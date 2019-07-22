@@ -58,7 +58,6 @@ public class CustomerQuickRequestFragment extends Fragment {
                 Message readyForCheck = new Message();
                 readyForCheck.setAuthor(c);
                 readyForCheck.setBody(checkMessage);
-                readyForCheck.setVisit(visit);
                 readyForCheck.setActive(true);
 
                 readyForCheck.saveInBackground(new SaveCallback() {
@@ -81,7 +80,6 @@ public class CustomerQuickRequestFragment extends Fragment {
                 Message waterMessage = new Message();
                 waterMessage.setAuthor(Customer.getCurrentCustomer());
                 waterMessage.setBody(waterRequest);
-                waterMessage.setVisit(visit);
                 waterMessage.setActive(true);
 
                 waterMessage.saveInBackground(new SaveCallback() {
