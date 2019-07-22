@@ -73,6 +73,7 @@ public class CustomerLoginSignupActivity extends AppCompatActivity {
                 } else {
                     Log.d("Sign up", "sign up failure");
                     e.printStackTrace();
+                    Toast.makeText(CustomerLoginSignupActivity.this, e.toString(), LENGTH_LONG).show();
                 }
             }
         });

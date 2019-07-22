@@ -1,8 +1,9 @@
-package com.example.restauranteur.simpleChat;
+package com.example.restauranteur;
 
 import android.app.Application;
 
 import com.example.restauranteur.models.Visit;
+import com.example.restauranteur.models.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

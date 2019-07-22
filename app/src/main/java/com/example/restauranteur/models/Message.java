@@ -1,4 +1,4 @@
-package com.example.restauranteur.simpleChat;
+package com.example.restauranteur.models;
 
 import com.example.restauranteur.models.Customer;
 import com.example.restauranteur.models.Visit;

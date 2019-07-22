@@ -3,7 +3,7 @@ package com.example.restauranteur;
 import android.app.Application;
 
 import com.example.restauranteur.models.Visit;
-import com.example.restauranteur.simpleChat.Message;
+import com.example.restauranteur.models.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
