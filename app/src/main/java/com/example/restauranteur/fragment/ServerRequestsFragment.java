@@ -95,7 +95,7 @@ public class ServerRequestsFragment extends Fragment {
                     }
                     // mMessages.addAll(messages);
                     Message m;
-                    Server server;
+                    Server server = new Server(getCurrentUser());
                     String serverId;
                     String userId;
                     int size = messages.size();
@@ -105,9 +105,8 @@ public class ServerRequestsFragment extends Fragment {
                         if (m.getActive()) {
                             v = (Visit) m.getVisit();
                             serverId = v.getServer().getObjectId();
-                            userId = getCurrentUser().getObjectId();
+                            userId = server.getObjectId();
                             if (serverId.equals(userId)) {
-                                //Log.i(serverId, userId);
                                 mMessages.add(m);
                             }
                         }

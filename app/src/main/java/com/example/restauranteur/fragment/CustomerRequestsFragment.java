@@ -23,6 +23,7 @@ import com.example.restauranteur.simpleChat.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class CustomerRequestsFragment extends Fragment {
         rvChat = view.findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
+        customer = new Customer(ParseUser.getCurrentUser());
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
@@ -97,14 +99,16 @@ public class CustomerRequestsFragment extends Fragment {
                 if (e == null) {
                     mMessages.addAll(messages);
                     mMessages.clear();
-                    //only show the messages created by this user during this visit
+                    //only show the messages created by this user during this visit that are active
                     for (int i = 0; i < messages.size(); i++){
                         Message m = messages.get(i);
-                        String author = m.getAuthor().getObjectId();
-                        String user = Customer.getCurrentCustomer().getObjectId();
-                        if (user.equals(author))
-                        {
-                            mMessages.add(m);
+                        if (m.getActive()) {
+                            String author = m.getAuthor().getObjectId();
+                            String visit_id = m.getVisit().getObjectId();
+                            String user = Customer.getCurrentCustomer().getObjectId();
+                            if (user.equals(author) && visit_id.equals(customer.getCurrentVisit().getObjectId())) {
+                                mMessages.add(m);
+                            }
                         }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter

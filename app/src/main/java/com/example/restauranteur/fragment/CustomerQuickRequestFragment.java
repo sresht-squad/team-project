@@ -60,6 +60,7 @@ public class CustomerQuickRequestFragment extends Fragment {
                 readyForCheck.setAuthor(c);
                 readyForCheck.setBody(checkMessage);
                 readyForCheck.setVisit(visit);
+                readyForCheck.setActive(true);
 
                 readyForCheck.saveInBackground(new SaveCallback() {
                     @Override
@@ -82,6 +83,7 @@ public class CustomerQuickRequestFragment extends Fragment {
                 waterMessage.setAuthor(Customer.getCurrentCustomer());
                 waterMessage.setBody(waterRequest);
                 waterMessage.setVisit(visit);
+                waterMessage.setActive(true);
 
                 waterMessage.saveInBackground(new SaveCallback() {
                     @Override
