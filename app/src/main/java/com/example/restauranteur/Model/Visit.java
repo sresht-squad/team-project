@@ -7,12 +7,21 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import static java.lang.reflect.Array.*;
+
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
 
     private static final String KEY_TABLENUMBER = "tableNumber";
-    private static final String KEY_CUSTOMER = "customer";
+    private static final String KEY_CUSTOMERS = "customers";
     private static final String KEY_SERVER = "server";
     private static final String KEY_ACTIVE = "active";
 
@@ -26,12 +35,12 @@ public class Visit extends ParseObject {
     }
 
     // get and setter for customer
-    public void setCustomer(Customer customer) {
-        put(KEY_CUSTOMER, customer.getParseUser());
+    public void addCustomer(Customer customer) {
+        add(KEY_CUSTOMERS, customer.getParseUser());
     }
 
-    public Customer getCustomer() {
-        return new Customer(getParseUser(KEY_CUSTOMER));
+    public JSONArray getCustomers() {
+        return getJSONArray("customers");
     }
 
     // get and setter for server
