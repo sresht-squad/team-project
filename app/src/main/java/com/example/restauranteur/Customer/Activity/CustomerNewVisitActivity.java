@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Server;
@@ -47,42 +48,62 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String serverId = etServerId.getText().toString();
-                String tableNum = etTableNumber.getText().toString();
-                visit = new Visit();
-                Customer customer = Customer.getCurrentCustomer();
-                visit.put("customers", new ArrayList<ParseUser>());
-                visit.addCustomer(customer);
-                visit.setTableNumber(tableNum);
-                visit.setActive(true);
-                customer.setVisit(visit);
+                final String serverId = etServerId.getText().toString();
+                final String tableNum = etTableNumber.getText().toString();
 
                 //query for the server with the username/serverId that the customer entered
-                final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-                parseQuery.whereEqualTo("username", serverId);
+                final ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
+                parseUserQuery.whereEqualTo("username", serverId);
 
-                parseQuery.findInBackground(new FindCallback<ParseUser>() {
+                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            //Server server = new Server(objects.get(0));
-                            Server server = new Server(objects.get(0));
-                            visit.setServer(server);
-                            visit.setActive(true);
-                            visit.saveInBackground(new SaveCallback() {
+                            final Server server = new Server(objects.get(0));
+                            //check if visit already exists & this is another customer at same table
+                            final ParseQuery<Visit> parseVisitQuery = new Visit.Query();
+                            ((Visit.Query) parseVisitQuery).checkSameVisit(server, tableNum);
+
+                            parseVisitQuery.findInBackground(new FindCallback<Visit>() {
                                 @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Log.d("Saving","Error while saving");
-                                        e.printStackTrace();
-                                    }else{
-                                        Log.d("Saving", "success");
-                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                public void done(List<Visit> objects, ParseException e) {
+                                    //if visit doesn't already exist, create new visit
+                                    if (objects != null){
+                                        //creating new visit
+                                        visit = new Visit();
+                                        //add customer to new visit and visit to customer
+                                        Customer customer = Customer.getCurrentCustomer();
+                                        visit.put("customers", new ArrayList<ParseUser>());
+                                        visit.addCustomer(customer);
+                                        customer.setVisit(visit);
+
+                                        visit.setTableNumber(tableNum);
+                                        visit.setActive(true);
+                                        visit.setServer(server);
+                                        visit.put("messages", new ArrayList<Message>());
+
+                                        visit.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e != null){
+                                                    Log.d("Saving","Error while saving");
+                                                    e.printStackTrace();
+                                                }else{
+                                                    Log.d("Saving", "success");
+                                                    Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                                    }
+                                    //if visit already exists
+                                    else{
+
                                     }
                                 }
                             });
+
                         } else {
                             e.printStackTrace();
                         }

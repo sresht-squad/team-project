@@ -70,6 +70,12 @@ public class Visit extends ParseObject {
         public Query() {
             super(Visit.class);
         }
+
+        public Query checkSameVisit(Server server, String tableNum){
+            whereEqualTo("server", server.getParseUser());
+            whereEqualTo("tableNum", tableNum);
+            return this;
+        }
     }
 
 
