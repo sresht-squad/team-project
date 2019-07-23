@@ -7,7 +7,6 @@ import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,17 +75,17 @@ public class Server {
 
     //getting the array from the Parse database
     public JSONArray getVisits(){
-        return getJSONArray(ACTIVE_VISITS);
+        return user.getJSONArray(ACTIVE_VISITS);
     }
     // adding the customer to the visits array
     public void addCustomerToVisit(Customer customer){
-        add(ACTIVE_VISITS, customer);
+        user.add(ACTIVE_VISITS, customer);
     }
     // removing the customer from the visits array
     public void removeCustomer(Customer customer){
         List<Customer> customers = new ArrayList<>();
         customers.add(customer);
-        removeAll(ACTIVE_VISITS, customers);
+        user.removeAll(ACTIVE_VISITS, customers);
     }
 
     // checking to see if the customer is already in the current visit array.
