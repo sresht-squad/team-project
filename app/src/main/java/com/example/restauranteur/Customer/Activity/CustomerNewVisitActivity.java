@@ -17,10 +17,15 @@ import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     EditText etTableNumber;
     Visit visit;
     ImageView logout;
+    Boolean sameVisit;
 
 
     @Override
@@ -44,66 +50,93 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
 
-        //create a new visit
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String serverId = etServerId.getText().toString();
+                String serverId = etServerId.getText().toString();
                 final String tableNum = etTableNumber.getText().toString();
 
                 //query for the server with the username/serverId that the customer entered
-                final ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
-                parseUserQuery.whereEqualTo("username", serverId);
+                final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+                parseQuery.whereEqualTo("username", serverId);
 
-                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
+                parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             final Server server = new Server(objects.get(0));
-                            //check if visit already exists & this is another customer at same table
-                            final ParseQuery<Visit> parseVisitQuery = new Visit.Query();
-                            ((Visit.Query) parseVisitQuery).checkSameVisit(server, tableNum);
-
-                            parseVisitQuery.findInBackground(new FindCallback<Visit>() {
+                            //creating new visit
+                            visit = new Visit();
+                            Customer customer = Customer.getCurrentCustomer();
+                            //add customer to new visit
+                            visit.put("customers", new ArrayList<ParseUser>());
+                            visit.addCustomer(customer);
+                            visit.setTableNumber(tableNum);
+                            visit.setActive(true);
+                            customer.setVisit(visit);
+                            ArrayList<Message> messageArrayList = new ArrayList<Message>();
+                            visit.put("messages", messageArrayList);
+                            visit.setServer(server);
+                            visit.saveInBackground(new SaveCallback() {
                                 @Override
-                                public void done(List<Visit> objects, ParseException e) {
-                                    //if visit doesn't already exist, create new visit
-                                    if (objects != null){
-                                        //creating new visit
-                                        visit = new Visit();
-                                        //add customer to new visit and visit to customer
-                                        Customer customer = Customer.getCurrentCustomer();
-                                        visit.put("customers", new ArrayList<ParseUser>());
-                                        visit.addCustomer(customer);
-                                        customer.setVisit(visit);
-
-                                        visit.setTableNumber(tableNum);
-                                        visit.setActive(true);
-                                        visit.setServer(server);
-                                        visit.put("messages", new ArrayList<Message>());
-
-                                        visit.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e != null){
-                                                    Log.d("Saving","Error while saving");
-                                                    e.printStackTrace();
-                                                }else{
-                                                    Log.d("Saving", "success");
-                                                    Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            }
-                                        });
-                                    }
-                                    //if visit already exists
-                                    else{
-
+                                public void done(ParseException e) {
+                                    if (e != null){
+                                        Log.d("Saving","Error while saving");
+                                        e.printStackTrace();
+                                    }else{
+                                        Log.d("Saving", "success");
+                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
                             });
 
+                            //check if visit already exists & this is another customer at same table
+                            final Visit.Query parseVisitQuery = new Visit.Query();
+                            parseVisitQuery.checkSameVisit(server, tableNum);
+
+                            parseVisitQuery.findInBackground(new FindCallback<Visit>() {
+                                @Override
+                                public void done(List<Visit> visitObjects, ParseException e) {
+                                    if (e == null){
+                                        //if visit doesn't already exist, create new visit
+                                        if (visitObjects.size() == 0){
+                                            Log.d("CHECKSAMEVISIT", visitObjects.toString());
+                                        }
+                                        //if visit already exists, add customer to visit
+                                        else{
+                                            Visit sameVisit = (Visit) visitObjects.get(0);
+                                            sameVisit.addCustomer(Customer.getCurrentCustomer());
+                                            Customer.getCurrentCustomer().setVisit(sameVisit);
+                                            sameVisit.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null){
+                                                        Log.d("Saving","Error while saving sameVisit");
+                                                        e.printStackTrace();
+                                                    }else{
+                                                        Log.d("Saving", "success");
+                                                        try {
+                                                            visit.delete();
+                                                            Log.d("visit deleted", "successfully");
+                                                        } catch (ParseException e1) {
+                                                            e1.printStackTrace();
+                                                        }
+                                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        e.printStackTrace();
+                                        Log.d("CHECKSAMEVISIT", "objects null");
+                                    }
+                                }
+                            });
                         } else {
                             e.printStackTrace();
                         }
@@ -121,5 +154,53 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+     //query for the server with the username/serverId that the customer entered
+//                final ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
+//                parseUserQuery.whereEqualTo("username", serverId);
+//
+//                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
+//                    @Override
+//                    public void done(List<ParseUser> userObjects, ParseException e) {
+//                        if (e == null) {
+//                            Server server = new Server(userObjects.get(0));
+//                            visit.setServer(server);
+//                            visit.saveInBackground(new SaveCallback() {
+//                                @Override
+//                                public void done(ParseException e) {
+//                                    if (e != null){
+//                                        Log.d("Saving","Error while saving visit");
+//                                        e.printStackTrace();
+//                                    }else{
+//                                        Log.d("Saving", "success");
+//                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+//                                        startActivity(intent);
+//                                        finish();
+//                                    }
+//                                }
+//                            });
+//
+//
+//                        } else {
+//                            Log.d("wtf", "is even happening");
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//
+//        logout = findViewById(R.id.ivLogout);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Customer.logOut();
+//                Intent intent = new Intent(CustomerNewVisitActivity.this, AccountTypeActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }

@@ -104,11 +104,7 @@ public class CustomerRequestsFragment extends Fragment {
                         Message m = messages.get(i);
                         if (m.getActive()) {
                             String author = m.getAuthor().getObjectId();
-                            String visit_id = m.getVisit().getObjectId();
                             String user = Customer.getCurrentCustomer().getObjectId();
-                            if (user.equals(author) && visit_id.equals(customer.getCurrentVisit().getObjectId())) {
-                                mMessages.add(m);
-                            }
                         }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
