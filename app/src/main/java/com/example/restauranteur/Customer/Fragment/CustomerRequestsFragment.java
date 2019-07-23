@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
@@ -26,21 +27,26 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerRequestsFragment extends Fragment {
 
-    RecyclerView rvChat;
-    ArrayList<Message> mMessages;
-    ChatAdapter mAdapter;
-    EditText etMessage;
-    Button btSend;
-    Customer customer;
-    boolean mFirstLoad;
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+    private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+    private RecyclerView rvChat;
+    private  ArrayList<Message> mMessages;
+    private ChatAdapter mAdapter;
+    private EditText etMessage;
+    private Button btSend;
+    private Customer customer;
+    private boolean mFirstLoad;
+    private Visit visit;
 
-    public CustomerRequestsFragment(){
+    public CustomerRequestsFragment() {
         //empty constructor required
     }
 
@@ -54,6 +60,7 @@ public class CustomerRequestsFragment extends Fragment {
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_customer_chat, parent, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -64,6 +71,7 @@ public class CustomerRequestsFragment extends Fragment {
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         customer = new Customer(ParseUser.getCurrentUser());
+        visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
@@ -73,42 +81,93 @@ public class CustomerRequestsFragment extends Fragment {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
-        startWithCurrentUser();
-        loadOrders();
-
-    }
-
-    // Get the userId from the cached currentUser object
-    void startWithCurrentUser() {
         setupMessagePosting();
+        displayCurrentMessages();
+
+    }
+
+    // Setup button event handler which posts the entered message to Parse
+    private void setupMessagePosting() {
+        // associate the LayoutManager with the RecylcerView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvChat.setLayoutManager(linearLayoutManager);
+        final Customer customer = Customer.getCurrentCustomer();
+        // When send button is clicked, create message object on Parse
+        btSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postMessage();
+            }
+        });
     }
 
 
-    void loadOrders() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+    private void postMessage(){
+        String data = etMessage.getText().toString();
+        // Using new `Message` Parse-backed model now
+        final Message message = new Message();
+        message.setBody(data);
+        message.setAuthor(customer);
+        message.setActive(true);
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(getContext(), "Created message on Parse", Toast.LENGTH_SHORT).show();
+                visit.addMessage(message);
+            }
+        });
+        visit.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
+                displayNewMessage(message);
+                etMessage.setText(null);
+            }
+        });
+    }
 
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
-            public void done(List<Message> messages, ParseException e) {
-                if (e == null) {
-                    mMessages.addAll(messages);
-                    mMessages.clear();
-                    //only show the messages created by this user during this visit that are active
-                    for (int i = 0; i < messages.size(); i++){
-                        Message m = messages.get(i);
-                        if (m.getActive()) {
-                            String author = m.getAuthor().getObjectId();
-                            String visit_id = m.getVisit().getObjectId();
-                            String user = Customer.getCurrentCustomer().getObjectId();
-                            if (user.equals(author) && visit_id.equals(customer.getCurrentVisit().getObjectId())) {
-                                mMessages.add(m);
-                            }
+    private void displayNewMessage(Message message) {
+        Toast.makeText(getContext(), "Displaying new message", Toast.LENGTH_SHORT).show();
+        mMessages.add(message);
+        mAdapter.notifyDataSetChanged(); // update adapter
+    }
+
+
+
+    private void displayCurrentMessages() {
+        Log.i("DISPLAY", "ALL_MESSAGES");
+        JSONArray messages = visit.getMessages();
+        if (mMessages != null) {
+            mMessages.clear();
+        }
+        int length = 0;
+        if (messages != null) {
+            length = messages.length();
+        }
+        //only show active messages created by this user during this visit
+
+        String messagePointer = "";
+        //for all messages in the visit array
+        for (int i = 0; i < length; i++) {
+            //get pointer to message from JSON data
+            try {
+                messagePointer = messages.getJSONObject(i).getString("objectId");
+                Log.i("MESSAGE_ID", messagePointer);
+            } catch (JSONException e) {
+                Log.i("MESS_ERROR", messagePointer);
+            }
+
+            final ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+            query.orderByDescending("createdAt");
+            query.whereEqualTo("objectId", messagePointer);
+
+            query.findInBackground(new FindCallback<Message>() {
+                @Override
+                public void done(List<Message> objects, ParseException e) {
+                    if (e == null) {
+                        //since we are querying for 1 object id there will only be 1 object
+                        if (objects.get(0).getActive()) {
+                            mMessages.addAll(objects);
                         }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
@@ -117,45 +176,8 @@ public class CustomerRequestsFragment extends Fragment {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
-                } else {
-                    Log.e("message", "Error Loading Messages" + e);
                 }
-            }
-        });
+            });
+        }
     }
-
-    // Setup button event handler which posts the entered message to Parse
-    void setupMessagePosting() {
-        // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvChat.setLayoutManager(linearLayoutManager);
-//        Visit visit = getCurrentUser().getVisit();
-
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String data = etMessage.getText().toString();
-
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                Customer c = Customer.getCurrentCustomer();
-                message.setAuthor(c);
-                Visit visit = c.getCurrentVisit();
-                message.setVisit(visit);
-                message.setActive(true);
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        loadOrders();
-                    }
-                });
-                etMessage.setText(null);
-            }
-        });
-    }
-
 }

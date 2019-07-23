@@ -18,8 +18,8 @@ import com.parse.SaveCallback;
 
 public class CustomerQuickRequestFragment extends Fragment {
 
-    Button getCheck;
-    Button getWater;
+   private Button getCheck;
+   private Button getWater;
 
     public CustomerQuickRequestFragment(){
         //required empty constructor
@@ -55,16 +55,23 @@ public class CustomerQuickRequestFragment extends Fragment {
             public void onClick(View view) {
                 String checkMessage = "Ready for Check";
 
-                Message readyForCheck = new Message();
+                final Message readyForCheck = new Message();
                 readyForCheck.setAuthor(c);
                 readyForCheck.setBody(checkMessage);
-                readyForCheck.setVisit(visit);
                 readyForCheck.setActive(true);
 
                 readyForCheck.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         Log.i("customerRequestFrag", "check message on parse");
+                        visit.addMessage(readyForCheck);
+                    }
+                });
+                visit.addMessage(readyForCheck);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("VisitMessage", "added message to visit");
                     }
                 });
 
@@ -78,26 +85,25 @@ public class CustomerQuickRequestFragment extends Fragment {
             public void onClick(View view) {
                 String waterRequest = "Need more water";
 
-                Message waterMessage = new Message();
+                final Message waterMessage = new Message();
                 waterMessage.setAuthor(Customer.getCurrentCustomer());
                 waterMessage.setBody(waterRequest);
-                waterMessage.setVisit(visit);
                 waterMessage.setActive(true);
 
                 waterMessage.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         Log.i("customerRequestFrag", "Water message on parse");
+                        visit.addMessage(waterMessage);
                     }
                 });
-
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("VisitMessage", "added message to visit");
+                    }
+                });
             }
         });
-
-
-
-
     }
-
-
 }
