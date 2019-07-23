@@ -5,9 +5,17 @@ import com.parse.LogInCallback;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
     private ParseUser user;
-
+    private static final String ACTIVE_VISITS = "visits";
+    
+    
     public Server(ParseUser parseUser){
         user = parseUser;
     }
@@ -64,6 +72,42 @@ public class Server {
     public ParseUser getParseUser(){
         return user;
     }
+
+    //getting the array from the Parse database
+    public JSONArray getVisits(){
+        return user.getJSONArray(ACTIVE_VISITS);
+    }
+    // adding the customer to the visits array
+    public void addCustomerToVisit(Customer customer){
+        user.add(ACTIVE_VISITS, customer);
+    }
+    // removing the customer from the visits array
+    public void removeCustomer(Customer customer){
+        List<Customer> customers = new ArrayList<>();
+        customers.add(customer);
+        user.removeAll(ACTIVE_VISITS, customers);
+    }
+
+    // checking to see if the customer is already in the current visit array.
+    public boolean isNotCustomer (Customer customer) {
+        JSONArray customers = getVisits();
+        if (customers != null){
+            for (int i = 0 ; i < customers.length() ;i++ ){
+                try{
+                    if (customers.getJSONObject(i).getString("objectId")
+                            .equals(customer.getObjectId())){
+                        return false;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+        return true;
+    }
+
 
 
 }

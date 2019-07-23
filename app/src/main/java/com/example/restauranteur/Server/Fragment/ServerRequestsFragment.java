@@ -104,12 +104,13 @@ public class ServerRequestsFragment extends Fragment {
                     for (int i = 0; i < size; i++) {
                         m = messages.get(i);
                         if (m.getActive()) {
-                            v = (Visit) m.getVisit();
-                            serverId = v.getServer().getObjectId();
-                            userId = server.getObjectId();
-                            if (serverId.equals(userId)) {
+                            //serverId = v.getServer().getObjectId();
+                            // userId = server.getObjectId();
+                           /* if (serverId.equals(userId)) {
                                 mMessages.add(m);
                             }
+                            */
+                        }
                         }
                     }
 
@@ -122,7 +123,6 @@ public class ServerRequestsFragment extends Fragment {
                         Log.e("message", "Error Loading Messages" + e);
                     }
                 }
-            }
         });
     }
 }

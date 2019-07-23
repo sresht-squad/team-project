@@ -125,7 +125,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 //only show the messages for visits that involve the current logged-in server
                 for (int i = 0; i < size; i++) {
                     m = messages.get(i);
-                    if (m.getActive()) {
+                   /* if (m.getActive()) {
                         v = (Visit) m.getVisit();
                         serverId = v.getServer().getObjectId();
                         userId = getCurrentUser().getObjectId();
@@ -134,6 +134,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                             mMessages.add(m);
                         }
                     }
+                    */
                 }
 
                 notifyDataSetChanged(); // update adapter
