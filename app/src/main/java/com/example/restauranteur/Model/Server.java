@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Server {
     private ParseUser user;
+    private String VISIT_KEY = "visit";
     private static final String ACTIVE_VISITS = "visits";
     
     
@@ -107,6 +108,14 @@ public class Server {
         }
         return true;
     }
+    
+    //Server is able to set vist and getCurrentVisit
+    public void setVisit(Visit visit) {user.put(VISIT_KEY, visit); }
+
+    public Visit getCurrentVisit(){
+        return (Visit)user.getParseObject(VISIT_KEY);
+    }
+
 
 
 
