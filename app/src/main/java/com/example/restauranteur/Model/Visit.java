@@ -65,6 +65,19 @@ public class Visit extends ParseObject {
        return getBoolean(KEY_ACTIVE);
     }
 
+    public void addMessage(Message message){
+        add("messages", message);
+    }
+
+    public JSONArray getMessages(){
+        try {
+            return fetchIfNeeded().getJSONArray("messages");
+        }catch (ParseException e) {
+            Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
+            return null;
+        }
+    }
+
     //From the order class include the waiter table and customer table
     public static class Query extends ParseQuery<Visit> {
         public Query() {

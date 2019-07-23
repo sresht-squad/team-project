@@ -11,15 +11,19 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONArray;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -56,6 +60,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 visit.setTableNumber(tableNum);
                 visit.setActive(true);
                 customer.setVisit(visit);
+                ArrayList<Message> messageArraylist = new ArrayList<Message>();
+                visit.put("messages", messageArraylist);
 
                 //query for the server with the username/serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
@@ -69,13 +75,17 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                             Server server = new Server(objects.get(0));
                             visit.setServer(server);
                             visit.setActive(true);
+                            ParseACL acl = new ParseACL();
+                            acl.setReadAccess(ParseUser.getCurrentUser(),true);
+                            acl.setWriteAccess(ParseUser.getCurrentUser(),true);
+                            visit.setACL(acl);
                             visit.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    if (e != null){
-                                        Log.d("Saving","Error while saving");
+                                    if (e != null) {
+                                        Log.d("Saving", "Error while saving");
                                         e.printStackTrace();
-                                    }else{
+                                    } else {
                                         Log.d("Saving", "success");
                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
                                         startActivity(intent);
