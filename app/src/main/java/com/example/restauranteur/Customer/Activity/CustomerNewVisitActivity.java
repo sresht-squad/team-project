@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.AccountTypeActivity;
-import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -23,9 +23,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +31,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnNewVisit;
     EditText etTableNumber;
+    Server server;
+    String serverId;
     Visit visit;
     ImageView logout;
 
@@ -67,12 +66,16 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
                 parseQuery.whereEqualTo("username", serverId);
 
+
                 parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             //Server server = new Server(objects.get(0));
-                            Server server = new Server(objects.get(0));
+                            server = new Server(objects.get(0));
+
+                            server.addVisit(visit);
+
                             visit.setServer(server);
                             visit.setActive(true);
                             ParseACL acl = new ParseACL();
@@ -100,6 +103,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 });
             }
         });
+
 
         logout = findViewById(R.id.ivLogout);
         logout.setOnClickListener(new View.OnClickListener() {

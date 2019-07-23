@@ -1,15 +1,16 @@
 package com.example.restauranteur.Model;
 
 
+import android.util.Log;
+
 import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     private ParseUser user;
@@ -52,6 +53,10 @@ public class Server {
     public void put(String key, boolean value){
         user.put(key, value);
     }
+    //create an empty array in the server's visit array
+    public void put(String key, ArrayList<Visit> visits ){
+        user.put(key, visits); 
+    }
 
     public String getString(String key){
         return user.getString(key);
@@ -74,40 +79,20 @@ public class Server {
         return user;
     }
 
-    //getting the array from the Parse database
+    // setting up the list of visits for the Server
     public JSONArray getVisits(){
-        return user.getJSONArray(ACTIVE_VISITS);
-    }
-    // adding the customer to the visits array
-    public void addCustomerToVisit(Customer customer){
-        user.add(ACTIVE_VISITS, customer);
-    }
-    // removing the customer from the visits array
-    public void removeCustomer(Customer customer){
-        List<Customer> customers = new ArrayList<>();
-        customers.add(customer);
-        user.removeAll(ACTIVE_VISITS, customers);
-    }
-
-    // checking to see if the customer is already in the current visit array.
-    public boolean isNotCustomer (Customer customer) {
-        JSONArray customers = getVisits();
-        if (customers != null){
-            for (int i = 0 ; i < customers.length() ;i++ ){
-                try{
-                    if (customers.getJSONObject(i).getString("objectId")
-                            .equals(customer.getObjectId())){
-                        return false;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
+        try {
+            return user.fetchIfNeeded().getJSONArray(ACTIVE_VISITS);
+        }catch (ParseException e) {
+            Log.e("Parse Err.", "Parse Database Not Working", e);
+            return null;
         }
-        return true;
     }
+
+    public void addVisit(Visit visit){
+        user.add("visits", visit);
+    }
+    
     
     //Server is able to set vist and getCurrentVisit
     public void setVisit(Visit visit) {user.put(VISIT_KEY, visit); }
