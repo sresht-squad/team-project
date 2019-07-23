@@ -44,6 +44,7 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private boolean mFirstLoad;
+    private Visit visit;
 
     public CustomerRequestsFragment() {
         //empty constructor required
@@ -70,6 +71,7 @@ public class CustomerRequestsFragment extends Fragment {
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         customer = new Customer(ParseUser.getCurrentUser());
+        visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
         mAdapter = new ChatAdapter(getContext(), userId, mMessages);
@@ -101,7 +103,6 @@ public class CustomerRequestsFragment extends Fragment {
 
 
     private void postMessage(){
-        final Visit visit = customer.getCurrentVisit();
         String data = etMessage.getText().toString();
         // Using new `Message` Parse-backed model now
         final Message message = new Message();
@@ -118,6 +119,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
                 displayNewMessage(message);
                 etMessage.setText(null);
             }
@@ -125,6 +127,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
     private void displayNewMessage(Message message) {
+        Toast.makeText(getContext(), "Displaying new message", Toast.LENGTH_SHORT).show();
         mMessages.add(message);
         mAdapter.notifyDataSetChanged(); // update adapter
     }
@@ -133,7 +136,6 @@ public class CustomerRequestsFragment extends Fragment {
 
     private void displayCurrentMessages() {
         Log.i("DISPLAY", "ALL_MESSAGES");
-        Visit visit = customer.getCurrentVisit();
         JSONArray messages = visit.getMessages();
         if (mMessages != null) {
             mMessages.clear();
@@ -156,7 +158,7 @@ public class CustomerRequestsFragment extends Fragment {
             }
 
             final ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-           // query.orderByAscending("createdAt");
+            query.orderByDescending("createdAt");
             query.whereEqualTo("objectId", messagePointer);
 
             query.findInBackground(new FindCallback<Message>() {
@@ -164,15 +166,15 @@ public class CustomerRequestsFragment extends Fragment {
                 public void done(List<Message> objects, ParseException e) {
                     if (e == null) {
                         //since we are querying for 1 object id there will only be 1 object
-                        mMessages.addAll(objects);
+                        if (objects.get(0).getActive()) {
+                            mMessages.addAll(objects);
+                        }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
-                    } else {
-                        Log.e("message", "Error Loading Messages");
                     }
                 }
             });
