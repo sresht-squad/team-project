@@ -23,6 +23,7 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
@@ -112,16 +115,17 @@ public class CustomerRequestsFragment extends Fragment {
         message.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                //if the message saves successfully, save it to the visit as well
                 Toast.makeText(getContext(), "Created message on Parse", Toast.LENGTH_SHORT).show();
                 visit.addMessage(message);
-            }
-        });
-        visit.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
-                displayNewMessage(message);
-                etMessage.setText(null);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
+                        displayNewMessage(message);
+                        etMessage.setText(null);
+                    }
+                });
             }
         });
     }
@@ -148,7 +152,10 @@ public class CustomerRequestsFragment extends Fragment {
 
         String messagePointer = "";
         //for all messages in the visit array
+        List<ParseQuery<Message>> queries = new ArrayList<ParseQuery<Message>>();
         for (int i = 0; i < length; i++) {
+
+            ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
             //get pointer to message from JSON data
             try {
                 messagePointer = messages.getJSONObject(i).getString("objectId");
@@ -156,28 +163,28 @@ public class CustomerRequestsFragment extends Fragment {
             } catch (JSONException e) {
                 Log.i("MESS_ERROR", messagePointer);
             }
-
-            final ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-            query.orderByDescending("createdAt");
             query.whereEqualTo("objectId", messagePointer);
+            queries.add(query);
+        }
 
-            query.findInBackground(new FindCallback<Message>() {
-                @Override
-                public void done(List<Message> objects, ParseException e) {
-                    if (e == null) {
-                        //since we are querying for 1 object id there will only be 1 object
-                        if (objects.get(0).getActive()) {
-                            mMessages.addAll(objects);
+            if  ((queries != null) && (queries.size() > 0)) {
+                ParseQuery<Message> mainQuery = ParseQuery.or(queries);
+                mainQuery.orderByAscending("createdAt");
+                mainQuery.findInBackground(new FindCallback<Message>() {
+                    @Override
+                    public void done(List<Message> objects, ParseException e) {
+                        if (e == null) {
+                            Log.i("Query_Size", "");
+                            System.out.println(objects.size());
+                            for (int i = 0; i < objects.size(); i++) {
+                                if (objects.get(i).getActive()) {
+                                    mMessages.add(objects.get(i));
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }// update adapter
                         }
                     }
-                    mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
-                    }
-                }
-            });
+                });
+            }
         }
     }
-}

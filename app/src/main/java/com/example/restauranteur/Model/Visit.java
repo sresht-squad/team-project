@@ -8,13 +8,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import static java.lang.reflect.Array.*;
 
 
 @ParseClassName("Visit")
@@ -79,12 +72,18 @@ public class Visit extends ParseObject {
     }
 
     //From the order class include the waiter table and customer table
+
     public static class Query extends ParseQuery<Visit> {
         public Query() {
             super(Visit.class);
         }
-    }
 
+        public Query checkSameVisit(Server server, String tableNumber){
+            whereEqualTo("server", server.getParseUser());
+            whereEqualTo("tableNumber", tableNumber);
+            return this;
+        }
+    }
 
 
 }
