@@ -65,13 +65,12 @@ public class CustomerQuickRequestFragment extends Fragment {
                     public void done(ParseException e) {
                         Log.i("customerRequestFrag", "check message on parse");
                         visit.addMessage(readyForCheck);
-                    }
-                });
-                visit.addMessage(readyForCheck);
-                visit.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("VisitMessage", "added message to visit");
+                        visit.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("VisitMessage", "added message to visit");
+                            }
+                        });
                     }
                 });
 
@@ -95,12 +94,12 @@ public class CustomerQuickRequestFragment extends Fragment {
                     public void done(ParseException e) {
                         Log.i("customerRequestFrag", "Water message on parse");
                         visit.addMessage(waterMessage);
-                    }
-                });
-                visit.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("VisitMessage", "added message to visit");
+                        visit.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("VisitMessage", "added message to visit");
+                            }
+                        });
                     }
                 });
             }

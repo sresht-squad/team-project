@@ -112,16 +112,17 @@ public class CustomerRequestsFragment extends Fragment {
         message.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                //if the message saves successfully, save it to the visit as well
                 Toast.makeText(getContext(), "Created message on Parse", Toast.LENGTH_SHORT).show();
                 visit.addMessage(message);
-            }
-        });
-        visit.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
-                displayNewMessage(message);
-                etMessage.setText(null);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
+                        displayNewMessage(message);
+                        etMessage.setText(null);
+                    }
+                });
             }
         });
     }
@@ -171,11 +172,6 @@ public class CustomerRequestsFragment extends Fragment {
                         }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
-                    }
                 }
             });
         }
