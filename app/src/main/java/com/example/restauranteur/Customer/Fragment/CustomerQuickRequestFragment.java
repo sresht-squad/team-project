@@ -45,11 +45,39 @@ public class CustomerQuickRequestFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-
+        ivServerHelp = (ImageView) view.findViewById(R.id.ivServerHelp);
         ivWater = (ImageView) view.findViewById(R.id.ivWater);
         ivCheck = (ImageView) view.findViewById(R.id.ivCheck);
+        ivToGoBox = (ImageView) view.findViewById(R.id.ivToGoBox);
         final Customer c = Customer.getCurrentCustomer();
         final Visit visit = c.getCurrentVisit();
+
+        //sending the waiter a request to get the water
+        //still need to connect to visit
+        ivServerHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverHelpRequest = "In-person assistance";
+
+                final Message serverHelpMessage = new Message();
+                serverHelpMessage.setAuthor(Customer.getCurrentCustomer());
+                serverHelpMessage.setBody(serverHelpRequest);
+                serverHelpMessage.setActive(true);
+
+                serverHelpMessage.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        visit.addMessage(serverHelpMessage);
+                        visit.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("VisitMessage", "added message to visit");
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
         //sending the waiter a request to get the water
         //still need to connect to visit
@@ -85,18 +113,46 @@ public class CustomerQuickRequestFragment extends Fragment {
         ivCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String checkMessage = "Ready for Check";
+                String checkRequest = "Ready for Check";
 
-                final Message readyForCheck = new Message();
-                readyForCheck.setAuthor(c);
-                readyForCheck.setBody(checkMessage);
-                readyForCheck.setActive(true);
+                final Message checkMessage = new Message();
+                checkMessage.setAuthor(c);
+                checkMessage.setBody(checkRequest);
+                checkMessage.setActive(true);
 
-                readyForCheck.saveInBackground(new SaveCallback() {
+                checkMessage.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         Log.i("customerRequestFrag", "check message on parse");
-                        visit.addMessage(readyForCheck);
+                        visit.addMessage(checkMessage);
+                        visit.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("VisitMessage", "added message to visit");
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+
+        //sending the waiter request to get the check
+        //still need to connect to visit
+        ivToGoBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toGoBoxRequest = "To-go boxes";
+
+                final Message toGoBoxMessage = new Message();
+                toGoBoxMessage.setAuthor(c);
+                toGoBoxMessage.setBody(toGoBoxRequest);
+                toGoBoxMessage.setActive(true);
+
+                toGoBoxMessage.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        visit.addMessage(toGoBoxMessage);
                         visit.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
