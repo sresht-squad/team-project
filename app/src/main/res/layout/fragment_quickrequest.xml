@@ -121,7 +121,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ivCheck"
         app:layout_constraintTop_toBottomOf="@+id/tvWater"
-        app:srcCompat="@drawable/toGoBox_icon" />
+        app:srcCompat="@drawable/to_go_box_icon" />
 
 
 
