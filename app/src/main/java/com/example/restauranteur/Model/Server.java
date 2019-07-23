@@ -6,6 +6,7 @@ import android.util.Log;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
@@ -91,6 +92,16 @@ public class Server {
 
     public void addVisit(Visit visit){
         user.add("visits", visit);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.i("Server", "savedInList"); 
+                }else{
+                    Log.i("Server", "notSavedInBackground"); 
+                }
+            }
+        });
     }
     
     
