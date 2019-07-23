@@ -65,33 +65,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             final Server server = new Server(objects.get(0));
-                            //creating new visit
-                            visit = new Visit();
-                            Customer customer = Customer.getCurrentCustomer();
-                            //add customer to new visit
-                            visit.put("customers", new ArrayList<ParseUser>());
-                            visit.addCustomer(customer);
-                            visit.setTableNumber(tableNum);
-                            visit.setActive(true);
-                            customer.setVisit(visit);
-                            ArrayList<Message> messageArrayList = new ArrayList<Message>();
-                            visit.put("messages", messageArrayList);
-                            visit.setServer(server);
-                            visit.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Log.d("Saving","Error while saving");
-                                        e.printStackTrace();
-                                    }else{
-                                        Log.d("Saving", "success");
-                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }
-                            });
-
                             //check if visit already exists & this is another customer at same table
                             final Visit.Query parseVisitQuery = new Visit.Query();
                             parseVisitQuery.checkSameVisit(server, tableNum);
@@ -103,6 +76,32 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                         //if visit doesn't already exist, create new visit
                                         if (visitObjects.size() == 0){
                                             Log.d("CHECKSAMEVISIT", visitObjects.toString());
+                                            //creating new visit
+                                            visit = new Visit();
+                                            Customer customer = Customer.getCurrentCustomer();
+                                            //add customer to new visit
+                                            visit.put("customers", new ArrayList<ParseUser>());
+                                            visit.addCustomer(customer);
+                                            visit.setTableNumber(tableNum);
+                                            visit.setActive(true);
+                                            customer.setVisit(visit);
+                                            ArrayList<Message> messageArrayList = new ArrayList<Message>();
+                                            visit.put("messages", messageArrayList);
+                                            visit.setServer(server);
+                                            visit.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null){
+                                                        Log.d("Saving","Error while saving");
+                                                        e.printStackTrace();
+                                                    }else{
+                                                        Log.d("Saving", "success");
+                                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }
+                                            });
                                         }
                                         //if visit already exists, add customer to visit
                                         else{
@@ -117,18 +116,12 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }else{
                                                         Log.d("Saving", "success");
-                                                        try {
-                                                            visit.delete();
-                                                            Log.d("visit deleted", "successfully");
-                                                        } catch (ParseException e1) {
-                                                            e1.printStackTrace();
                                                         }
                                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
                                                         startActivity(intent);
                                                         finish();
                                                     }
-                                                }
-                                            });
+                                                });
                                         }
                                     }
                                     else{
@@ -154,53 +147,5 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-     //query for the server with the username/serverId that the customer entered
-//                final ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
-//                parseUserQuery.whereEqualTo("username", serverId);
-//
-//                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
-//                    @Override
-//                    public void done(List<ParseUser> userObjects, ParseException e) {
-//                        if (e == null) {
-//                            Server server = new Server(userObjects.get(0));
-//                            visit.setServer(server);
-//                            visit.saveInBackground(new SaveCallback() {
-//                                @Override
-//                                public void done(ParseException e) {
-//                                    if (e != null){
-//                                        Log.d("Saving","Error while saving visit");
-//                                        e.printStackTrace();
-//                                    }else{
-//                                        Log.d("Saving", "success");
-//                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                }
-//                            });
-//
-//
-//                        } else {
-//                            Log.d("wtf", "is even happening");
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//
-//        logout = findViewById(R.id.ivLogout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Customer.logOut();
-//                Intent intent = new Intent(CustomerNewVisitActivity.this, AccountTypeActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 }
