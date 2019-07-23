@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -18,8 +19,10 @@ import com.parse.SaveCallback;
 
 public class CustomerQuickRequestFragment extends Fragment {
 
-    Button getCheck;
-    Button getWater;
+    ImageView ivServerHelp;
+    ImageView ivWater;
+    ImageView ivCheck;
+    ImageView ivToGoBox;
 
     public CustomerQuickRequestFragment(){
         //required empty constructor
@@ -42,38 +45,15 @@ public class CustomerQuickRequestFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        getCheck = (Button) view.findViewById(R.id.btnCheck);
-        getWater = (Button) view.findViewById(R.id.btnWater);
+
+        ivWater = (ImageView) view.findViewById(R.id.ivWater);
+        ivCheck = (ImageView) view.findViewById(R.id.ivCheck);
         final Customer c = Customer.getCurrentCustomer();
         final Visit visit = c.getCurrentVisit();
 
-        //sending the waiter request to get the check
-        //still need to connect to visit
-        getCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String checkMessage = "Ready for Check";
-
-                Message readyForCheck = new Message();
-                readyForCheck.setAuthor(c);
-                readyForCheck.setBody(checkMessage);
-                readyForCheck.setVisit(visit);
-                readyForCheck.setActive(true);
-
-                readyForCheck.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("customerRequestFrag", "check message on parse");
-                    }
-                });
-
-            }
-        });
-
         //sending the waiter a request to get the water
         //still need to connect to visit
-        getWater.setOnClickListener(new View.OnClickListener() {
+        ivWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Need more water";
@@ -94,9 +74,28 @@ public class CustomerQuickRequestFragment extends Fragment {
             }
         });
 
+        //sending the waiter request to get the check
+        //still need to connect to visit
+        ivCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String checkMessage = "Ready for Check";
 
+                Message readyForCheck = new Message();
+                readyForCheck.setAuthor(c);
+                readyForCheck.setBody(checkMessage);
+                readyForCheck.setVisit(visit);
+                readyForCheck.setActive(true);
 
+                readyForCheck.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("customerRequestFrag", "check message on parse");
+                    }
+                });
 
+            }
+        });
     }
 
 
