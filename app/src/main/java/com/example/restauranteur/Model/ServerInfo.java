@@ -38,8 +38,8 @@ public class ServerInfo extends ParseObject {
         }
     }
 
-    public void addMessage(Message message){
-        add("messages", message);
+    public void addVisit(Visit visit){
+        add("Visits", visit);
     }
 
 

@@ -58,7 +58,7 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     }
 
-    private void fetchActiveVisit() {
+   private void fetchActiveVisit() {
         final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
         query.whereEqualTo("active",true);
 
@@ -74,6 +74,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                         String serverId = OneVisit.getServer().getObjectId();
                         if (serverId.equals(Server.getCurrentServer().getObjectId())){
                             visit.add(OneVisit);
+
                             visitAdapter.notifyItemInserted(visit.size() - 1);
                         }
                     }
@@ -85,7 +86,7 @@ public class ServerActiveVisitsFragment extends Fragment {
     }
 
     //Alternative Query to get the active Visits for that user
-    /*private void getActiveActivities(){
+  /* private void fetchActiveVisit(){
         final ParseQuery<Visit> query= ParseQuery.getQuery(Visit.class);
         query.whereEqualTo("server", Server.getCurrentServer().getObjectId());
 
@@ -97,7 +98,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                     visitAdapter.notifyDataSetChanged();
                     for (int i = 0 ; i < objects.size() ; i++ ){
                         Visit oneVisit = objects.get(i);
-                        if (Server.getCurrentServer().getObjectId().equals(oneVisit.getServer())){
+                        if (Server.getCurrentServer().getObjectId().equals(oneVisit.getServer().toString())){
                             visit.add(oneVisit);
                             visitAdapter.notifyItemInserted(visit.size() - 1);
                         }
@@ -105,8 +106,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                 }
             }
         });
-    }
-*/
+    }*/
 
 }
 
