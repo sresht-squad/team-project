@@ -66,10 +66,13 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     @Override
     public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
         //set the message to be the ServerID text view
-        String message = tvId.getText().toString();
-        //create the Ndef message
-        NdefRecord ndefRecord = NdefRecord.createMime("text/plain", message.getBytes());
-        NdefMessage ndefMessage = new NdefMessage(ndefRecord);
+        String message1 = tvId.getText().toString();
+        String message2 = etTableNum.getText().toString();
+        //create two different records for the two strings we are sending
+        //they will go in the same ndef message
+        NdefRecord ndefRecord1 = NdefRecord.createMime("text/plain", message1.getBytes());
+        NdefRecord ndefRecord2 = NdefRecord.createMime("text/plain", message2.getBytes());
+        NdefMessage ndefMessage = new NdefMessage(ndefRecord1,ndefRecord2);
         return ndefMessage;
     }
 
