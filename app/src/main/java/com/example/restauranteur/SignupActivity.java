@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Server;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -112,6 +113,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.d("signup","signup pressed");
         // Create the Customer
         Customer customer = new Customer(new ParseUser());
+        //CustomerInfo info = new CustomerInfo();
 
         // Set core properties
         customer.setUsername(newUsername);
@@ -119,6 +121,7 @@ public class SignupActivity extends AppCompatActivity {
         customer.setFirstName(first);
         customer.setLastName(last);
         customer.put("server", false);
+        customer.put("customerInfo", new CustomerInfo());
         // Invoke signUpInBackground
         customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {

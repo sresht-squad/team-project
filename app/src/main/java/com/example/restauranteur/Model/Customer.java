@@ -55,6 +55,10 @@ public class Customer {
         user.put(key, value);
     }
 
+    public void put(String key, CustomerInfo object){
+        user.put(key, object);
+    }
+
     public String getString(String key){
         return user.getString(key);
     }

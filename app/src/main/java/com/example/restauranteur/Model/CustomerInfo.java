@@ -9,25 +9,10 @@ import com.parse.ParseObject;
 import org.json.JSONArray;
 
 
-@ParseClassName("ServerInfo")
+@ParseClassName("CustomerInfo")
 public class CustomerInfo extends ParseObject {
 
     private static final String KEY_VISITS = "Visits";
-    private static final String KEY_SERVERID = "server";
-
-
-    public void setServerId(Server server) {
-        put(KEY_SERVERID, server.getParseUser());
-    }
-
-    public Server getServerId() {
-        try {
-            return new Server(fetchIfNeeded().getParseUser(KEY_SERVERID));
-        } catch (ParseException e) {
-            Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
-            return null;
-        }
-    }
 
     public JSONArray getVisits(){
         try {
@@ -38,10 +23,9 @@ public class CustomerInfo extends ParseObject {
         }
     }
 
+
     public void addVisit(Visit visit){
         add("Visits", visit);
     }
-
-
 
 }
