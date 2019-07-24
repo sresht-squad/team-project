@@ -149,16 +149,25 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         //check if the message actually came from NFC
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             //get the data
-            Parcelable[] rawMessages = intent.getParcelableArrayExtra(
+            final Parcelable[] rawMessages = intent.getParcelableArrayExtra(
                     NfcAdapter.EXTRA_NDEF_MESSAGES);
 
-            NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
+            String serverId = "";
+            String tableNum = "";
+            NdefMessage ndefmessage = null; // only one message transferred
+            if (rawMessages != null) {
+                ndefmessage = (NdefMessage) rawMessages[0];
+                //get each record and convert them back into string format
+                serverId = new String(ndefmessage.getRecords()[0].getPayload());
+                tableNum = new String(ndefmessage.getRecords()[1].getPayload());
+            }
             //set the editText to contain the first message
-            etServerId.setText(new String(message.getRecords()[0].getPayload()));
+            etServerId.setText(serverId);
+            etTableNumber.setText(tableNum);
 
         } else
             etServerId.setText("Waiting for NDEF Message");
