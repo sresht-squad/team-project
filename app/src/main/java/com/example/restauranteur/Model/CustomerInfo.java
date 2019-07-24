@@ -14,7 +14,7 @@ public class CustomerInfo extends ParseObject {
 
     private static final String KEY_VISITS = "Visits";
 
-    public JSONArray getVisits(){
+    public JSONArray getVisit(){
         try {
             return fetchIfNeeded().getJSONArray("messages");
         }catch (ParseException e) {
@@ -24,8 +24,8 @@ public class CustomerInfo extends ParseObject {
     }
 
 
-    public void addVisit(Visit visit){
-        add("Visits", visit);
+    public void setVisit(Visit visit){
+        put("visit", visit);
     }
 
 }

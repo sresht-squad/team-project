@@ -3,6 +3,7 @@ package com.example.restauranteur.Model;
 
 import com.parse.LogInCallback;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class Customer {
@@ -86,7 +87,13 @@ public class Customer {
        return (Visit)user.getParseObject(VISIT_KEY);
     }
 
+    public CustomerInfo getInfo(){
+        return (CustomerInfo )user.getParseObject("customerInfo");
+    }
 
+    public void saveInBackground(SaveCallback callback){
+        user.saveInBackground(callback);
+    }
 
 
 
