@@ -6,7 +6,6 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,27 +94,6 @@ public class Server {
         customers.add(customer);
         user.removeAll(ACTIVE_VISITS, customers);
     }
-
-    // checking to see if the customer is already in the current visit array.
-    public boolean isNotCustomer (Customer customer) {
-        JSONArray customers = getVisits();
-        if (customers != null){
-            for (int i = 0 ; i < customers.length() ;i++ ){
-                try{
-                    if (customers.getJSONObject(i).getString("objectId")
-                            .equals(customer.getObjectId())){
-                        return false;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }
-        return true;
-    }
-
 
 
 }
