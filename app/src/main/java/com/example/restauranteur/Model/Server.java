@@ -1,8 +1,12 @@
 package com.example.restauranteur.Model;
 
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.parse.LogInCallback;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
@@ -40,6 +44,10 @@ public class Server {
         ParseUser.logInInBackground(username, password, callback);
     }
 
+    public void saveInBackground(SaveCallback callback){
+        user.saveInBackground(callback);
+    }
+
     public void put(String key, String value){
         user.put(key, value);
     }
@@ -50,6 +58,18 @@ public class Server {
 
     public void put(String key, boolean value){
         user.put(key, value);
+    }
+
+    public void put(String key, ParseObject value){
+        user.put(key, value);
+    }
+
+    public void put(String key, ArrayList<Visit> value){
+        user.put(key, value);
+    }
+
+    public void addVisit(Visit visit){
+        user.add("visits", visit);
     }
 
     public String getString(String key){

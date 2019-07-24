@@ -65,6 +65,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             final Server server = new Server(objects.get(0));
+
                             //check if visit already exists & this is another customer at same table
                             final Visit.Query parseVisitQuery = new Visit.Query();
                             parseVisitQuery.checkSameVisit(server, tableNum);
