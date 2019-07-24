@@ -2,13 +2,14 @@ package com.example.restauranteur.Model;
 
 
 import com.parse.LogInCallback;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     private ParseUser user;
@@ -39,6 +40,10 @@ public class Server {
         ParseUser.logInInBackground(username, password, callback);
     }
 
+    public void saveInBackground(SaveCallback callback){
+        user.saveInBackground(callback);
+    }
+
     public void put(String key, String value){
         user.put(key, value);
     }
@@ -49,6 +54,18 @@ public class Server {
 
     public void put(String key, boolean value){
         user.put(key, value);
+    }
+
+    public void put(String key, ParseObject value){
+        user.put(key, value);
+    }
+
+    public void put(String key, ArrayList<Visit> value){
+        user.put(key, value);
+    }
+
+    public void addVisit(Visit visit){
+        user.add("visits", visit);
     }
 
     public String getString(String key){
@@ -84,15 +101,16 @@ public class Server {
     public JSONArray getVisits(){
         return user.getJSONArray(ACTIVE_VISITS);
     }
+
     // adding the customer to the visits array
-    public void addCustomerToVisit(Customer customer){
-        user.add(ACTIVE_VISITS, customer);
+    public void addCustomerToVisit(Visit visit){
+        user.add(ACTIVE_VISITS, visit);
     }
     // removing the customer from the visits array
-    public void removeCustomer(Customer customer){
-        List<Customer> customers = new ArrayList<>();
-        customers.add(customer);
-        user.removeAll(ACTIVE_VISITS, customers);
+    public void removeCustomer(Customer visit){
+        ArrayList<Customer> visits = new ArrayList<>();
+        visits.add(visit);
+        user.removeAll(ACTIVE_VISITS, visits);
     }
 
 
