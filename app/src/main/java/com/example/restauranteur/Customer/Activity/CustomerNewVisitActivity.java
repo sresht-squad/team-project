@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -82,6 +83,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                             visit.addCustomer(customer);
                                             visit.setTableNumber(tableNum);
                                             visit.setActive(true);
+                                            final CustomerInfo customerInfo = customer.getInfo();
+                                            customerInfo.setVisit(visit);
                                             customer.setVisit(visit);
                                             ArrayList<Message> messageArrayList = new ArrayList<Message>();
                                             visit.put("messages", messageArrayList);
@@ -94,6 +97,12 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }else{
                                                         Log.d("Saving", "success");
+                                                        customerInfo.saveInBackground(new SaveCallback() {
+                                                            @Override
+                                                            public void done(ParseException e) {
+
+                                                            }
+                                                        });
                                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
                                                         startActivity(intent);
                                                         finish();

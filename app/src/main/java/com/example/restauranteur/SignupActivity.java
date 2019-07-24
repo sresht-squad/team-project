@@ -39,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     Button btnSignup;
     Server server;
     ServerInfo serverInfo;
+    CustomerInfo customerInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,11 +129,29 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+
+    private void createCustomerInfo (){
+        // call this in callBack to gurantee association
+        // put into the method and doing it the save callBack
+        customerInfo = new CustomerInfo();
+        //invoke saveInBackground
+        customerInfo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("CustomerInfo", "New CustomerInfo");
+
+                } else {
+                    Log.i("CustomerInfo", "Customer Info not working");
+                }
+            }
+        });
+    }
+
     private void signUpCustomer(String newUsername, String newPassword, String first, String last){
         Log.d("signup","signup pressed");
         // Create the Customer
-        Customer customer = new Customer(new ParseUser());
-        //CustomerInfo info = new CustomerInfo();
+        final Customer customer = new Customer(new ParseUser());
 
         // Set core properties
         customer.setUsername(newUsername);
@@ -140,12 +159,18 @@ public class SignupActivity extends AppCompatActivity {
         customer.setFirstName(first);
         customer.setLastName(last);
         customer.put("server", false);
-        customer.put("customerInfo", new CustomerInfo());
         // Invoke signUpInBackground
         customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                    createCustomerInfo();
+                    customer.put("customerInfo",customerInfo);
+                    customer.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                        }
+                    });
                 } else {
                     Log.d("Sign up", " Customer sign up failure");
                     e.printStackTrace();
