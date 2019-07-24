@@ -150,11 +150,14 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         Intent intent = getIntent();
+        //check if the message actually came from NFC
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            //get the data
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(
                     NfcAdapter.EXTRA_NDEF_MESSAGES);
 
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
+            //set the editText to contain the first message
             etServerId.setText(new String(message.getRecords()[0].getPayload()));
 
         } else
