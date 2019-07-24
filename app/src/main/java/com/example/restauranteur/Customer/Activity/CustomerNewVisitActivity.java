@@ -168,6 +168,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             //set the editText to contain the first message
             etServerId.setText(serverId);
             etTableNumber.setText(tableNum);
+            if (!etTableNumber.getText().equals("")){
+                btnNewVisit.callOnClick();
+            }
 
         } else
             etServerId.setText("Waiting for NDEF Message");
