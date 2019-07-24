@@ -13,21 +13,7 @@ import org.json.JSONArray;
 public class ServerInfo extends ParseObject {
 
     private static final String KEY_VISITS = "Visits";
-    private static final String KEY_SERVERID = "server";
 
-
-    public void setServerId(Server server) {
-        put(KEY_SERVERID, server.getParseUser());
-    }
-
-    public Server getServerId() {
-        try {
-            return new Server(fetchIfNeeded().getParseUser(KEY_SERVERID));
-        } catch (ParseException e) {
-            Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
-            return null;
-        }
-    }
 
     public JSONArray getVisits(){
         try {
