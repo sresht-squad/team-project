@@ -91,7 +91,9 @@ public class SignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null) {
                     Log.i("ServerSignup", "New Server created");
+                    // create the serverInfo object
                     createServerInfo();
+                    // connect the new created serverInfo with the new server
                     server.put("serverInfo",serverInfo);
                     server.saveInBackground(new SaveCallback() {
                         @Override
