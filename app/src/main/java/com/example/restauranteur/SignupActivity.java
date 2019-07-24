@@ -77,11 +77,40 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     void signUpServer(String newUsername, String newPassword, String first, String last) {
+
+        server = new Server(new ParseUser());
+        server.setUsername(newUsername);
+        server.setPassword(newPassword);
+        server.setFirstName(first);
+        server.setLastName(last);
+        server.put("server", true);
+
+        // Invoke signUpInBackground
+        server.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    Log.i("ServerSignup", "New Server created");
+                    createServerInfo();
+                    server.put("serverInfo",serverInfo);
+                    server.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        }
+                    });
+
+                } else {
+                    Log.i("ServerSignup", "server signup failed");
+                }
+            }
+        });
+    }
+
+    private void createServerInfo (){
         // call this in callBack to gurantee association
         // put into the method and doing it the save callBack
         serverInfo = new ServerInfo();
         serverInfo.put("visits",new ArrayList<Visit>());
-
         //invoke saveInBackground
         serverInfo.saveInBackground(new SaveCallback() {
             @Override
@@ -91,32 +120,6 @@ public class SignupActivity extends AppCompatActivity {
 
                 } else {
                     Log.i("ServerInfo", "ServerInfo not working");
-                }
-            }
-        });
-
-        server = new Server(new ParseUser());
-        server.setUsername(newUsername);
-        server.setPassword(newPassword);
-        server.setFirstName(first);
-        server.setLastName(last);
-        server.put("server", true);
-        //server.put("serverInfo",serverInfo);
-
-        // Invoke signUpInBackground
-        server.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(com.parse.ParseException e) {
-                if (e == null) {
-                    Log.i("ServerSignup", "New Server created");
-                    server.put("serverInfo",serverInfo);
-                    server.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                        }
-                    });
-                } else {
-                    Log.i("ServerSignup", "server signup failed");
                 }
             }
         });
