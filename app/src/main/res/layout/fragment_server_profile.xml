@@ -8,51 +8,60 @@
 
     <TextView
         android:id="@+id/tvId"
-        android:layout_width="0dp"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="70dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="192dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvTableNumTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="ServerID:"
+        android:text="Table Number:"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/tvId"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.798" />
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="393dp" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
+        android:id="@+id/tvIdTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginBottom="176dp"
+        android:text="ServerID:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="121dp" />
+
+    <TextView
+        android:id="@+id/tvIdExplanation"
+        android:layout_width="320dp"
+        android:layout_height="64dp"
         android:gravity="center"
-        android:text="Use this unique ServerID to connect with customers! Simply have your customers type your ID in their app to connect instantly."
+        android:text="Enter the table number of your new customer and beam this info directly to your customer's phone, or have them manually enter the table number."
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="530dp" />
+
+    <TextView
+        android:id="@+id/tvIdExplanation3"
+        android:layout_width="291dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Use this unique ServerID to connect with customers! Simply have your customers type your ID in their app or beam it to them to connect instantly."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="256dp" />
+
+    <EditText
+        android:id="@+id/etTableNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Table Number"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="471dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
