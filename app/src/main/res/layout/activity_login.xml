@@ -79,11 +79,11 @@
 
     <TextView
         android:id="@+id/tvTitle2"
-        android:layout_width="158dp"
-        android:layout_height="81dp"
+        android:layout_width="155dp"
+        android:layout_height="83dp"
         android:layout_marginTop="84dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginRight="49dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
         android:layout_marginBottom="96dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center_horizontal|top"
