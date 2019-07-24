@@ -2,21 +2,12 @@ package com.example.restauranteur.Model;
 
 import android.util.Log;
 
-import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import static java.lang.reflect.Array.*;
 
 
 @ParseClassName("Visit")

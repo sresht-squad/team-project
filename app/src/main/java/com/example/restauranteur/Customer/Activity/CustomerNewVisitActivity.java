@@ -11,23 +11,17 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.R;
 import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONException;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
