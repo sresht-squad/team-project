@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.restauranteur.R;
@@ -19,10 +20,10 @@ import com.parse.SaveCallback;
 
 public class CustomerQuickRequestFragment extends Fragment {
 
-    ImageView ivServerHelp;
-    ImageView ivWater;
-    ImageView ivCheck;
-    ImageView ivToGoBox;
+    private CardView cvServerHelp;
+    private CardView cvWater;
+    private CardView cvCheck;
+    private CardView cvToGoBox;
 
     public CustomerQuickRequestFragment(){
         //required empty constructor
@@ -45,28 +46,27 @@ public class CustomerQuickRequestFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        ivServerHelp = (ImageView) view.findViewById(R.id.ivServerHelp);
-        ivWater = (ImageView) view.findViewById(R.id.ivWater);
-        ivCheck = (ImageView) view.findViewById(R.id.ivCheck);
-        ivToGoBox = (ImageView) view.findViewById(R.id.ivToGoBox);
-        final Customer c = Customer.getCurrentCustomer();
-        final Visit visit = c.getCurrentVisit();
+        cvServerHelp = (CardView) view.findViewById(R.id.cvServerHelp);
+        cvWater = (CardView) view.findViewById(R.id.cvWater);
+        cvCheck = (CardView) view.findViewById(R.id.cvCheck);
+        cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
+        final Customer customer = Customer.getCurrentCustomer();
+        final Visit visit = customer.getCurrentVisit();
 
-        //sending the waiter a request to get the water
-        //still need to connect to visit
-        ivServerHelp.setOnClickListener(new View.OnClickListener() {
+        cvServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
 
                 final Message serverHelpMessage = new Message();
-                serverHelpMessage.setAuthor(Customer.getCurrentCustomer());
+                serverHelpMessage.setAuthor(customer);
                 serverHelpMessage.setBody(serverHelpRequest);
                 serverHelpMessage.setActive(true);
 
                 serverHelpMessage.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        Log.i("customerRequestFrag", "Water message on parse");
                         visit.addMessage(serverHelpMessage);
                         visit.saveInBackground(new SaveCallback() {
                             @Override
@@ -81,13 +81,13 @@ public class CustomerQuickRequestFragment extends Fragment {
 
         //sending the waiter a request to get the water
         //still need to connect to visit
-        ivWater.setOnClickListener(new View.OnClickListener() {
+        cvWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Need more water";
 
                 final Message waterMessage = new Message();
-                waterMessage.setAuthor(Customer.getCurrentCustomer());
+                waterMessage.setAuthor(customer);
                 waterMessage.setBody(waterRequest);
                 waterMessage.setActive(true);
 
@@ -110,13 +110,13 @@ public class CustomerQuickRequestFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        ivCheck.setOnClickListener(new View.OnClickListener() {
+        cvCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String checkRequest = "Ready for Check";
 
                 final Message checkMessage = new Message();
-                checkMessage.setAuthor(c);
+                checkMessage.setAuthor(customer);
                 checkMessage.setBody(checkRequest);
                 checkMessage.setActive(true);
 
@@ -139,13 +139,13 @@ public class CustomerQuickRequestFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        ivToGoBox.setOnClickListener(new View.OnClickListener() {
+        cvToGoBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To-go boxes";
 
                 final Message toGoBoxMessage = new Message();
-                toGoBoxMessage.setAuthor(c);
+                toGoBoxMessage.setAuthor(customer);
                 toGoBoxMessage.setBody(toGoBoxRequest);
                 toGoBoxMessage.setActive(true);
 

@@ -7,6 +7,21 @@
     android:orientation="vertical"
     android:background="#ecf0f1">
 
+    <TextView
+        android:id="@+id/tvTitle1"
+        android:layout_width="160dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:background="#0000000F"
+        android:fontFamily="@font/baloo_bhai"
+        android:gravity="center"
+        android:text="MEAL"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#3D3D3B"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle2"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/btnSignup"
         android:layout_width="65dp"
