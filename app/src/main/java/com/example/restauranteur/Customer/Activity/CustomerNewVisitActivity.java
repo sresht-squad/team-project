@@ -38,7 +38,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     EditText etTableNumber;
     Visit visit;
     ImageView logout;
-    Boolean sameVisit;
 
 
     @Override
