@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.example.restauranteur.Model.Server;
 
 public class ServerProfileFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback{
     TextView tvId;
+    EditText etTableNum;
 
     public ServerProfileFragment() {
         // Required empty public constructor
@@ -39,13 +41,16 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
 
         tvId = view.findViewById(R.id.tvId);
+        etTableNum = view.findViewById(R.id.etTableNum);
 
+        //check whether the phone is able to send via NFC
         NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getContext());
+        //no adapter, no NFC available on phone
         if (mAdapter == null) {
             tvId.setText("Sorry this device does not have NFC.");
             return;
         }
-
+        //if adapter exists but is not enabled, phone does not have NFC enabled in settings
         if (!mAdapter.isEnabled()) {
             Toast.makeText(getContext(), "Please enable NFC via Settings.", Toast.LENGTH_LONG).show();
         }
@@ -60,7 +65,9 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
 
     @Override
     public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
+        //set the message to be the ServerID text view
         String message = tvId.getText().toString();
+        //create the Ndef message
         NdefRecord ndefRecord = NdefRecord.createMime("text/plain", message.getBytes());
         NdefMessage ndefMessage = new NdefMessage(ndefRecord);
         return ndefMessage;
