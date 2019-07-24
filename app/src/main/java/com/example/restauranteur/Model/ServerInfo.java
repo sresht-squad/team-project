@@ -12,20 +12,20 @@ import org.json.JSONArray;
 @ParseClassName("ServerInfo")
 public class ServerInfo extends ParseObject {
 
-    private static final String KEY_VISITS = "Visits";
+    private static final String KEY_VISITS = "visits";
 
 
     public JSONArray getVisits(){
         try {
-            return fetchIfNeeded().getJSONArray("messages");
+            return fetchIfNeeded().getJSONArray("visits");
         }catch (ParseException e) {
-            Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
+            Log.e("Parse Error", "Something wrong with Parse", e);
             return null;
         }
     }
 
     public void addVisit(Visit visit){
-        add("Visits", visit);
+        add("visits", visit);
     }
 
 
