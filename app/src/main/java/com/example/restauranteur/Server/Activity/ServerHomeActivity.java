@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
@@ -69,7 +69,7 @@ public class ServerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Server.logOut();
-                Intent intent = new Intent(ServerHomeActivity.this, AccountTypeActivity.class);
+                Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
 
             }

@@ -73,6 +73,14 @@ public class Server {
         return user;
     }
 
+    public void setFirstName(String first){
+        user.put("firstName", first);
+    }
+
+    public void setLastName(String last){
+        user.put("lastName", last);
+    }
+
     //getting the array from the Parse database
     public JSONArray getVisits(){
         return user.getJSONArray(ACTIVE_VISITS);

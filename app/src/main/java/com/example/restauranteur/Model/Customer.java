@@ -23,6 +23,14 @@ public class Customer {
        return user.getUsername();
    }
 
+   public void setFirstName(String first){
+        user.put("firstName", first);
+    }
+
+    public void setLastName(String last){
+        user.put("lastName", last);
+    }
+
    public void setPassword(String password){
         user.setPassword(password);
    }
