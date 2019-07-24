@@ -167,22 +167,24 @@ public class CustomerRequestsFragment extends Fragment {
             queries.add(query);
         }
 
-            ParseQuery<Message> mainQuery = ParseQuery.or(queries);
-            mainQuery.orderByAscending("createdAt");
-            mainQuery.findInBackground(new FindCallback<Message>() {
-                @Override
-                public void done(List<Message> objects, ParseException e) {
-                    if (e == null) {
-                        Log.i("Query_Size", "");
-                        System.out.println(objects.size());
-                        for (int i = 0; i < objects.size(); i++) {
-                            if (objects.get(i).getActive()) {
-                                mMessages.add(objects.get(i));
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }// update adapter
+            if  ((queries != null) && (queries.size() > 0)) {
+                ParseQuery<Message> mainQuery = ParseQuery.or(queries);
+                mainQuery.orderByAscending("createdAt");
+                mainQuery.findInBackground(new FindCallback<Message>() {
+                    @Override
+                    public void done(List<Message> objects, ParseException e) {
+                        if (e == null) {
+                            Log.i("Query_Size", "");
+                            System.out.println(objects.size());
+                            for (int i = 0; i < objects.size(); i++) {
+                                if (objects.get(i).getActive()) {
+                                    mMessages.add(objects.get(i));
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }// update adapter
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }

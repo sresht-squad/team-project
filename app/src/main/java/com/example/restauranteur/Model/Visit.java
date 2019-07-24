@@ -2,10 +2,12 @@ package com.example.restauranteur.Model;
 
 import android.util.Log;
 
+import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,12 +81,18 @@ public class Visit extends ParseObject {
     }
 
     //From the order class include the waiter table and customer table
+
     public static class Query extends ParseQuery<Visit> {
         public Query() {
             super(Visit.class);
         }
-    }
 
+        public Query checkSameVisit(Server server, String tableNumber){
+            whereEqualTo("server", server.getParseUser());
+            whereEqualTo("tableNumber", tableNumber);
+            return this;
+        }
+    }
 
 
 }
