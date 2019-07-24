@@ -13,7 +13,7 @@ import org.json.JSONArray;
 public class ServerInfo extends ParseObject {
 
     private static final String KEY_VISITS = "Visits";
-    private static final String KEY_SERVERID = "serverId";
+    private static final String KEY_SERVERID = "server";
 
 
     public void setServerId(Server server) {

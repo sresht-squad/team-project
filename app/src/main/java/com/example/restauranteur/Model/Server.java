@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Server {
     private ParseUser user;
     private static final String ACTIVE_VISITS = "visits";
+    private static final String SERVER_INFO = "serverInfo";
     
     
     public Server(ParseUser parseUser){
@@ -64,6 +65,10 @@ public class Server {
         user.put(key, value);
     }
 
+    public void put(String key, ServerInfo serverInfo){
+        user.put(key,serverInfo);
+    }
+
     public void addVisit(Visit visit){
         user.add("visits", visit);
     }
@@ -76,6 +81,7 @@ public class Server {
         ParseUser user = ParseUser.getCurrentUser();
         return new Server(user);
     }
+
 
     public static void logOut(){
         ParseUser.logOut();

@@ -7,14 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Server;
-
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -79,12 +77,30 @@ public class SignupActivity extends AppCompatActivity {
         server.setLastName(last);
         server.put("server", true);
 
+       /* final ServerInfo serverInfo = new ServerInfo();
+        serverInfo.put("Visits",new ArrayList<Visit>());
+
+        serverInfo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("ServerInfo", "New ServerInfo");
+
+                } else {
+                    Log.i("ServerInfo", "ServerInfo not working");
+                }
+
+            }
+        });*/
+
         // Invoke signUpInBackground
         server.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e == null) {
                     Log.i("ServerSignup", "New Server created");
+                    //server.put("serverInfo",serverInfo);
+
                 } else {
                     Log.i("ServerSignup", "server signup failed");
                 }
