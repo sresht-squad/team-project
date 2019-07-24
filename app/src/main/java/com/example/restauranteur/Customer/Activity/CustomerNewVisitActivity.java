@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.AccountTypeActivity;
+import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
@@ -144,7 +144,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Customer.logOut();
-                Intent intent = new Intent(CustomerNewVisitActivity.this, AccountTypeActivity.class);
+                Intent intent = new Intent(CustomerNewVisitActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
