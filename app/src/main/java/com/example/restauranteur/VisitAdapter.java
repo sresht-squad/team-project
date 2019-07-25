@@ -13,6 +13,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> {
@@ -38,7 +40,10 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
-        holder.etActiveVisit.setText(visit.getObjectId());
+        JSONArray customers = visit.getJSONArray("customers");
+        int numCustomers = customers.length();
+
+        holder.tvActiveVisit.setText();
 
         final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
         query.whereEqualTo("objectId", visit.getObjectId());
@@ -60,13 +65,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView etActiveVisit;
+        TextView tvActiveVisit;
         TextView tvTableNumber;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
-            etActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
+            tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
 
             }
