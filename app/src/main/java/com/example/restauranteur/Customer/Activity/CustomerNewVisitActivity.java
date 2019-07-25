@@ -63,7 +63,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                             server = new Server(objects.get(0));
+                            server = new Server(objects.get(0));
 
                             //check if visit already exists & this is another customer at same table
                             final Visit.Query parseVisitQuery = new Visit.Query();
@@ -72,9 +72,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                             parseVisitQuery.findInBackground(new FindCallback<Visit>() {
                                 @Override
                                 public void done(List<Visit> visitObjects, ParseException e) {
-                                    if (e == null){
+                                    if (e == null) {
                                         //if visit doesn't already exist, create new visit
-                                        if (visitObjects.size() == 0){
+                                        if (visitObjects.size() == 0) {
                                             Log.d("CHECKSAMEVISIT", visitObjects.toString());
                                             //creating new visit
                                             visit = new Visit();
@@ -95,37 +95,35 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                             visit.saveInBackground(new SaveCallback() {
                                                 @Override
                                                 public void done(ParseException e) {
-                                                    if (e != null){
-                                                        Log.d("Saving","Error while saving");
-
+                                                    if (e != null) {
+                                                        Log.d("Saving", "Error while saving");
                                                         e.printStackTrace();
-                                                    }else{
-                                                        ////////////////////////////////////////////
+                                                    } else {
+                                                        // Log lets user know the visit was created
+                                                        Log.d("Saving Visit Object", "success");
 
+                                                        //Adds the current new Visit into the serverInfo's visit's array
+                                                        //Query to find the serverInfo object that matches the server
                                                         ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
                                                         query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
 
                                                         query.findInBackground(new FindCallback<ServerInfo>() {
                                                             @Override
                                                             public void done(List<ServerInfo> objects, ParseException e) {
-                                                               ServerInfo serverInfo = objects.get(0);
-                                                               serverInfo.addVisit(visit);
-                                                               serverInfo.saveInBackground(new SaveCallback() {
-                                                                   @Override
-                                                                   public void done(ParseException e) {
-                                                                       if (e == null) {
-                                                                           Log.d("Saving server info", "Success");
-                                                                       } else{
-                                                                           Log.d("Saving server info", "Failure");
-                                                                       }
-                                                                   }
-                                                               });
+                                                                // ServerInfo is made into the ServerInfo Object found
+                                                                ServerInfo serverInfo = objects.get(0);
+                                                                // inside the serverInfo object we add a visit to the Visit array
+                                                                serverInfo.addVisit(visit);
+                                                                serverInfo.saveInBackground(new SaveCallback() {
+                                                                    @Override
+                                                                    public void done(ParseException e) {
+                                                                        Log.d("Saving", "success");
+                                                                    }
+                                                                });
 
                                                             }
                                                         });
 
-                                                        ////////////////////////////////////////////
-                                                        Log.d("Saving", "success");
                                                         customerInfo.saveInBackground(new SaveCallback() {
                                                             @Override
                                                             public void done(ParseException e) {
@@ -144,27 +142,26 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                             });
                                         }
                                         //if visit already exists, add customer to visit
-                                        else{
+                                        else {
                                             Visit sameVisit = (Visit) visitObjects.get(0);
                                             sameVisit.addCustomer(Customer.getCurrentCustomer());
                                             Customer.getCurrentCustomer().setVisit(sameVisit);
                                             sameVisit.saveInBackground(new SaveCallback() {
                                                 @Override
                                                 public void done(ParseException e) {
-                                                    if (e != null){
-                                                        Log.d("Saving","Error while saving sameVisit");
+                                                    if (e != null) {
+                                                        Log.d("Saving", "Error while saving sameVisit");
                                                         e.printStackTrace();
-                                                    }else{
+                                                    } else {
                                                         Log.d("Saving", "success");
-                                                        }
-                                                        Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
                                                     }
-                                                });
+                                                    Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            });
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         e.printStackTrace();
                                         Log.d("CHECKSAMEVISIT", "objects null");
                                     }
@@ -177,21 +174,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 });
             }
         });
-
-     /*   ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
-        query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
-
-        query.findInBackground(new FindCallback<ServerInfo>() {
-            @Override
-            public void done(List<ServerInfo> objects, ParseException e) {
-                JSONArray visits = objects.get(0).getVisits();
-                visits.put(visit);
-
-            }
-        });
-*/
-
-
 
 
         logout = findViewById(R.id.ivLogout);
@@ -236,3 +218,4 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     }
 
 }
+
