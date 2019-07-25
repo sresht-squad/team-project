@@ -94,18 +94,21 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                 public void done(ParseException e) {
                                                     if (e != null){
                                                         Log.d("Saving","Error while saving");
-
                                                         e.printStackTrace();
                                                     }else{
-                                                        ////////////////////////////////////////////
-
+                                                        // Log lets user know the visit was created
+                                                        Log.d("Saving Visit Object", "success");
+                                                        //Adds the current new Visit into the serverInfo's visit's array
+                                                        //Query to find the serverInfo object that matches the server
                                                         ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
                                                         query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
 
                                                         query.findInBackground(new FindCallback<ServerInfo>() {
                                                             @Override
                                                             public void done(List<ServerInfo> objects, ParseException e) {
+                                                               // ServerInfo is made into the ServerInfo Object found
                                                                ServerInfo serverInfo = objects.get(0);
+                                                               // inside the serverInfo object we add a visit to the Visit array 
                                                                serverInfo.addVisit(visit);
                                                                serverInfo.saveInBackground(new SaveCallback() {
                                                                    @Override
@@ -117,8 +120,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                             }
                                                         });
 
-                                                        ////////////////////////////////////////////
-                                                        Log.d("Saving", "success");
                                                         customerInfo.saveInBackground(new SaveCallback() {
                                                             @Override
                                                             public void done(ParseException e) {
