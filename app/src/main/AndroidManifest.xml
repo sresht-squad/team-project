@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" />
 
     <application
         android:name=".ParseApp"
@@ -13,7 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Customer.Activity.CustomerNewVisitActivity"></activity>
+        <activity android:name=".Customer.Activity.CustomerNewVisitActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Server.Activity.ServerHomeActivity" />
         <activity android:name=".Customer.Activity.CustomerHomeActivity" />
         <activity android:name=".LoginActivity">

@@ -38,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.btnSignup);
 
-        Boolean server = false;
-
         //user persisting
         ParseUser currentUser = getCurrentUser();
         if (currentUser != null) {
@@ -57,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
                     intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
                 }
                 startActivity(intent);
-                finish();
             }
 
         }
@@ -77,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(i);
+                finish();
             }
         });
 

@@ -11,48 +11,90 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="23dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/tvIdExplanation3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIdTitle" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvTableNumTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Table Number:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/etTableNum"
+        app:layout_constraintEnd_toEndOf="@+id/etTableNum"
+        app:layout_constraintTop_toBottomOf="@+id/tvIdExplanation3" />
+
+    <TextView
+        android:id="@+id/tvIdTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="25dp"
         android:text="ServerID:"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/tvId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.798" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvIdExplanation"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginBottom="176dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
+        android:layout_marginBottom="137dp"
         android:gravity="center"
-        android:text="Use this unique ServerID to connect with customers! Simply have your customers type your ID in their app to connect instantly."
+        android:text="Enter the table number of your new customer and beam this info directly to your customer's phone, or have them manually enter the table number."
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTableNum" />
+
+    <TextView
+        android:id="@+id/tvIdExplanation3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="68dp"
+        android:gravity="center"
+        android:text="Use this unique ServerID to connect with customers! Simply have your customers type your ID in their app or beam it to them to connect instantly."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toTopOf="@+id/tvTableNumTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvId" />
+
+    <EditText
+        android:id="@+id/etTableNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:ems="10"
+        android:hint="Table Number"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/tvIdExplanation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTableNumTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
