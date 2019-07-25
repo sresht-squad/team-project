@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Server {
     private ParseUser user;
-    private static final String ACTIVE_VISITS = "visits";
     private static final String SERVER_INFO = "serverInfo";
     
     
@@ -110,10 +109,12 @@ public class Server {
 
     //getting the array from the Parse database
     public JSONArray getVisits(){
-        return user.getJSONArray(ACTIVE_VISITS);
+        ServerInfo info = getServerInfo();
+        return info.getVisits();
     }
 
     // adding the customer to the visits array
+    /*
     public void addCustomerToVisit(Visit visit){
         user.add(ACTIVE_VISITS, visit);
     }
@@ -123,6 +124,7 @@ public class Server {
         visits.add(visit);
         user.removeAll(ACTIVE_VISITS, visits);
     }
+    */
 
 
 }

@@ -21,6 +21,9 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +35,8 @@ public class ServerRequestsFragment extends Fragment {
 
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
+    private ArrayList<Visit> visits;
     private ChatAdapter mAdapter;
-
-    private EditText etMessage;
-    // Keep track of initial load to scroll to the bottom of the ListView
     private boolean mFirstLoad;
 
     public ServerRequestsFragment() {
@@ -58,71 +59,85 @@ public class ServerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         // Find the text field and button
-        etMessage = view.findViewById(R.id.etMessage);
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
         mFirstLoad = true;
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), true, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
-        refreshMessages();
+        loadMessages();
     }
 
 
     // Query messages from Parse so we can load them into the chat adapter
-     void refreshMessages() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+    private void loadMessages() {
+        Log.i("DISPLAY", "ALL_MESSAGES");
+        //for all visits that involve this server
+        JSONArray visits = Server.getCurrentServer().getVisits();
+        if (visits == null) {
+            return;
+        }
+        int visitNum = visits.length();
+        String visitId = "";
+        //lookup the pointers to make an array of the visits
+        for (int i = 0; i < visitNum; i++) {
+            try {
+                visitId = visits.getJSONObject(i).getString("objectId");
+                lookupVisit(visitId);
+            } catch (JSONException e) {
 
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
-            public void done(List<Message> messages, ParseException e) {
-                if (messages != null){
-                    Visit v;
+            }
+        }
+    }
+
+
+     void lookupVisit(String visitId) {
+            ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
+            query.whereEqualTo("objectId", visitId);
+            query.findInBackground(new FindCallback<Visit>() {
+                @Override
+                public void done(List<Visit> objects, ParseException e) {
                     if (e == null) {
-                        mMessages.clear();
-                    }
-                    // mMessages.addAll(messages);
-                    Message m;
-                    Server server = new Server(getCurrentUser());
-                    String serverId;
-                    String userId;
-                    int size = messages.size();
-                    //only show the messages for visits that involve the current logged-in server
-                    for (int i = 0; i < size; i++) {
-                        m = messages.get(i);
-                        if (m.getActive()) {
-                            //serverId = v.getServer().getObjectId();
-                            // userId = server.getObjectId();
-                           /* if (serverId.equals(userId)) {
-                                mMessages.add(m);
-                            }
-                            */
-                        }
-                        }
-                    }
-
-                    mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
-                    } else {
-                        Log.e("message", "Error Loading Messages" + e);
+                        findMessages(objects.get(0));
                     }
                 }
+            });
+    }
+
+
+    void findMessages(Visit visit){
+        JSONArray messagePointers = visit.getMessages();
+        for (int i = 0; i < messagePointers.length(); i++){
+            try {
+                String messageId = messagePointers.getJSONObject(i).getString("objectId");
+                extractMessages(messageId);
+            } catch (JSONException e){
+
+            }
+        }
+
+
+    }
+
+    void extractMessages(String messageId) {
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        query.whereEqualTo("objectId", messageId);
+        query.findInBackground(new FindCallback<Message>() {
+            @Override
+            public void done(List<Message> objects, ParseException e) {
+                if (e == null) {
+                    Message message = objects.get(0);
+                    mMessages.add(message);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
         });
     }
 }

@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.ServerInfo;
+import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.VisitAdapter;
-import com.example.restauranteur.Model.Server;
-import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,7 +27,7 @@ public class ServerActiveVisitsFragment extends Fragment {
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
 
-    public ServerActiveVisitsFragment(){
+    public ServerActiveVisitsFragment() {
         //required empty constructor
     }
 
@@ -48,66 +49,43 @@ public class ServerActiveVisitsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        visit = new ArrayList<>();
+        visit = new ArrayList<Visit>();
         rvActiveVisit = view.findViewById(R.id.rvActiveVisits);
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
         visitAdapter = new VisitAdapter(visit);
         rvActiveVisit.setAdapter(visitAdapter);
 
-        fetchActiveVisit();
+        fetchActiveVisits();
 
     }
 
-   private void fetchActiveVisit() {
-        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("active",true);
 
-        // Specify the object id
-        query.findInBackground(new FindCallback<Visit>() {
+    private void fetchActiveVisits(){
+        final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+        query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
+
+        query.findInBackground(new FindCallback<ServerInfo>() {
             @Override
-            public void done(List<Visit> objects, ParseException e) {
-                if (e == null ) {
+            public void done(List<ServerInfo> objects, ParseException e) {
+                if (e == null){
                     visit.clear();
                     visitAdapter.notifyDataSetChanged();
-                    for (int i = 0; i < objects.size(); i++) {
-                        Visit OneVisit = objects.get(i);
-                        String serverId = OneVisit.getServer().getObjectId();
-                        if (serverId.equals(Server.getCurrentServer().getObjectId())){
-                            visit.add(OneVisit);
 
-                            visitAdapter.notifyItemInserted(visit.size() - 1);
-                        }
-                    }
-                }else {
+                   ServerInfo serverInfo = objects.get(0);
+
+
+                   for (int i = 0 ; i < serverInfo.getVisit().size() ; i++){
+                       visit.add(serverInfo.getVisit().get(i));
+                       visitAdapter.notifyDataSetChanged();
+
+                   }
+
+                } else {
                     e.printStackTrace();
                 }
             }
         });
     }
 
-    //Alternative Query to get the active Visits for that user
-  /* private void fetchActiveVisit(){
-        final ParseQuery<Visit> query= ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("server", Server.getCurrentServer().getObjectId());
-
-        query.findInBackground(new FindCallback<Visit>() {
-            @Override
-            public void done(List<Visit> objects, ParseException e) {
-                if (e == null) {
-                    visit.clear();
-                    visitAdapter.notifyDataSetChanged();
-                    for (int i = 0 ; i < objects.size() ; i++ ){
-                        Visit oneVisit = objects.get(i);
-                        if (Server.getCurrentServer().getObjectId().equals(oneVisit.getServer().toString())){
-                            visit.add(oneVisit);
-                            visitAdapter.notifyItemInserted(visit.size() - 1);
-                        }
-                    }
-                }
-            }
-        });
-    }*/
 
 }
-
-
