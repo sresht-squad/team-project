@@ -8,19 +8,13 @@ import org.json.JSONObject;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-        public static final String VISIT_KEY = "visit";
+
         public static final String BODY_KEY = "body";
         public static final String AUTHOR_ID_KEY = "author";
-        static final String STATUS = "active";
+        final static String STATUS = "active";
         public String tableNum = "0";
 
         public Message(){}
-
-        public ParseObject getVisit() {
-        return getParseObject(VISIT_KEY); }
-
-        public void setVisit(Visit visit) {
-            put(VISIT_KEY, visit); }
 
         public void setActive(boolean tf) {
         put(STATUS, tf); }
