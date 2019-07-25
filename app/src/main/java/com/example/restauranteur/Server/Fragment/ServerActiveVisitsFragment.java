@@ -59,32 +59,6 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     }
 
-   /* private void fetchActiveVisit() {
-        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("active", true);
-
-        // Specify the object id
-        query.findInBackground(new FindCallback<Visit>() {
-            @Override
-            public void done(List<Visit> objects, ParseException e) {
-                if (e == null) {
-                    visit.clear();
-                    visitAdapter.notifyDataSetChanged();
-                    for (int i = 0; i < objects.size(); i++) {
-                        Visit OneVisit = objects.get(i);
-                        String serverId = OneVisit.getServer().getObjectId();
-                        if (serverId.equals(Server.getCurrentServer().getObjectId())) {
-                            visit.add(OneVisit);
-
-                            visitAdapter.notifyItemInserted(visit.size() - 1);
-                        }
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }*/
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
