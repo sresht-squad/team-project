@@ -81,7 +81,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                             visit.setActive(true);
                                             final CustomerInfo customerInfo = customer.getInfo();
                                             customerInfo.setVisit(visit);
+                                            Log.i("HERE", "1");
                                             customer.setVisit(visit);
+                                            Log.i("HERE", "2");
                                             ArrayList<Message> messageArrayList = new ArrayList<Message>();
                                             visit.put("messages", messageArrayList);
                                             visit.setServer(server);
@@ -96,7 +98,11 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                         customerInfo.saveInBackground(new SaveCallback() {
                                                             @Override
                                                             public void done(ParseException e) {
-
+                                                                if (e == null) {
+                                                                    Log.d("Saved visit in CustInfo", "success");
+                                                                } else {
+                                                                    Log.d("Saved visit in CustInfo", "FAILURE");
+                                                                }
                                                             }
                                                         });
                                                         Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
