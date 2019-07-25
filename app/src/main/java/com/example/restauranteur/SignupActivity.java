@@ -1,6 +1,7 @@
 package com.example.restauranteur;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +21,16 @@ import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static com.parse.ParseUser.getCurrentUser;
@@ -41,7 +46,6 @@ public class SignupActivity extends AppCompatActivity {
     RadioGroup serverOrCustomer;
     RadioButton rbServer;
     RadioButton rbCustomer;
-    Button btnLogin;
     Button btnSignup;
     Server server;
     ServerInfo serverInfo;
@@ -57,7 +61,6 @@ public class SignupActivity extends AppCompatActivity {
         etGetLastName = findViewById(R.id.etLastName);
         etGetUsername = findViewById(R.id.etUsername);
         etGetPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignup2);
         serverOrCustomer = findViewById(R.id.radioGroup);
         rbServer = findViewById(R.id.rbServer);
@@ -74,10 +77,9 @@ public class SignupActivity extends AppCompatActivity {
 
                 if (selectedId == rbServer.getId()) {
                     signUpServer(newUsername, newPassword, firstName, lastName);
-                    finish();
+
                 } else if (selectedId == rbCustomer.getId()){
                     signUpCustomer(newUsername, newPassword, firstName, lastName);
-                    finish();
 
                 }
             }
@@ -93,25 +95,49 @@ public class SignupActivity extends AppCompatActivity {
         server.setLastName(last);
         server.put("server", true);
 
-        // Invoke signUpInBackground
-        server.signUpInBackground(new SignUpCallback() {
+        //check if username is already taken
+        //query for whether there is a user with the username that this user entered
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("username", newUsername);
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(com.parse.ParseException e) {
-                if (e == null) {
-                    Log.i("ServerSignup", "New Server created");
-                    // create the serverInfo object
-                    createServerInfo();
-                    // connect the new created serverInfo with the new server
-                    server.put("serverInfo",serverInfo);
-                    server.saveInBackground(new SaveCallback() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                Log.d("objects size", Integer.toString(objects.size()));
+                //if there is another user with this username, toast
+                if (objects.size() > 0){
+                    Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
+                    View view = toast.getView();
+                    //Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    //Gets the TextView from the Toast so it can be edited
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    toast.show();
+                }
+                //otherwise, sign up the user
+                else{
+                    // Invoke signUpInBackground
+                    server.signUpInBackground(new SignUpCallback() {
                         @Override
-                        public void done(ParseException e) {
-                            login(newUsername, newPassword);
+                        public void done(com.parse.ParseException e) {
+                            if (e == null) {
+                                Log.i("ServerSignup", "New Server created");
+                                // create the serverInfo object
+                                createServerInfo();
+                                // connect the new created serverInfo with the new server
+                                server.put("serverInfo",serverInfo);
+                                server.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        login(newUsername, newPassword);
+                                    }
+                                });
+
+                            } else {
+                                Log.i("ServerSignup", "server signup failed");
+                            }
                         }
                     });
-
-                } else {
-                    Log.i("ServerSignup", "server signup failed");
                 }
             }
         });
@@ -166,21 +192,46 @@ public class SignupActivity extends AppCompatActivity {
         customer.setFirstName(first);
         customer.setLastName(last);
         customer.put("server", false);
-        // Invoke signUpInBackground
-        customer.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    createCustomerInfo();
-                    customer.put("customerInfo",customerInfo);
-                    customer.saveInBackground(new SaveCallback() {
-                        @Override
+
+        //check if username is already taken
+        //query for whether there is a user with the username that this user entered
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("username", newUsername);
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                Log.d("objects size", Integer.toString(objects.size()));
+                //if there is another user with this username, toast
+                if (objects.size() > 0){
+                    Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
+                    View view = toast.getView();
+                    //Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    //Gets the TextView from the Toast so it can be edited
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    toast.show();
+                }
+                //otherwise, sign up the user
+                else{
+                    // Invoke signUpInBackground
+                    customer.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
-                            login(newUsername, newPassword);
+                            if (e == null) {
+                                createCustomerInfo();
+                                customer.put("customerInfo",customerInfo);
+                                customer.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        login(newUsername, newPassword);
+                                    }
+                                });
+                            } else {
+                                Log.d("Sign up", " Customer sign up failure");
+                                e.printStackTrace();
+                            }
                         }
                     });
-                } else {
-                    Log.d("Sign up", " Customer sign up failure");
-                    e.printStackTrace();
                 }
             }
         });
