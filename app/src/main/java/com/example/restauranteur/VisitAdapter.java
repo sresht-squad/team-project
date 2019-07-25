@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Visit;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> {
 
-    ArrayList<Visit> mVisit;
+    List<Visit> mVisit;
     Context context;
 
-    public VisitAdapter(ArrayList<Visit> mVisit) {
+    public VisitAdapter(List<Visit> mVisit) {
         this.mVisit = mVisit;
     }
 
@@ -35,8 +35,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
-        holder.etActiveVisit.setText(visit.getObjectId());
-        holder.tvTableNumber.setText(visit.getTableNumber());
+        holder.etActiveVisit.setText(visit.getString("objectId"));
 
     }
 
@@ -64,7 +63,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         }
 
         // Add a list of items -- change to type used
-        public void addAll(ArrayList<Visit> list) {
+        public void addAll(List<Visit> list) {
             mVisit.addAll(list);
             notifyDataSetChanged();
         }
