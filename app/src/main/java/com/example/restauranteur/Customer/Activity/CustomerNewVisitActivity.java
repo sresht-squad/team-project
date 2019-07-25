@@ -24,8 +24,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,8 +92,30 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                 public void done(ParseException e) {
                                                     if (e != null){
                                                         Log.d("Saving","Error while saving");
+
                                                         e.printStackTrace();
                                                     }else{
+                                                        ////////////////////////////////////////////
+
+                                                        ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+                                                        query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
+
+                                                        query.findInBackground(new FindCallback<ServerInfo>() {
+                                                            @Override
+                                                            public void done(List<ServerInfo> objects, ParseException e) {
+                                                               ServerInfo serverInfo = objects.get(0);
+                                                               serverInfo.addVisit(visit);
+                                                               serverInfo.saveInBackground(new SaveCallback() {
+                                                                   @Override
+                                                                   public void done(ParseException e) {
+                                                                       Log.d("Saving", "success");
+                                                                   }
+                                                               });
+
+                                                            }
+                                                        });
+
+                                                        ////////////////////////////////////////////
                                                         Log.d("Saving", "success");
                                                         customerInfo.saveInBackground(new SaveCallback() {
                                                             @Override
@@ -145,7 +165,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             }
         });
 
-        ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+     /*   ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
         query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
 
         query.findInBackground(new FindCallback<ServerInfo>() {
@@ -156,7 +176,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
 
             }
         });
-
+*/
 
 
 

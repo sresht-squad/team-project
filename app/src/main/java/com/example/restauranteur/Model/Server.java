@@ -88,7 +88,6 @@ public class Server {
         return new Server(user);
     }
 
-
     public static void logOut(){
         ParseUser.logOut();
     }
