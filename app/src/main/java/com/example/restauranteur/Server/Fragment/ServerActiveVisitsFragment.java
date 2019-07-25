@@ -1,6 +1,7 @@
 package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class ServerActiveVisitsFragment extends Fragment {
 
-    ArrayList<Visit> visit;
+    ArrayList<Visit> visits;
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
 
@@ -49,10 +50,10 @@ public class ServerActiveVisitsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        visit = new ArrayList<Visit>();
+        visits = new ArrayList<Visit>();
         rvActiveVisit = view.findViewById(R.id.rvActiveVisits);
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
-        visitAdapter = new VisitAdapter(visit);
+        visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
 
         fetchActiveVisits();
@@ -62,20 +63,19 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
-        query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
+        query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId()).include("visits");
 
         query.findInBackground(new FindCallback<ServerInfo>() {
             @Override
             public void done(List<ServerInfo> objects, ParseException e) {
                 if (e == null){
-                    visit.clear();
+                    visits.clear();
                     visitAdapter.notifyDataSetChanged();
 
                    ServerInfo serverInfo = objects.get(0);
 
-
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
-                       visit.add(serverInfo.getVisits().get(i));
+                       visits.add(serverInfo.getVisits().get(i));
                        visitAdapter.notifyDataSetChanged();
 
                    }
