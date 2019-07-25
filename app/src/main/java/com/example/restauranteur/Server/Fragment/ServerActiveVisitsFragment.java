@@ -56,6 +56,8 @@ public class ServerActiveVisitsFragment extends Fragment {
         visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
 
+
+
         fetchActiveVisits();
 
     }

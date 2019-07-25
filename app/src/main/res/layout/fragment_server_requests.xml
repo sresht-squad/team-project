@@ -22,7 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
-        android:id="@+id/tvCustomerOrders"
+        android:id="@+id/tvTableNum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -48,8 +48,8 @@
         android:text="Table #"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2196F3"
-        app:layout_constraintStart_toStartOf="@+id/tvCustomerOrders"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
+        app:layout_constraintStart_toStartOf="@+id/tvTableNum"
+        app:layout_constraintTop_toBottomOf="@+id/tvTableNum" />
 
     <TextView
         android:id="@+id/textView3"
@@ -65,7 +65,7 @@
         android:textColor="#2196F3"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toEndOf="@+id/tvTableNum"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTableNum" />
 
     <TextView
         android:id="@+id/textView4"
@@ -78,7 +78,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTableNum" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

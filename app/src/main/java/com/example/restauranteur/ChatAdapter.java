@@ -69,8 +69,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
 
-
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
         CheckBox checkBox;
