@@ -10,6 +10,7 @@ import com.parse.SignUpCallback;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     private ParseUser user;
@@ -108,9 +109,15 @@ public class Server {
     }
 
     //getting the array from the Parse database
-    public JSONArray getVisits(){
+    public List<Visit> getVisits(){
         ServerInfo info = getServerInfo();
         return info.getVisits();
+    }
+
+    //getting the array from the Parse database
+    public JSONArray getVisitsJSON(){
+        ServerInfo info = getServerInfo();
+        return info.getVisitsJSON();
     }
 
     // adding the customer to the visits array

@@ -80,7 +80,7 @@ public class ServerRequestsFragment extends Fragment {
     private void loadMessages() {
         Log.i("DISPLAY", "ALL_MESSAGES");
         //for all visits that involve this server
-        JSONArray visits = Server.getCurrentServer().getVisits();
+        JSONArray visits = Server.getCurrentServer().getVisitsJSON();
         if (visits == null) {
             return;
         }
