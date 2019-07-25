@@ -95,25 +95,49 @@ public class SignupActivity extends AppCompatActivity {
         server.setLastName(last);
         server.put("server", true);
 
-        // Invoke signUpInBackground
-        server.signUpInBackground(new SignUpCallback() {
+        //check if username is already taken
+        //query for whether there is a user with the username that this user entered
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("username", newUsername);
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(com.parse.ParseException e) {
-                if (e == null) {
-                    Log.i("ServerSignup", "New Server created");
-                    // create the serverInfo object
-                    createServerInfo();
-                    // connect the new created serverInfo with the new server
-                    server.put("serverInfo",serverInfo);
-                    server.saveInBackground(new SaveCallback() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                Log.d("objects size", Integer.toString(objects.size()));
+                //if there is another user with this username, toast
+                if (objects.size() > 0){
+                    Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
+                    View view = toast.getView();
+                    //Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    //Gets the TextView from the Toast so it can be edited
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    toast.show();
+                }
+                //otherwise, sign up the user
+                else{
+                    // Invoke signUpInBackground
+                    server.signUpInBackground(new SignUpCallback() {
                         @Override
-                        public void done(ParseException e) {
-                            login(newUsername, newPassword);
+                        public void done(com.parse.ParseException e) {
+                            if (e == null) {
+                                Log.i("ServerSignup", "New Server created");
+                                // create the serverInfo object
+                                createServerInfo();
+                                // connect the new created serverInfo with the new server
+                                server.put("serverInfo",serverInfo);
+                                server.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        login(newUsername, newPassword);
+                                    }
+                                });
+
+                            } else {
+                                Log.i("ServerSignup", "server signup failed");
+                            }
                         }
                     });
-
-                } else {
-                    Log.i("ServerSignup", "server signup failed");
                 }
             }
         });
