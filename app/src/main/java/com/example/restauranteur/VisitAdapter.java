@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -85,25 +86,35 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b){
-                        Log.i("checkBox Done", tvTableNumber.getText().toString());
-
+                        // search for that visit's table number and server to get the specific visit
                         final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-                        query.whereEqualTo("tableNumber", tvTableNumber.getText().toString());
+                        query.whereEqualTo("server", Server.getCurrentServer().getParseUser());
 
                         query.findInBackground(new FindCallback<Visit>() {
                             @Override
                             public void done(List<Visit> objects, ParseException e) {
-                                Visit visit = objects.get(0);
-                                visit.setActive(false);
-                                visit.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        Log.i("saved", "success");
+                                if (e == null){
+                                    for (int i = 0; i < objects.size(); i++){
+                                        Visit visit = objects.get(i);
+                                        if (visit.getTableNumber().equals(tvTableNumber.getText().toString())){
+                                            // change boolean true to false.Visit is not Active
+                                            visit.setActive(false);
+                                            visit.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Log.i("saved", "visit Active false");
+                                                }
+                                            });
+
+                                        }
                                     }
-                                });
+                                }else{
+                                    e.printStackTrace();
+                                }
+
                             }
                         });
-
+                        Log.i("checkBox Done", tvTableNumber.getText().toString());
                     }else{
                         Log.i("checBox Done", "unChecked");
 
