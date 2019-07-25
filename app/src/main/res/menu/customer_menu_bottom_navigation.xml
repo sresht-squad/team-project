@@ -12,7 +12,7 @@
         android:id="@+id/action_quick_request"
         android:enabled="true"
         android:icon="@drawable/request_icon"
-        android:title="QuickRequest"
+        android:title="Quick Request"
         app:showAsAction="ifRoom" />
 
 </menu>

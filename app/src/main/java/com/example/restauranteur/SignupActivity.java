@@ -7,17 +7,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Server;
-
+import com.example.restauranteur.Model.ServerInfo;
+import com.example.restauranteur.Model.Visit;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
+
+import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -33,6 +37,9 @@ public class SignupActivity extends AppCompatActivity {
     RadioButton rbCustomer;
     Button btnLogin;
     Button btnSignup;
+    Server server;
+    ServerInfo serverInfo;
+    CustomerInfo customerInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +79,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     void signUpServer(String newUsername, String newPassword, String first, String last) {
-        final Server server = new Server(new ParseUser());
+
+        server = new Server(new ParseUser());
         server.setUsername(newUsername);
         server.setPassword(newPassword);
         server.setFirstName(first);
@@ -85,8 +93,56 @@ public class SignupActivity extends AppCompatActivity {
             public void done(com.parse.ParseException e) {
                 if (e == null) {
                     Log.i("ServerSignup", "New Server created");
+                    // create the serverInfo object
+                    createServerInfo();
+                    // connect the new created serverInfo with the new server
+                    server.put("serverInfo",serverInfo);
+                    server.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        }
+                    });
+
                 } else {
                     Log.i("ServerSignup", "server signup failed");
+                }
+            }
+        });
+    }
+
+    private void createServerInfo (){
+        // call this in callBack to gurantee association
+        // put into the method and doing it the save callBack
+        serverInfo = new ServerInfo();
+        serverInfo.put("visits",new ArrayList<Visit>());
+        //invoke saveInBackground
+        serverInfo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("ServerInfo", "New ServerInfo");
+
+                } else {
+                    Log.i("ServerInfo", "ServerInfo not working");
+                }
+            }
+        });
+    }
+
+
+    private void createCustomerInfo (){
+        // call this in callBack to gurantee association
+        // put into the method and doing it the save callBack
+        customerInfo = new CustomerInfo();
+        //invoke saveInBackground
+        customerInfo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("CustomerInfo", "New CustomerInfo");
+
+                } else {
+                    Log.i("CustomerInfo", "Customer Info not working");
                 }
             }
         });
@@ -95,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
     private void signUpCustomer(String newUsername, String newPassword, String first, String last){
         Log.d("signup","signup pressed");
         // Create the Customer
-        Customer customer = new Customer(new ParseUser());
+        final Customer customer = new Customer(new ParseUser());
 
         // Set core properties
         customer.setUsername(newUsername);
@@ -107,7 +163,14 @@ public class SignupActivity extends AppCompatActivity {
         customer.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                    createCustomerInfo();
+                    customer.put("customerInfo",customerInfo);
+                    customer.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                        }
+                    });
                 } else {
                     Log.d("Sign up", " Customer sign up failure");
                     e.printStackTrace();

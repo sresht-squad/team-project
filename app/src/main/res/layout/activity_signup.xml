@@ -4,22 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ecf0f1">
+    android:background="#ecf0f1"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvSignUp2"
+        android:layout_width="275dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="30dp"
+        android:background="#0000000F"
+        android:fontFamily="@font/baloo_bhai"
+        android:gravity="center"
+        android:text="SIGN UP"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#3D3D3B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSignup2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/gradient_background"
+        android:fontFamily="@font/baloo_bhai"
         android:text="Sign Up"
-        android:textAllCaps="false"
         android:textColor="#000000"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -62,19 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:gravity="center"
-        android:text="Welcome!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/etLastName"
         android:layout_width="350dp"
@@ -99,7 +104,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/rounded_edit_text"
@@ -109,7 +114,7 @@
         android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSignUp2" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -124,18 +129,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:buttonTint="#2196F3"
             android:checked="false"
             android:text="Customer"
-            android:textSize="20sp" />
+            android:textColor="#9e9e9e"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/rbServer"
+            android:buttonTint="#2196F3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Server"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="20dp" />
+            android:textColor="#9e9e9e"
+            android:textSize="18sp" />
     </RadioGroup>
 
 

@@ -4,36 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ecf0f1"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvTitle1"
-        android:layout_width="160dp"
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
         android:layout_height="81dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginRight="56dp"
         android:background="#0000000F"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
-        android:text="MEAL"
+        android:text="MATE"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="#3D3D3B"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle2"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="#2196F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSignup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="168dp"
-        android:background="#F4AC45"
-        android:text="Go to Sign Up Page"
-        android:textAllCaps="false"
-        android:textColor="#000000"
+        android:layout_width="65dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/baloo_bhai"
+        android:text="Sign Up"
+        android:textColor="#2196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,9 +91,9 @@
         android:text="MATE"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="#116FFF"
-        app:layout_constraintBottom_toTopOf="@+id/etUsernameLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle1" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -103,11 +104,11 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="68dp"
-        android:background="#F4AC45"
+        android:background="@drawable/gradient_background"
+        android:fontFamily="@font/baloo_bhai"
         android:text="Login"
-        android:textAllCaps="false"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/tvSignUpBelow"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
@@ -123,5 +124,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <TextView
+        android:id="@+id/tvTitle1"
+        android:layout_width="0dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="32dp"
+        android:background="#0000000F"
+        android:fontFamily="@font/baloo_bhai"
+        android:gravity="center"
+        android:text="MEAL"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#3D3D3B"
+        app:layout_constraintEnd_toStartOf="@+id/tvTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

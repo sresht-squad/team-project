@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,17 +22,16 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
+import static android.os.SystemClock.sleep;
 import static com.parse.ParseUser.getCurrentUser;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
-    private Context mContext;
     private String mUserId;
 
     public ChatAdapter(Context context, String userId, List<Message> messages) {
         mMessages = messages;
         this.mUserId = userId;
-        mContext = context;
     }
 
     @Override
@@ -70,13 +70,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
-        ImageButton ibDone;
+        CheckBox checkBox;
 
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
-            ibDone = itemView.findViewById(R.id.ibDone);
-            ibDone.setOnClickListener(this);
+            checkBox = itemView.findViewById(R.id.checkBox);
+           checkBox.setOnClickListener(this);
         }
 
         @Override
@@ -89,6 +89,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 m.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        sleep(200);
                         mMessages.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, getItemCount());
@@ -97,49 +98,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             }
 
         }
-    }
-
-    // Query messages from Parse so we can load them into the chat adapter
-    void refreshMessages() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(50);
-
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
-            public void done(List<Message> messages, ParseException e) {
-                Visit v;
-                if (e == null) {
-                    mMessages.clear();
-                }
-                // mMessages.addAll(messages);
-                Message m;
-                Server server;
-                String serverId;
-                String userId;
-                int size = messages.size();
-                //only show the messages for visits that involve the current logged-in server
-                for (int i = 0; i < size; i++) {
-                    m = messages.get(i);
-                   /* if (m.getActive()) {
-                        v = (Visit) m.getVisit();
-                        serverId = v.getServer().getObjectId();
-                        userId = getCurrentUser().getObjectId();
-                        if (serverId.equals(userId)) {
-                            //Log.i(serverId, userId);
-                            mMessages.add(m);
-                        }
-                    }
-                    */
-                }
-
-                notifyDataSetChanged(); // update adapter
-            }
-        });
     }
 
 }
