@@ -1,7 +1,10 @@
 package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -201,4 +204,35 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        final Intent intent = getIntent();
+        //check if the message actually came from NFC
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            //get the data
+            final Parcelable[] rawMessages = intent.getParcelableArrayExtra(
+                    NfcAdapter.EXTRA_NDEF_MESSAGES);
+
+            String serverId = "";
+            String tableNum = "";
+            NdefMessage ndefmessage = null; // only one message transferred
+            if (rawMessages != null) {
+                ndefmessage = (NdefMessage) rawMessages[0];
+                //get each record and convert them back into string format
+                serverId = new String(ndefmessage.getRecords()[0].getPayload());
+                tableNum = new String(ndefmessage.getRecords()[1].getPayload());
+            }
+            //set the editText to contain the first message
+            etServerId.setText(serverId);
+            etTableNumber.setText(tableNum);
+            if (!etTableNumber.getText().equals("")){
+                btnNewVisit.callOnClick();
+            }
+
+        } else
+            etServerId.setText("Waiting for NDEF Message");
+    }
+
 }
