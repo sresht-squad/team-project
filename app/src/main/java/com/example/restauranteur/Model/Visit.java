@@ -83,6 +83,7 @@ public class Visit extends ParseObject {
             whereEqualTo("tableNumber", tableNumber);
             return this;
         }
+
     }
 
 
