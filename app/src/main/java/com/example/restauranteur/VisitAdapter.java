@@ -1,9 +1,12 @@
 package com.example.restauranteur;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +41,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
+
         holder.etActiveVisit.setText(visit.getObjectId());
 
         final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
@@ -51,7 +55,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             }
         });
 
+
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -62,14 +70,29 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
         TextView etActiveVisit;
         TextView tvTableNumber;
+        CheckBox cbDone;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             etActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
+            cbDone = itemView.findViewById(R.id.cbDone);
 
-            }
+            cbDone.setChecked(false);
+            cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b){
+                        Log.i("info", "hello");
+                    }else{
+                        Log.i("info", "helloNot");
+                    }
+                }
+            });
+
+
+        }
 
         public void clear() {
             mVisit.clear();
