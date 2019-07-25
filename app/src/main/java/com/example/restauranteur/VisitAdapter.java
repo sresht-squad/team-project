@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Visit;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.List;
 
@@ -32,11 +35,21 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     }
 
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
         holder.etActiveVisit.setText(visit.getObjectId());
-        holder.tvTableNumber.setText(visit.getString("tableNumber"));
+
+        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
+        query.whereEqualTo("objectId", visit.getObjectId());
+
+        query.findInBackground(new FindCallback<Visit>() {
+            @Override
+            public void done(List<Visit> objects, ParseException e) {
+                Visit singleVisit = objects.get(0);
+                holder.tvTableNumber.setText(singleVisit.getTableNumber());
+            }
+        });
 
     }
 
