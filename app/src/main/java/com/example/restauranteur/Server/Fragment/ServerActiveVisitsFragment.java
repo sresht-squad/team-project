@@ -74,8 +74,8 @@ public class ServerActiveVisitsFragment extends Fragment {
                    ServerInfo serverInfo = objects.get(0);
 
 
-                   for (int i = 0 ; i < serverInfo.getVisit().size() ; i++){
-                       visit.add(serverInfo.getVisit().get(i));
+                   for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
+                       visit.add(serverInfo.getVisits().get(i));
                        visitAdapter.notifyDataSetChanged();
 
                    }
