@@ -35,7 +35,8 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Visit visit = mVisit.get(position);
-        holder.etActiveVisit.setText(visit.getString("objectId"));
+        holder.etActiveVisit.setText(visit.getObjectId());
+        holder.tvTableNumber.setText(visit.getString("tableNumber"));
 
     }
 
