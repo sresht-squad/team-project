@@ -49,7 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
         if (serverPage){
-            holder.tableNum.setText("4");
+            holder.tableNum.setText(message.tableNum);
         }
         //String author = (message.getAuthor()).getObjectId();
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
