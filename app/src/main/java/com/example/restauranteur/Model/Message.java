@@ -11,8 +11,8 @@ public class Message extends ParseObject {
         public static final String VISIT_KEY = "visit";
         public static final String BODY_KEY = "body";
         public static final String AUTHOR_ID_KEY = "author";
-        public static final String ACTIVE_VISITS = "visits";
         static final String STATUS = "active";
+        public String tableNum = "0";
 
         public Message(){}
 

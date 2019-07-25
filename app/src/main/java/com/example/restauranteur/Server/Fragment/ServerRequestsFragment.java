@@ -37,7 +37,7 @@ public class ServerRequestsFragment extends Fragment {
     private ArrayList<Message> mMessages;
     private ArrayList<Visit> visits;
     private ChatAdapter mAdapter;
-    private boolean mFirstLoad;
+    private String tableNum;
 
     public ServerRequestsFragment() {
         // Required empty public constructor
@@ -62,7 +62,6 @@ public class ServerRequestsFragment extends Fragment {
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
-        mFirstLoad = true;
 
         final String userId = getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(getContext(), true, userId, mMessages);
@@ -105,7 +104,9 @@ public class ServerRequestsFragment extends Fragment {
                 @Override
                 public void done(List<Visit> objects, ParseException e) {
                     if (e == null) {
-                        findMessages(objects.get(0));
+                        Visit visit = objects.get(0);
+                        tableNum = visit.getTableNumber();
+                        findMessages(visit);
                     }
                 }
             });
@@ -134,6 +135,7 @@ public class ServerRequestsFragment extends Fragment {
             public void done(List<Message> objects, ParseException e) {
                 if (e == null) {
                     Message message = objects.get(0);
+                    message.tableNum = tableNum;
                     mMessages.add(message);
                     mAdapter.notifyDataSetChanged();
                 }

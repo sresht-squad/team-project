@@ -81,8 +81,6 @@ public class Customer {
        return user;
     }
 
-    public void setVisit(Visit visit) {user.put(VISIT_KEY, visit); }
-
     public Visit getCurrentVisit(){
        return (Visit)user.getParseObject(VISIT_KEY);
     }
