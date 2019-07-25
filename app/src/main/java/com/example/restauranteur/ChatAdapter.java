@@ -7,30 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Model.Server;
-import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
 import static android.os.SystemClock.sleep;
-import static com.parse.ParseUser.getCurrentUser;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
     private String mUserId;
+    Boolean serverPage;
 
-    public ChatAdapter(Context context, String userId, List<Message> messages) {
+    public ChatAdapter(Context context, Boolean serverScreen, String userId, List<Message> messages) {
         mMessages = messages;
+        serverPage = serverScreen;
         this.mUserId = userId;
     }
 
@@ -38,7 +34,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.item_chat, parent, false);
+        View contactView;
+        if (serverPage){
+            contactView = inflater.inflate(R.layout.item_chat_server, parent, false);
+        } else {
+            contactView = inflater.inflate(R.layout.item_chat_customer, parent, false);
+        }
 
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
@@ -47,16 +48,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
-        String author = (message.getAuthor()).getObjectId();
-        final boolean isMe = (this.mUserId.equals(author));
-
-        if (isMe) {
-            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-            holder.body.setBackgroundColor(0xADD8E6);
-            Log.i("MY", "MESSAGE");
-        } else {
-            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        if (serverPage){
+            holder.tableNum.setText("4");
         }
+        //String author = (message.getAuthor()).getObjectId();
+        holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
     }
 
@@ -71,12 +67,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
         CheckBox checkBox;
+        TextView tableNum;
 
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
+            tableNum = itemView.findViewById(R.id.tvTableNum);
             checkBox = itemView.findViewById(R.id.checkBox);
-           checkBox.setOnClickListener(this);
+            checkBox.setOnClickListener(this);
         }
 
         @Override

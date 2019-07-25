@@ -140,6 +140,7 @@ public class SignupActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Log.i("CustomerInfo", "New CustomerInfo");
+                    Toast.makeText(SignupActivity.this, "You are now signed up as a server, login here!", LENGTH_LONG).show();
 
                 } else {
                     Log.i("CustomerInfo", "Customer Info not working");
@@ -168,7 +169,7 @@ public class SignupActivity extends AppCompatActivity {
                     customer.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                            Toast.makeText(SignupActivity.this, "You are now signed up as a customer, login here!", LENGTH_LONG).show();
                         }
                     });
                 } else {

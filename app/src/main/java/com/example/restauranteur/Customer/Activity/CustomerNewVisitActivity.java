@@ -110,7 +110,11 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                                serverInfo.saveInBackground(new SaveCallback() {
                                                                    @Override
                                                                    public void done(ParseException e) {
-                                                                       Log.d("Saving", "success");
+                                                                       if (e == null) {
+                                                                           Log.d("Saving server info", "Success");
+                                                                       } else{
+                                                                           Log.d("Saving server info", "Failure");
+                                                                       }
                                                                    }
                                                                });
 
