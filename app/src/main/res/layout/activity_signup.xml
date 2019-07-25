@@ -132,18 +132,18 @@
             android:buttonTint="#2196F3"
             android:checked="false"
             android:text="Customer"
-            android:textColor="#9e9e9e"
+            android:textColor="#000000"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/rbServer"
-            android:buttonTint="#2196F3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:buttonTint="#2196F3"
             android:text="Server"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#9e9e9e"
+            android:textColor="#000000"
             android:textSize="18sp" />
     </RadioGroup>
 
