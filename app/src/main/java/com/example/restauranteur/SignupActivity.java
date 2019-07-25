@@ -1,5 +1,6 @@
 package com.example.restauranteur;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.Server.Activity.ServerHomeActivity;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -24,6 +28,8 @@ import com.parse.SignUpCallback;
 import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static com.parse.ParseUser.getCurrentUser;
+import static com.parse.ParseUser.logInInBackground;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -78,7 +84,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    void signUpServer(String newUsername, String newPassword, String first, String last) {
+    void signUpServer(final String newUsername, final String newPassword, String first, String last) {
 
         server = new Server(new ParseUser());
         server.setUsername(newUsername);
@@ -100,6 +106,7 @@ public class SignupActivity extends AppCompatActivity {
                     server.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
+                            login(newUsername, newPassword);
                         }
                     });
 
@@ -148,7 +155,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    private void signUpCustomer(String newUsername, String newPassword, String first, String last){
+    private void signUpCustomer(final String newUsername, final String newPassword, String first, String last){
         Log.d("signup","signup pressed");
         // Create the Customer
         final Customer customer = new Customer(new ParseUser());
@@ -168,7 +175,7 @@ public class SignupActivity extends AppCompatActivity {
                     customer.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Toast.makeText(SignupActivity.this, "You are now signed up as a customer, click above to login!", LENGTH_LONG).show();
+                            login(newUsername, newPassword);
                         }
                     });
                 } else {
@@ -178,5 +185,27 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void login(final String username, final String password) {
+        logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("Login", "Login success");
+                    final Intent intent;
+                    if (getCurrentUser().getBoolean("server")) {
+                        intent = new Intent(SignupActivity.this, ServerHomeActivity.class);
+                    } else {
+                        intent = new Intent(SignupActivity.this, CustomerNewVisitActivity.class);
+                    }
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Log.e("Login", "Login failure");
+                }
+            }
+        });
+    }
+
 }
 
