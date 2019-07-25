@@ -15,6 +15,7 @@ import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -84,9 +85,28 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b){
-                        Log.i("info", "hello");
+                        Log.i("checkBox Done", tvTableNumber.getText().toString());
+
+                        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
+                        query.whereEqualTo("tableNumber", tvTableNumber.getText().toString());
+
+                        query.findInBackground(new FindCallback<Visit>() {
+                            @Override
+                            public void done(List<Visit> objects, ParseException e) {
+                                Visit visit = objects.get(0);
+                                visit.setActive(false);
+                                visit.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.i("saved", "success");
+                                    }
+                                });
+                            }
+                        });
+
                     }else{
-                        Log.i("info", "helloNot");
+                        Log.i("checBox Done", "unChecked");
+
                     }
                 }
             });
@@ -105,7 +125,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             notifyDataSetChanged();
         }
 
+
+
     }
+
+
 
 
 }
