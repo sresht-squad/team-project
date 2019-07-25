@@ -23,10 +23,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
     private String mUserId;
     Boolean serverPage;
+    Boolean detailPage;
 
-    public ChatAdapter(Context context, Boolean serverScreen, String userId, List<Message> messages) {
+    public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, String userId, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
+        detailPage = detailScreen;
         this.mUserId = userId;
     }
 
@@ -36,7 +38,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView;
         if (serverPage){
-            contactView = inflater.inflate(R.layout.item_chat_server, parent, false);
+            if (detailPage){
+                contactView = inflater.inflate(R.layout.item_chat_server_detail, parent, false);
+            }
+            else{
+                contactView = inflater.inflate(R.layout.item_chat_server, parent, false);
+            }
         } else {
             contactView = inflater.inflate(R.layout.item_chat_customer, parent, false);
         }

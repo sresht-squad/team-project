@@ -77,7 +77,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new ChatAdapter(getContext(), false, userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), false, false, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
