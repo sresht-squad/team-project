@@ -11,7 +11,6 @@ public class ServerInfo extends ParseObject {
 
     private static final String KEY_VISITS = "visits";
 
-
     public List<Visit> getVisit() {
         return getList("visits");
     }
