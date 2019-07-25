@@ -77,7 +77,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), false, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
@@ -92,8 +92,6 @@ public class CustomerRequestsFragment extends Fragment {
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
         // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvChat.setLayoutManager(linearLayoutManager);
         final Customer customer = Customer.getCurrentCustomer();
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +179,7 @@ public class CustomerRequestsFragment extends Fragment {
                                     mMessages.add(objects.get(i));
                                     mAdapter.notifyDataSetChanged();
                                 }
-                            }// update adapter
+                            }
                         }
                     }
                 });

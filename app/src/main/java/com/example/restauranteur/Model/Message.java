@@ -3,6 +3,9 @@ package com.example.restauranteur.Model;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @ParseClassName("Message")
 public class Message extends ParseObject {
         public static final String VISIT_KEY = "visit";
@@ -11,6 +14,7 @@ public class Message extends ParseObject {
         public static final String ACTIVE_VISITS = "visits";
         static final String STATUS = "active";
 
+        public Message(){}
 
         public ParseObject getVisit() {
         return getParseObject(VISIT_KEY); }
