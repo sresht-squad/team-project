@@ -103,6 +103,9 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                                                 @Override
                                                 public void done(ParseException e) {
                                                     Log.i("saved", "visit Active false");
+                                                    int position = getAdapterPosition();
+                                                    removeAt(position);
+                                                    notifyDataSetChanged();
                                                 }
                                             });
 
@@ -136,6 +139,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             notifyDataSetChanged();
         }
 
+        public void removeAt(int position) {
+            mVisit.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mVisit.size());
+        }
 
 
     }
