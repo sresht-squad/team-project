@@ -73,6 +73,12 @@ public class Server {
         user.add("visits", visit);
     }
 
+    //being able to get the serverInfo object
+    public ServerInfo getServerInfo(){
+        return (ServerInfo) user.getParseObject("serverInfo");
+    }
+
+
     public String getString(String key){
         return user.getString(key);
     }
@@ -81,7 +87,6 @@ public class Server {
         ParseUser user = ParseUser.getCurrentUser();
         return new Server(user);
     }
-
 
     public static void logOut(){
         ParseUser.logOut();

@@ -15,6 +15,7 @@ import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
@@ -32,6 +33,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     Button btnNewVisit;
     EditText etTableNumber;
     Visit visit;
+    Server server;
     ImageView logout;
 
 
@@ -58,7 +60,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-                            final Server server = new Server(objects.get(0));
+                             server = new Server(objects.get(0));
 
                             //check if visit already exists & this is another customer at same table
                             final Visit.Query parseVisitQuery = new Visit.Query();
@@ -92,8 +94,30 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                 public void done(ParseException e) {
                                                     if (e != null){
                                                         Log.d("Saving","Error while saving");
+
                                                         e.printStackTrace();
                                                     }else{
+                                                        ////////////////////////////////////////////
+
+                                                        ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+                                                        query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
+
+                                                        query.findInBackground(new FindCallback<ServerInfo>() {
+                                                            @Override
+                                                            public void done(List<ServerInfo> objects, ParseException e) {
+                                                               ServerInfo serverInfo = objects.get(0);
+                                                               serverInfo.addVisit(visit);
+                                                               serverInfo.saveInBackground(new SaveCallback() {
+                                                                   @Override
+                                                                   public void done(ParseException e) {
+                                                                       Log.d("Saving", "success");
+                                                                   }
+                                                               });
+
+                                                            }
+                                                        });
+
+                                                        ////////////////////////////////////////////
                                                         Log.d("Saving", "success");
                                                         customerInfo.saveInBackground(new SaveCallback() {
                                                             @Override
@@ -146,6 +170,22 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 });
             }
         });
+
+     /*   ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+        query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
+
+        query.findInBackground(new FindCallback<ServerInfo>() {
+            @Override
+            public void done(List<ServerInfo> objects, ParseException e) {
+                JSONArray visits = objects.get(0).getVisits();
+                visits.put(visit);
+
+            }
+        });
+*/
+
+
+
 
         logout = findViewById(R.id.ivLogout);
         logout.setOnClickListener(new View.OnClickListener() {
