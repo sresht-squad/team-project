@@ -59,7 +59,7 @@ public class ServerRequestsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Find the text field and button
         rvChat = view.findViewById(R.id.rvChat);
 
@@ -85,7 +85,7 @@ public class ServerRequestsFragment extends Fragment {
         if (visits == null) {
             return;
         }
-        if (mMessages != null){
+        if (mMessages != null) {
             mMessages.clear();
         }
         int visitNum = visits.length();
@@ -120,12 +120,12 @@ public class ServerRequestsFragment extends Fragment {
     }
 
 
-    private void findMessages(Visit thisVisit){
+    private void findMessages(Visit thisVisit) {
         // get the array of pointers to messages
         List<ParseObject> messagePointers = thisVisit.getMessageList();
         try {
             ParseObject.fetchAllIfNeeded(messagePointers);
-        } catch (ParseException e){
+        } catch (ParseException e) {
 
         }
         for (int i = 0; i < messagePointers.size(); i++) {
@@ -139,11 +139,11 @@ public class ServerRequestsFragment extends Fragment {
                 mMessages.sort(new Comparator<Message>() {
                     public int compare(Message m1, Message m2) {
                         long diff = (m1.getCreatedAt().getTime() - m2.getCreatedAt().getTime());
-                        if ( diff > 0) {
+                        if (diff > 0) {
                             return 1;
                         } else if (diff == 0) {
                             return 0;
-                        } else{
+                        } else {
                             return -1;
                         }
                     }
@@ -151,6 +151,8 @@ public class ServerRequestsFragment extends Fragment {
             }
             mAdapter.notifyDataSetChanged();
         }
+    }
+}
 
         /*
         for (int i = 0; i < messagePointers.length(); i++){
@@ -162,10 +164,11 @@ public class ServerRequestsFragment extends Fragment {
                 Log.i("Extracting messages", "error");
             }
         }
-        */
 
     }
+    */  
 
+    /*
     private void extractMessages(String messageId, final String tableNumber) {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.whereEqualTo("objectId", messageId);
@@ -201,5 +204,4 @@ public class ServerRequestsFragment extends Fragment {
                 }
             }
         });
-    }
-}
+    }*/
