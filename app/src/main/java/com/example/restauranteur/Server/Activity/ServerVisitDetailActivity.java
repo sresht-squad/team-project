@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
@@ -44,7 +43,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         //id lookups
         RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        TextView tvTableNum = (TextView) findViewById(R.id.tvTableNum);
+        TextView tvTableNum = (TextView) findViewById(R.id.tvTitle);
 
         tvTableNum.setText(nameText + ", Table " + visit.getTableNumber());
 

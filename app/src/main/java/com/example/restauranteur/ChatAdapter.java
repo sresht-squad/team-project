@@ -1,7 +1,6 @@
 package com.example.restauranteur;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
-import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 

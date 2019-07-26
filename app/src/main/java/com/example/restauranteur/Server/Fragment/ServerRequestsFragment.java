@@ -35,7 +35,6 @@ public class ServerRequestsFragment extends Fragment {
 
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    private ArrayList<Visit> visits;
     private ChatAdapter mAdapter;
     private String tableNum;
 
@@ -134,10 +133,12 @@ public class ServerRequestsFragment extends Fragment {
             @Override
             public void done(List<Message> objects, ParseException e) {
                 if (e == null) {
-                    Message message = objects.get(0);
-                    message.tableNum = tableNum;
-                    mMessages.add(message);
-                    mAdapter.notifyDataSetChanged();
+                    if (objects.size() > 0) {
+                        Message message = objects.get(0);
+                        message.tableNum = tableNum;
+                        mMessages.add(message);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
