@@ -103,7 +103,7 @@ public class CustomerRequestsFragment extends Fragment {
         cvToGoBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String toGoBoxRequest = "To-go boxes";
+                String toGoBoxRequest = "To go boxes";
                 generateQuickRequest(toGoBoxRequest);
             }
         });
