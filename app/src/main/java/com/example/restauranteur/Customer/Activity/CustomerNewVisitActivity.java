@@ -86,9 +86,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                             visit.setActive(true);
                                             final CustomerInfo customerInfo = customer.getInfo();
                                             customerInfo.setVisit(visit);
-                                            Log.i("HERE", "1");
-                                            customer.setVisit(visit);
-                                            Log.i("HERE", "2");
                                             ArrayList<Message> messageArrayList = new ArrayList<Message>();
                                             visit.put("messages", messageArrayList);
                                             visit.setServer(server);
@@ -143,9 +140,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                         }
                                         //if visit already exists, add customer to visit
                                         else {
-                                            Visit sameVisit = (Visit) visitObjects.get(0);
+                                            Visit sameVisit = visitObjects.get(0);
                                             sameVisit.addCustomer(Customer.getCurrentCustomer());
-                                            Customer.getCurrentCustomer().setVisit(sameVisit);
                                             sameVisit.saveInBackground(new SaveCallback() {
                                                 @Override
                                                 public void done(ParseException e) {

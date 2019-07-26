@@ -26,8 +26,6 @@ public class ServerActiveVisitsFragment extends Fragment {
     ArrayList<Visit> visits;
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
-    private boolean active = true;
-
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
@@ -58,7 +56,9 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setAdapter(visitAdapter);
 
         fetchActiveVisits();
+
     }
+
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
@@ -80,6 +80,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                            visitAdapter.notifyDataSetChanged();
                        }
                    }
+
                 } else {
                     e.printStackTrace();
                 }

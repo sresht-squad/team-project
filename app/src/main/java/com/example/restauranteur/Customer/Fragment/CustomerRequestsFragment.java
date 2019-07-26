@@ -41,12 +41,11 @@ public class CustomerRequestsFragment extends Fragment {
 
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
-    private  ArrayList<Message> mMessages;
+    private ArrayList<Message> mMessages;
     private ChatAdapter mAdapter;
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
-    private boolean mFirstLoad;
     private Visit visit;
 
     public CustomerRequestsFragment() {
@@ -72,7 +71,6 @@ public class CustomerRequestsFragment extends Fragment {
         btSend = view.findViewById(R.id.btSend);
         rvChat = view.findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
-        mFirstLoad = true;
         customer = new Customer(ParseUser.getCurrentUser());
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
@@ -91,8 +89,6 @@ public class CustomerRequestsFragment extends Fragment {
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
-        // associate the LayoutManager with the RecylcerView
-        final Customer customer = Customer.getCurrentCustomer();
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +99,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-    private void postMessage(){
+    private void postMessage() {
         String data = etMessage.getText().toString();
         // Using new `Message` Parse-backed model now
         final Message message = new Message();
@@ -135,54 +131,19 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-
     private void displayCurrentMessages() {
         Log.i("DISPLAY", "ALL_MESSAGES");
-        JSONArray messages = visit.getMessages();
         if (mMessages != null) {
             mMessages.clear();
         }
-        int length = 0;
-        if (messages != null) {
-            length = messages.length();
-        }
-        //only show active messages created by this user during this visit
-
-        String messagePointer = "";
-        //for all messages in the visit array
-        List<ParseQuery<Message>> queries = new ArrayList<ParseQuery<Message>>();
-        for (int i = 0; i < length; i++) {
-
-            ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-            //get pointer to message from JSON data
-            try {
-                messagePointer = messages.getJSONObject(i).getString("objectId");
-                Log.i("MESSAGE_ID", messagePointer);
-            } catch (JSONException e) {
-                Log.i("MESS_ERROR", messagePointer);
-            }
-            query.whereEqualTo("objectId", messagePointer);
-            queries.add(query);
-        }
-
-            if  ((queries != null) && (queries.size() > 0)) {
-                ParseQuery<Message> mainQuery = ParseQuery.or(queries);
-                mainQuery.orderByAscending("createdAt");
-                mainQuery.findInBackground(new FindCallback<Message>() {
-                    @Override
-                    public void done(List<Message> objects, ParseException e) {
-                        if (e == null) {
-                            Log.i("Query_Size", "");
-                            System.out.println(objects.size());
-                            for (int i = 0; i < objects.size(); i++) {
-                                if (objects.get(i).getActive()) {
-                                    mMessages.add(objects.get(i));
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                    }
-                });
+        List<ParseObject> messageList = visit.getMessageList();
+        ParseObject.fetchAllIfNeededInBackground(messageList);
+        for (int i = 0; i < messageList.size(); i++) {
+            Message message = (Message) messageList.get(i);
+            if (message.getActive()) {
+                mMessages.add(message);
+                mAdapter.notifyDataSetChanged();
             }
         }
     }
+}

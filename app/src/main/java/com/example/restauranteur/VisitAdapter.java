@@ -16,17 +16,21 @@ import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
 
 import java.util.List;
 
 public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> {
 
-    List<Visit> mVisit;
-    Context context;
+    private List<Visit> mVisits;
+    private Context context;
+    public String tableNum;
 
     public VisitAdapter(List<Visit> mVisit) {
-        this.mVisit = mVisit;
+        this.mVisits = mVisit;
     }
 
 
@@ -35,46 +39,56 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View VisitView = inflater.inflate(R.layout.item_visit, parent, false);
-        ViewHolder viewHolder = new ViewHolder(VisitView);
-        return viewHolder;
+        return new ViewHolder(VisitView);
 
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Visit visit = mVisit.get(position);
+        final Visit visit = mVisits.get(position);
+        holder.tvTableNumber.setText(visit.getTableNumber());
+        //get the objectId of the first customer attached to the visit
+        String customerObjectId = null;
+        try {
+            customerObjectId = visit.getCustomers().getJSONObject(0).getString("objectId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        holder.etActiveVisit.setText(visit.getObjectId());
 
-        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-        query.whereEqualTo("objectId", visit.getObjectId());
+        //query for the customer with that objectId to get their name
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("objectId", customerObjectId);
 
-        query.findInBackground(new FindCallback<Visit>() {
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<Visit> objects, ParseException e) {
-                Visit singleVisit = objects.get(0);
-                holder.tvTableNumber.setText(singleVisit.getTableNumber());
+            public void done(List<ParseUser> objects, ParseException e) {
+                //get the first name
+                final String customerName = objects.get(0).getString("firstName");
+
+                //format it like so: Name (number in party)
+                final int numCustomers = visit.getJSONArray("customers").length();
+                final String nameText = customerName + " (" + numCustomers +")";
+                holder.tvActiveVisit.setText(nameText);
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
-        return mVisit.size();
+        return mVisits.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView etActiveVisit;
+        TextView tvActiveVisit;
         TextView tvTableNumber;
         CheckBox cbDone;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
-            etActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
+            tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
             cbDone = itemView.findViewById(R.id.cbDone);
 
@@ -100,9 +114,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                                                 @Override
                                                 public void done(ParseException e) {
                                                     Log.i("saved", "visit Active false");
-                                                    int position = getAdapterPosition();
-                                                    removeAt(position);
-                                                    notifyDataSetChanged();
                                                 }
                                             });
                                         }
@@ -123,20 +134,20 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         }
 
         public void clear() {
-            mVisit.clear();
+            mVisits.clear();
             notifyDataSetChanged();
         }
 
         // Add a list of items -- change to type used
         public void addAll(List<Visit> list) {
-            mVisit.addAll(list);
+            mVisits.addAll(list);
             notifyDataSetChanged();
         }
 
         public void removeAt(int position) {
-            mVisit.remove(position);
+            mVisits.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, mVisit.size());
+            notifyItemRangeChanged(position, mVisits.size());
         }
 
 

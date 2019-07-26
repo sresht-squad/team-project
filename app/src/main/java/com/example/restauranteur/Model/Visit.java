@@ -9,6 +9,9 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
@@ -50,6 +53,15 @@ public class Visit extends ParseObject {
         }
     }
 
+        public JSONArray getMessages(){
+            try {
+                return fetchIfNeeded().getJSONArray("messages");
+            }catch (ParseException e) {
+                Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
+                return null;
+            }
+        }
+
     public void setActive(boolean active){
         put(KEY_ACTIVE, active);
     }
@@ -67,14 +79,13 @@ public class Visit extends ParseObject {
         add("messages", message);
     }
 
-    public JSONArray getMessages(){
-        try {
-            return fetchIfNeeded().getJSONArray("messages");
-        }catch (ParseException e) {
-            Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
-            return null;
+    public List<ParseObject> getMessageList() {
+            try {
+                return (List<ParseObject>) fetchIfNeeded().get("messages");
+            } catch (ParseException e){
+                return null;
+            }
         }
-    }
 
     //From the order class include the waiter table and customer table
 
@@ -88,6 +99,7 @@ public class Visit extends ParseObject {
             whereEqualTo("tableNumber", tableNumber);
             return this;
         }
+
     }
 
 
