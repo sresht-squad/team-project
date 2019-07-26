@@ -101,4 +101,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        mMessages.clear();
+        notifyDataSetChanged();
+    }
+
 }

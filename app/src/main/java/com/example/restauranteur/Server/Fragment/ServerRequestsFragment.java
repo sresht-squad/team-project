@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
@@ -26,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class ServerRequestsFragment extends Fragment {
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
     private ChatAdapter mAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     public ServerRequestsFragment() {
         // Required empty public constructor
@@ -55,12 +58,37 @@ public class ServerRequestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_server_requests, container, false);
+        View view = inflater.inflate(R.layout.fragment_server_requests, container, false);
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("REFRESHING", "we are refreshing whoooo");
+                //first clear everything out
+                mAdapter.clear();
+                //repopulate
+                loadMessages();
+                //now make sure swipeContainer.setRefreshing is set to false
+                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
+                //lets put it at the end of populateTimeline instead!
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Find the text field and button
+
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
@@ -100,6 +128,7 @@ public class ServerRequestsFragment extends Fragment {
 
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 
 
