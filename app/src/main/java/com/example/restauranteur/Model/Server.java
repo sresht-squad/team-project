@@ -111,7 +111,12 @@ public class Server {
     //getting the array from the Parse database
     public List<Visit> getVisits(){
         ServerInfo info = getServerInfo();
-        return info.getVisits();
+        return info.getVisitsFetch();
+    }
+
+    public JSONArray getVisitsJSON(){
+        ServerInfo info = getServerInfo();
+        return info.getVisitsJSON();
     }
 
     // adding the customer to the visits array

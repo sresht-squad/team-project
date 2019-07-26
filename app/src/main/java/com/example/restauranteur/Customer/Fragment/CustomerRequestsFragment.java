@@ -136,9 +136,10 @@ public class CustomerRequestsFragment extends Fragment {
         if (mMessages != null) {
             mMessages.clear();
         }
-        List<Message> messageList = visit.getMessageList();
+        List<ParseObject> messageList = visit.getMessageList();
+        ParseObject.fetchAllIfNeededInBackground(messageList);
         for (int i = 0; i < messageList.size(); i++) {
-            Message message = messageList.get(i);
+            Message message = (Message) messageList.get(i);
             if (message.getActive()) {
                 mMessages.add(message);
                 mAdapter.notifyDataSetChanged();

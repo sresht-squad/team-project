@@ -40,12 +40,12 @@ public class Message extends ParseObject {
         put(AUTHOR_ID_KEY, author.getParseUser()); }
 
         public String getBody() {
-        return getString(BODY_KEY);
-    }
+                return getString(BODY_KEY);
+        }
 
-        public void setBody(String body) {
-        put(BODY_KEY, body);
-    }
+            public void setBody(String body) {
+            put(BODY_KEY, body);
+        }
 
 
 

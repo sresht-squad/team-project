@@ -10,6 +10,7 @@ import com.parse.ParseQuery;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @ParseClassName("Visit")
@@ -52,6 +53,15 @@ public class Visit extends ParseObject {
         }
     }
 
+        public JSONArray getMessages(){
+            try {
+                return fetchIfNeeded().getJSONArray("messages");
+            }catch (ParseException e) {
+                Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
+                return null;
+            }
+        }
+
     public void setActive(boolean active){
         put(KEY_ACTIVE, active);
     }
@@ -64,18 +74,9 @@ public class Visit extends ParseObject {
         add("messages", message);
     }
 
-    public JSONArray getMessages(){
-        try {
-            return fetchIfNeeded().getJSONArray("messages");
-        }catch (ParseException e) {
-            Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
-            return null;
-        }
-    }
-
-    public ArrayList<Message> getMessageList() {
+    public List<ParseObject> getMessageList() {
             try {
-                return (ArrayList<Message>) fetchIfNeeded().get("messages");
+                return (List<ParseObject>) fetchIfNeeded().get("messages");
             } catch (ParseException e){
                 return null;
             }

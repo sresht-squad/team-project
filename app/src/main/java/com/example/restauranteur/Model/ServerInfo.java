@@ -1,5 +1,6 @@
 package com.example.restauranteur.Model;
 
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -21,9 +22,17 @@ public class ServerInfo extends ParseObject {
         return getList("visits");
     }
 
-    public ArrayList<Visit> getVisits2() {
+    public ArrayList<Visit> getVisitsFetch() {
         try {
             return (ArrayList<Visit>) fetchIfNeeded().get("visits");
+        } catch (ParseException e){
+            return null;
+        }
+    }
+
+    public JSONArray getVisitsJSON() {
+        try {
+            return fetchIfNeeded().getJSONArray("visits");
         } catch (ParseException e){
             return null;
         }
