@@ -23,9 +23,11 @@ import java.util.List;
 
 public class ServerActiveVisitsFragment extends Fragment {
 
-    ArrayList<Visit> visit;
+    ArrayList<Visit> visits;
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
+    private boolean active = true;
+
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
@@ -49,10 +51,10 @@ public class ServerActiveVisitsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        visit = new ArrayList<Visit>();
+        visits = new ArrayList<Visit>();
         rvActiveVisit = view.findViewById(R.id.rvActiveVisits);
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
-        visitAdapter = new VisitAdapter(visit);
+        visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
 
         fetchActiveVisits();
@@ -68,16 +70,18 @@ public class ServerActiveVisitsFragment extends Fragment {
             @Override
             public void done(List<ServerInfo> objects, ParseException e) {
                 if (e == null){
-                    visit.clear();
+                    visits.clear();
                     visitAdapter.notifyDataSetChanged();
 
                    ServerInfo serverInfo = objects.get(0);
 
-
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
-                       visit.add(serverInfo.getVisits().get(i));
-                       visitAdapter.notifyDataSetChanged();
 
+                       //isActive(serverInfo.getVisits().get(i));
+                       if (serverInfo.getVisits().get(i).getActive()){
+                           visits.add(serverInfo.getVisits().get(i));
+                           visitAdapter.notifyDataSetChanged();
+                       }
                    }
 
                 } else {
