@@ -9,6 +9,8 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 
 @ParseClassName("Visit")
 public class Visit extends ParseObject {
@@ -70,6 +72,14 @@ public class Visit extends ParseObject {
             return null;
         }
     }
+
+    public ArrayList<Message> getMessageList() {
+            try {
+                return (ArrayList<Message>) fetchIfNeeded().get("messages");
+            } catch (ParseException e){
+                return null;
+            }
+        }
 
     //From the order class include the waiter table and customer table
 

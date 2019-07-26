@@ -114,12 +114,6 @@ public class Server {
         return info.getVisits();
     }
 
-    //getting the array from the Parse database
-    public JSONArray getVisitsJSON(){
-        ServerInfo info = getServerInfo();
-        return info.getVisitsJSON();
-    }
-
     // adding the customer to the visits array
     /*
     public void addCustomerToVisit(Visit visit){

@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +21,9 @@ public class ServerInfo extends ParseObject {
         return getList("visits");
     }
 
-    public JSONArray getVisitsJSON() {
+    public ArrayList<Visit> getVisits2() {
         try {
-            return fetchIfNeeded().getJSONArray("visits");
+            return (ArrayList<Visit>) fetchIfNeeded().get("visits");
         } catch (ParseException e){
             return null;
         }

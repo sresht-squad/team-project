@@ -1,10 +1,13 @@
 package com.example.restauranteur.Model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -20,7 +23,14 @@ public class Message extends ParseObject {
         put(STATUS, tf); }
 
         public boolean getActive() {
-        return getBoolean(STATUS);}
+            try{
+                return fetchIfNeeded().getBoolean(STATUS);
+            }
+            catch (ParseException e){
+                return false;
+            }
+
+        }
 
         public Customer getAuthor() {
             return new Customer(getParseUser(AUTHOR_ID_KEY));
