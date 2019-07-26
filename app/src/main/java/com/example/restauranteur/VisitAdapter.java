@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Server;
-import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -115,39 +114,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                                                 @Override
                                                 public void done(ParseException e) {
                                                     Log.i("saved", "visit Active false");
-
-                                                    ParseQuery<ServerInfo> queryRemoveVisit = ParseQuery.getQuery(ServerInfo.class);
-                                                    queryRemoveVisit.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
-
-                                                    queryRemoveVisit.findInBackground(new FindCallback<ServerInfo>() {
-                                                        @Override
-                                                        public void done(List<ServerInfo> objects, ParseException e) {
-                                                           if (e == null){
-
-                                                               final ServerInfo serverInfo = objects.get(0);
-
-                                                               for (int i = 0; i < serverInfo.getVisits().size() ;i++){
-                                                                   Visit singleVisit = serverInfo.getVisits().get(i);
-
-                                                                   if (singleVisit.getObjectId().equals(visit.getObjectId())){
-                                                                       Log.i("inside the if" , singleVisit.getObjectId());
-                                                                       serverInfo.removeVisit(visit);
-                                                                       serverInfo.saveInBackground(new SaveCallback() {
-                                                                           @Override
-                                                                           public void done(ParseException e) {
-                                                                               Log.i("removed Visit", "visit is removed" + visit.getObjectId());
-                                                                           }
-                                                                       });
-                                                                   }
-                                                               }
-
-                                                           } else {
-                                                               e.printStackTrace();
-                                                           }
-
-                                                        }
-                                                    });
-
                                                 }
                                             });
                                         }

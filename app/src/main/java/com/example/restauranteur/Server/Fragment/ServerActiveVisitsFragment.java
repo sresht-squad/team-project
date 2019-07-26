@@ -1,6 +1,7 @@
 package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.restauranteur.VisitAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +73,25 @@ public class ServerActiveVisitsFragment extends Fragment {
                     visits.clear();
                     visitAdapter.notifyDataSetChanged();
 
-                   ServerInfo serverInfo = objects.get(0);
+                   final ServerInfo serverInfo = objects.get(0);
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
 
                        if (serverInfo.getVisits().get(i).getActive()){
                            visits.add(serverInfo.getVisits().get(i));
                            visitAdapter.notifyDataSetChanged();
+                       } else {
+                          serverInfo.removeVisit(serverInfo.getVisits().get(i));
+                          serverInfo.saveInBackground(new SaveCallback() {
+                              @Override
+                              public void done(ParseException e) {
+                                  if (e == null){
+                                      Log.i("removed" , "success");
+                                  }else{
+                                      e.printStackTrace();
+                                  }
+                              }
+                          });
                        }
                    }
 
