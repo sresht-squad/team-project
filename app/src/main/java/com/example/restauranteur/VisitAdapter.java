@@ -60,9 +60,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     }
 
-
-
-
     @Override
     public int getItemCount() {
         return mVisit.size();
@@ -108,13 +105,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                                                     notifyDataSetChanged();
                                                 }
                                             });
-
                                         }
                                     }
                                 }else{
                                     e.printStackTrace();
                                 }
-
                             }
                         });
                         Log.i("checkBox Done", tvTableNumber.getText().toString());
@@ -124,7 +119,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                     }
                 }
             });
-
 
         }
 
@@ -147,8 +141,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
 
     }
-
-
 
 
 }

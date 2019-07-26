@@ -58,9 +58,7 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setAdapter(visitAdapter);
 
         fetchActiveVisits();
-
     }
-
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
@@ -77,13 +75,11 @@ public class ServerActiveVisitsFragment extends Fragment {
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
 
-                       //isActive(serverInfo.getVisits().get(i));
                        if (serverInfo.getVisits().get(i).getActive()){
                            visits.add(serverInfo.getVisits().get(i));
                            visitAdapter.notifyDataSetChanged();
                        }
                    }
-
                 } else {
                     e.printStackTrace();
                 }
