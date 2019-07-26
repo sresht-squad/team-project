@@ -21,15 +21,13 @@ import static android.os.SystemClock.sleep;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
-    private String mUserId;
     private Boolean serverPage;
     private Boolean detailPage;
 
-    public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, String userId, List<Message> messages) {
+    public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
         detailPage = detailScreen;
-        this.mUserId = userId;
     }
 
     @Override

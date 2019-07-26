@@ -66,7 +66,7 @@ public class ServerRequestsFragment extends Fragment {
         mMessages = new ArrayList<>();
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(getContext(), true, false, userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView

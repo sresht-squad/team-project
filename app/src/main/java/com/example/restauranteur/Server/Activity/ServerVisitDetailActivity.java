@@ -43,7 +43,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         //id lookups
         RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        TextView tvTableNum = (TextView) findViewById(R.id.tvTitle);
+        TextView tvTableNum = (TextView) findViewById(R.id.tvTableNum);
 
         tvTableNum.setText(nameText + ", Table " + visit.getTableNumber());
 
@@ -51,7 +51,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         mMessages = new ArrayList<>();
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(this, true, true, userId, mMessages);
+        mAdapter = new ChatAdapter(this, true, true, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
