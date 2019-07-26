@@ -15,27 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
@@ -60,7 +51,7 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_customer_chat, parent, false);
+        return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
 
     @Override
