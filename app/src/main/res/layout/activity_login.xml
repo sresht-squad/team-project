@@ -10,10 +10,10 @@
     <TextView
         android:id="@+id/tvTableNum"
         android:layout_width="0dp"
-        android:layout_height="81dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="51dp"
-        android:layout_marginRight="51dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:background="#0000000F"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
@@ -37,10 +37,10 @@
         android:textColor="#2196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.246"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.303" />
+        app:layout_constraintVertical_bias="0.300" />
 
     <EditText
         android:id="@+id/etPasswordLogin"
@@ -100,10 +100,10 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="150dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Don't have an account?"
@@ -116,10 +116,11 @@
     <TextView
         android:id="@+id/tvTitle1"
         android:layout_width="0dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginLeft="51dp"
-        android:layout_marginTop="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="10dp"
         android:background="#0000000F"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"

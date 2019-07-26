@@ -7,18 +7,16 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 @ParseClassName("CustomerInfo")
 public class CustomerInfo extends ParseObject {
 
-    private static final String KEY_VISITS = "Visits";
-
-    public JSONArray getVisit(){
+    public Visit getVisit(){
         try {
-            return fetchIfNeeded().getJSONArray("messages");
-        }catch (ParseException e) {
-            Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
+            return (Visit) fetchIfNeeded().get("visit");
+        } catch (ParseException e){
             return null;
         }
     }

@@ -8,8 +8,6 @@ import com.parse.SignUpCallback;
 
 public class Customer {
    private ParseUser user;
-   private String VISIT_KEY = "visit";
-   private String VISITS = "visits";
 
 
    public Customer(ParseUser parseUser){
@@ -77,12 +75,12 @@ public class Customer {
        return user.getObjectId();
     }
 
-    public ParseUser getParseUser(){
+    ParseUser getParseUser(){
        return user;
     }
 
     public Visit getCurrentVisit(){
-       return (Visit)user.getParseObject(VISIT_KEY);
+       return getInfo().getVisit();
     }
 
     public CustomerInfo getInfo(){
