@@ -73,24 +73,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
-                final Message serverHelpMessage = new Message();
-                serverHelpMessage.setAuthor(customer);
-                serverHelpMessage.setBody(serverHelpRequest);
-                serverHelpMessage.setActive(true);
-
-                serverHelpMessage.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("customerRequestFrag", "Water message on parse");
-                        visit.addMessage(serverHelpMessage);
-                        visit.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Log.i("VisitMessage", "added message to visit");
-                            }
-                        });
-                    }
-                });
+                generateQuickRequest(serverHelpRequest);
             }
         });
 
@@ -100,25 +83,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Need more water";
-
-                final Message waterMessage = new Message();
-                waterMessage.setAuthor(customer);
-                waterMessage.setBody(waterRequest);
-                waterMessage.setActive(true);
-
-                waterMessage.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("customerRequestFrag", "Water message on parse");
-                        visit.addMessage(waterMessage);
-                        visit.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Log.i("VisitMessage", "added message to visit");
-                            }
-                        });
-                    }
-                });
+                generateQuickRequest(waterRequest);
             }
         });
 
@@ -129,26 +94,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String checkRequest = "Ready for Check";
-
-                final Message checkMessage = new Message();
-                checkMessage.setAuthor(customer);
-                checkMessage.setBody(checkRequest);
-                checkMessage.setActive(true);
-
-                checkMessage.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i("customerRequestFrag", "check message on parse");
-                        visit.addMessage(checkMessage);
-                        visit.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Log.i("VisitMessage", "added message to visit");
-                            }
-                        });
-                    }
-                });
-
+                generateQuickRequest(checkRequest);
             }
         });
 
@@ -158,25 +104,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To-go boxes";
-
-                final Message toGoBoxMessage = new Message();
-                toGoBoxMessage.setAuthor(customer);
-                toGoBoxMessage.setBody(toGoBoxRequest);
-                toGoBoxMessage.setActive(true);
-
-                toGoBoxMessage.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        visit.addMessage(toGoBoxMessage);
-                        visit.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Log.i("VisitMessage", "added message to visit");
-                            }
-                        });
-                    }
-                });
-
+                generateQuickRequest(toGoBoxRequest);
             }
         });
 
@@ -201,8 +129,24 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    private void generateQuickRequest(){
+    private void generateQuickRequest(String request){
+        final Message message = new Message();
+        message.setAuthor(customer);
+        message.setBody(request);
+        message.setActive(true);
 
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                visit.addMessage(message);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("VisitMessage", "added message to visit");
+                    }
+                });
+            }
+        });
     }
 
     // Setup button event handler which posts the entered message to Parse
