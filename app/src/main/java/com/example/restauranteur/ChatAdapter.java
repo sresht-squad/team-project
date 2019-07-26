@@ -53,7 +53,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
-        if (serverPage){
+        if (serverPage && !detailPage){
             holder.tableNum.setText(message.tableNum);
         }
         //String author = (message.getAuthor()).getObjectId();
