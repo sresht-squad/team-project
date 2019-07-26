@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Message;
@@ -25,24 +27,32 @@ import java.util.List;
 import static com.parse.ParseUser.getCurrentUser;
 
 public class ServerVisitDetailActivity extends AppCompatActivity {
-    private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
     private ArrayList<Visit> visits;
     private ChatAdapter mAdapter;
     private String tableNum;
+    private Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_visit_detail);
 
-        // Find the text field and button
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        final Intent intent = getIntent();
+        visit = intent.getParcelableExtra("VISIT");
+        String nameText = intent.getStringExtra("NAME_TEXT");
+
+        //id lookups
+        RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        TextView tvTableNum = (TextView) findViewById(R.id.tvTableNum);
+
+        tvTableNum.setText(nameText + ", Table " + visit.getTableNumber());
+
 
         mMessages = new ArrayList<>();
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(this, true, false, userId, mMessages);
+        mAdapter = new ChatAdapter(this, true, true, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
@@ -101,6 +111,4 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             });
         }
     }
-}
-
 }

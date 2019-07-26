@@ -1,6 +1,7 @@
 package com.example.restauranteur;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
+import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
@@ -22,8 +25,8 @@ import static android.os.SystemClock.sleep;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
     private String mUserId;
-    Boolean serverPage;
-    Boolean detailPage;
+    private Boolean serverPage;
+    private Boolean detailPage;
 
     public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, String userId, List<Message> messages) {
         mMessages = messages;
@@ -79,11 +82,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             body = itemView.findViewById(R.id.tvBody);
             tableNum = itemView.findViewById(R.id.tvTableNum);
             checkBox = itemView.findViewById(R.id.checkBox);
+
             checkBox.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 Message m = mMessages.get(position);
@@ -99,7 +103,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     }
                 });
             }
-
         }
     }
 
