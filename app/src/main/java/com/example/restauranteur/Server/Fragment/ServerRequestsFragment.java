@@ -94,8 +94,7 @@ public class ServerRequestsFragment extends Fragment {
         mMessages = new ArrayList<>();
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
-        rvChat.setAdapter(mAdapter);
+
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -107,6 +106,8 @@ public class ServerRequestsFragment extends Fragment {
 
     // Query messages from Parse so we can load them into the chat adapter
     private void loadMessages() {
+        mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
+        rvChat.setAdapter(mAdapter);
         Log.i("DISPLAY", "ALL_MESSAGES");
         //for all visits that involve this server
         JSONArray visits = Server.getCurrentServer().getVisitsJSON();
@@ -183,7 +184,7 @@ public class ServerRequestsFragment extends Fragment {
     }
 }
 
-        /*
+    /*
         for (int i = 0; i < messagePointers.length(); i++){
             try {
                 String messageId = messagePointers.getJSONObject(i).getString("objectId");
@@ -195,7 +196,7 @@ public class ServerRequestsFragment extends Fragment {
         }
 
     }
-    */  
+    */
 
     /*
     private void extractMessages(String messageId, final String tableNumber) {
