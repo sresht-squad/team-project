@@ -40,5 +40,14 @@ public class ServerInfo extends ParseObject {
         add(KEY_VISITS, visit);
     }
 
+    public void removeVisit(Visit visit) {
+        List<Visit> removedVisits = new ArrayList<>();
+        removedVisits.add(visit);
+        removeAll(KEY_VISITS, removedVisits);
+    }
+
+
+
+
 
 }
