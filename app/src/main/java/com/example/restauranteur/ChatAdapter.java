@@ -56,9 +56,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if (serverPage && !detailPage){
             holder.tableNum.setText(message.tableNum);
         }
-        //String author = (message.getAuthor()).getObjectId();
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
+      
     }
 
     @Override

@@ -143,6 +143,9 @@ public class CustomerRequestsFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         Log.i("VisitMessage", "added message to visit");
+                        mMessages.clear();
+                        displayCurrentMessages();
+                        rvChat.scrollToPosition(mMessages.size() - 1);
                     }
                 });
             }
