@@ -8,6 +8,7 @@
 
 # Java class files
 *.class
+Keys.java
 
 # Generated files
 bin/
