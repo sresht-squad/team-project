@@ -58,7 +58,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
-      
+
+        holder.checkBox.setChecked(false);
     }
 
     @Override
