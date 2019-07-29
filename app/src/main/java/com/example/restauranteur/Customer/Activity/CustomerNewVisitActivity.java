@@ -61,7 +61,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
 
                 parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
-                    public void done(List<ParseUser> objects, ParseException e) {
+                    public void done(final List<ParseUser> objects, ParseException e) {
                         if (e == null) {
                             server = new Server(objects.get(0));
 
@@ -74,7 +74,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                 public void done(List<Visit> visitObjects, ParseException e) {
                                     if (e == null) {
                                         //if visit doesn't already exist, create new visit
-                                        if (visitObjects.size() == 0) {
+                                        if (visitObjects.size() == 0 || !visitObjects.get(0).getActive()) {
                                             Log.d("CHECKSAMEVISIT", visitObjects.toString());
                                             //creating new visit
                                             visit = new Visit();
