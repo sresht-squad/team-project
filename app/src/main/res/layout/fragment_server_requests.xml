@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTableNum"
+        android:id="@+id/tvTableNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -84,7 +84,7 @@
         app:layout_constraintBottom_toTopOf="@+id/swipeContainer"
         app:layout_constraintEnd_toStartOf="@+id/tvDoneWithOrder"
         app:layout_constraintHorizontal_bias="0.443"
-        app:layout_constraintStart_toEndOf="@+id/tvTableNum"
+        app:layout_constraintStart_toEndOf="@+id/tvTableNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
 
     <TextView

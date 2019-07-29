@@ -7,15 +7,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,14 +27,11 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.parse.ParseUser.getCurrentUser;
-
 public class ServerVisitDetailActivity extends AppCompatActivity {
     private ArrayList<Message> mMessages;
-    private ArrayList<Visit> visits;
     private ChatAdapter mAdapter;
-    private String tableNum;
     private Visit visit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +43,38 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         String nameText = intent.getStringExtra("NAME_TEXT");
 
         //id lookups
-        RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        TextView tvTableNum = (TextView) findViewById(R.id.tvTableNum);
+        final RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        final TextView tvTableNumber = (TextView) findViewById(R.id.tvTableNumber);
+        final Button btnComplete = (Button) findViewById(R.id.btnComplete);
 
-        tvTableNum.setText(nameText + ", Table " + visit.getTableNumber());
+        //get table number
+        final String tableNumber = visit.getTableNumber();
 
+        //set table number title text
+        tvTableNumber.setText(nameText + ", Table " + tableNumber);
 
+        //set chat adapter
         mMessages = new ArrayList<>();
-
-        final String userId = getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(this, true, true, mMessages);
         rvChat.setAdapter(mAdapter);
+
+
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // change boolean true to false.Visit is not Active
+                visit.setActive(false);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("saved", "visit Active false");
+                        final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        });
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

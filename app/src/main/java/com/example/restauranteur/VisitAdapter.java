@@ -87,55 +87,12 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
         TextView tvActiveVisit;
         TextView tvTableNumber;
-        CheckBox cbDone;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
-            cbDone = itemView.findViewById(R.id.cbDone);
-
-            cbDone.setChecked(false);
-            cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(b){
-                        // search for that visit's table number and server to get the specific visit
-                        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
-                        query.whereEqualTo("server", Server.getCurrentServer().getParseUser());
-
-                        query.findInBackground(new FindCallback<Visit>() {
-                            @Override
-                            public void done(List<Visit> objects, ParseException e) {
-                                if (e == null){
-                                    for (int i = 0; i < objects.size(); i++){
-                                        final Visit visit = objects.get(i);
-                                        if (visit.getTableNumber().equals(tvTableNumber.getText().toString())){
-                                            // change boolean true to false.Visit is not Active
-                                            visit.setActive(false);
-                                            visit.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    Log.i("saved", "visit Active false");
-                                                }
-                                            });
-                                        }
-                                    }
-                                }else{
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        Log.i("checkBox Done", tvTableNumber.getText().toString());
-                    }else{
-                        Log.i("checBox Done", "unChecked");
-
-                    }
-                }
-            });
-
-        }
             itemView.setOnClickListener(this);
         }
 

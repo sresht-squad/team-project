@@ -75,7 +75,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
-            tableNum = itemView.findViewById(R.id.tvTableNum);
+            tableNum = itemView.findViewById(R.id.tvTableNumber);
             checkBox = itemView.findViewById(R.id.checkBox);
 
             checkBox.setOnClickListener(this);
