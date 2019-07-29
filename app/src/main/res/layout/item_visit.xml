@@ -86,7 +86,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/right_arrow_icon" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
