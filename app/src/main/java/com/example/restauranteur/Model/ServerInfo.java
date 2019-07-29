@@ -1,12 +1,10 @@
 package com.example.restauranteur.Model;
 
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +39,15 @@ public class ServerInfo extends ParseObject {
     public void addVisit(Visit visit){
         add(KEY_VISITS, visit);
     }
+
+    public void removeVisit(Visit visit) {
+        List<Visit> removedVisits = new ArrayList<>();
+        removedVisits.add(visit);
+        removeAll(KEY_VISITS, removedVisits);
+    }
+
+
+
 
 
 }

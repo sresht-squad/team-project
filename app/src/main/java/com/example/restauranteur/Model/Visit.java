@@ -67,7 +67,12 @@ public class Visit extends ParseObject {
     }
 
     public Boolean getActive(){
-       return getBoolean(KEY_ACTIVE);
+        try {
+            return fetchIfNeeded().getBoolean(KEY_ACTIVE);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addMessage(Message message){

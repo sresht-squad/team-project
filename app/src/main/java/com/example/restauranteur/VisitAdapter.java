@@ -6,23 +6,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Visit visit = mVisits.get(position);
-        holder.tvTableNumber.setText("Table " + visit.getTableNumber());
+        holder.tvTableNumber.setText(visit.getTableNumber());
         //get the objectId of the first customer attached to the visit
         String customerObjectId = null;
         try {
@@ -57,6 +58,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         //query for the customer with that objectId to get their name
         final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
@@ -85,12 +87,55 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
         TextView tvActiveVisit;
         TextView tvTableNumber;
+        CheckBox cbDone;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
+            cbDone = itemView.findViewById(R.id.cbDone);
+
+            cbDone.setChecked(false);
+            cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b){
+                        // search for that visit's table number and server to get the specific visit
+                        final ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
+                        query.whereEqualTo("server", Server.getCurrentServer().getParseUser());
+
+                        query.findInBackground(new FindCallback<Visit>() {
+                            @Override
+                            public void done(List<Visit> objects, ParseException e) {
+                                if (e == null){
+                                    for (int i = 0; i < objects.size(); i++){
+                                        final Visit visit = objects.get(i);
+                                        if (visit.getTableNumber().equals(tvTableNumber.getText().toString())){
+                                            // change boolean true to false.Visit is not Active
+                                            visit.setActive(false);
+                                            visit.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Log.i("saved", "visit Active false");
+                                                }
+                                            });
+                                        }
+                                    }
+                                }else{
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        Log.i("checkBox Done", tvTableNumber.getText().toString());
+                    }else{
+                        Log.i("checBox Done", "unChecked");
+
+                    }
+                }
+            });
+
+        }
             itemView.setOnClickListener(this);
         }
 
@@ -105,6 +150,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             notifyDataSetChanged();
         }
 
+        public void removeAt(int position) {
+            mVisits.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mVisits.size());
+        }
+
+
         @Override
         public void onClick(View view) {
             final int position = getAdapterPosition();
@@ -117,4 +169,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             }
         }
     }
+
+
 }
