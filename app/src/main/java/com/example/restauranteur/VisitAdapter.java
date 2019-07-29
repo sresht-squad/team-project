@@ -1,6 +1,7 @@
 package com.example.restauranteur;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -27,7 +31,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     private List<Visit> mVisits;
     private Context context;
-    public String tableNum;
+    private String nameText;
 
     public VisitAdapter(List<Visit> mVisit) {
         this.mVisits = mVisit;
@@ -68,7 +72,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
                 //format it like so: Name (number in party)
                 final int numCustomers = visit.getJSONArray("customers").length();
-                final String nameText = customerName + " (" + numCustomers +")";
+                nameText = customerName + " (" + numCustomers +")";
                 holder.tvActiveVisit.setText(nameText);
             }
         });
@@ -79,7 +83,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         return mVisits.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvActiveVisit;
         TextView tvTableNumber;
@@ -132,6 +136,8 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             });
 
         }
+            itemView.setOnClickListener(this);
+        }
 
         public void clear() {
             mVisits.clear();
@@ -151,6 +157,17 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         }
 
 
+        @Override
+        public void onClick(View view) {
+            final int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                final Intent intent = new Intent(context, ServerVisitDetailActivity.class);
+                final Visit visit = mVisits.get(position);
+                intent.putExtra("VISIT", visit);
+                intent.putExtra("NAME_TEXT", nameText);
+                context.startActivity(intent);
+            }
+        }
     }
 
 

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
@@ -26,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class ServerRequestsFragment extends Fragment {
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
     private ChatAdapter mAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     public ServerRequestsFragment() {
         // Required empty public constructor
@@ -55,19 +58,43 @@ public class ServerRequestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_server_requests, container, false);
+        View view = inflater.inflate(R.layout.fragment_server_requests, container, false);
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("REFRESHING", "we are refreshing whoooo");
+                //first clear everything out
+                mAdapter.clear();
+                //repopulate
+                loadMessages();
+                //now make sure swipeContainer.setRefreshing is set to false
+                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
+                //lets put it at the end of populateTimeline instead!
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
-        // Find the text field and button
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
 
         final String userId = getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(getContext(), true, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
+
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -79,13 +106,15 @@ public class ServerRequestsFragment extends Fragment {
 
     // Query messages from Parse so we can load them into the chat adapter
     private void loadMessages() {
+        mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
+        rvChat.setAdapter(mAdapter);
         Log.i("DISPLAY", "ALL_MESSAGES");
         //for all visits that involve this server
         JSONArray visits = Server.getCurrentServer().getVisitsJSON();
         if (visits == null) {
             return;
         }
-        if (mMessages != null){
+        if (mMessages != null) {
             mMessages.clear();
         }
         int visitNum = visits.length();
@@ -100,6 +129,7 @@ public class ServerRequestsFragment extends Fragment {
 
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 
 
@@ -120,12 +150,12 @@ public class ServerRequestsFragment extends Fragment {
     }
 
 
-    private void findMessages(Visit thisVisit){
+    private void findMessages(Visit thisVisit) {
         // get the array of pointers to messages
         List<ParseObject> messagePointers = thisVisit.getMessageList();
         try {
             ParseObject.fetchAllIfNeeded(messagePointers);
-        } catch (ParseException e){
+        } catch (ParseException e) {
 
         }
         for (int i = 0; i < messagePointers.size(); i++) {
@@ -139,11 +169,11 @@ public class ServerRequestsFragment extends Fragment {
                 mMessages.sort(new Comparator<Message>() {
                     public int compare(Message m1, Message m2) {
                         long diff = (m1.getCreatedAt().getTime() - m2.getCreatedAt().getTime());
-                        if ( diff > 0) {
+                        if (diff > 0) {
                             return 1;
                         } else if (diff == 0) {
                             return 0;
-                        } else{
+                        } else {
                             return -1;
                         }
                     }
@@ -151,8 +181,10 @@ public class ServerRequestsFragment extends Fragment {
             }
             mAdapter.notifyDataSetChanged();
         }
+    }
+}
 
-        /*
+    /*
         for (int i = 0; i < messagePointers.length(); i++){
             try {
                 String messageId = messagePointers.getJSONObject(i).getString("objectId");
@@ -162,10 +194,11 @@ public class ServerRequestsFragment extends Fragment {
                 Log.i("Extracting messages", "error");
             }
         }
-        */
 
     }
+    */
 
+    /*
     private void extractMessages(String messageId, final String tableNumber) {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.whereEqualTo("objectId", messageId);
@@ -201,5 +234,4 @@ public class ServerRequestsFragment extends Fragment {
                 }
             }
         });
-    }
-}
+    }*/

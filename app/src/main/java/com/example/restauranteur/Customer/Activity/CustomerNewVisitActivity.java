@@ -209,8 +209,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 btnNewVisit.callOnClick();
             }
 
-        } else
-            etServerId.setText("Waiting for NDEF Message");
+        }
     }
 
 }

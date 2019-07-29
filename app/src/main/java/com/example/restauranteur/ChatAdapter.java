@@ -21,13 +21,13 @@ import static android.os.SystemClock.sleep;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
-    private String mUserId;
-    Boolean serverPage;
+    private Boolean serverPage;
+    private Boolean detailPage;
 
-    public ChatAdapter(Context context, Boolean serverScreen, String userId, List<Message> messages) {
+    public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
-        this.mUserId = userId;
+        detailPage = detailScreen;
     }
 
     @Override
@@ -36,7 +36,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView;
         if (serverPage){
-            contactView = inflater.inflate(R.layout.item_chat_server, parent, false);
+            if (detailPage){
+                contactView = inflater.inflate(R.layout.item_chat_server_detail, parent, false);
+            }
+            else{
+                contactView = inflater.inflate(R.layout.item_chat_server, parent, false);
+            }
         } else {
             contactView = inflater.inflate(R.layout.item_chat_customer, parent, false);
         }
@@ -48,7 +53,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
-        if (serverPage){
+        if (serverPage && !detailPage){
             holder.tableNum.setText(message.tableNum);
         }
         //String author = (message.getAuthor()).getObjectId();
@@ -62,8 +67,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
 
-
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
         CheckBox checkBox;
@@ -74,11 +77,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             body = itemView.findViewById(R.id.tvBody);
             tableNum = itemView.findViewById(R.id.tvTableNum);
             checkBox = itemView.findViewById(R.id.checkBox);
+
             checkBox.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 Message m = mMessages.get(position);
@@ -94,8 +98,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     }
                 });
             }
-
         }
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        mMessages.clear();
+        notifyDataSetChanged();
     }
 
 }
