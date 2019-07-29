@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
+    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +74,15 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 Customer.logOut();
                 Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
+    }
+
+    public void setActionBarTitle(String title) {
+        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(title);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.restauranteur.Customer.Fragment;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
@@ -57,6 +60,9 @@ public class CustomerRequestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        ((CustomerHomeActivity) getActivity())
+                .setTitle("Requests");
+
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
