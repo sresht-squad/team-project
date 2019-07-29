@@ -179,6 +179,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 Customer.logOut();
                 Intent intent = new Intent(CustomerNewVisitActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
