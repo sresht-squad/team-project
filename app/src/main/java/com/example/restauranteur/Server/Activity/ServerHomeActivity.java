@@ -56,16 +56,10 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // define fragments here
-        final Fragment profile = new ServerProfileFragment();
-        final Fragment requests = new ServerRequestsFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         vpPager.setCurrentItem(0);
@@ -80,10 +74,10 @@ public class ServerHomeActivity extends AppCompatActivity {
                         setTitle("Active Visits");
                         break;
                     default:
-                        fragment = profile;
+                        vpPager.setCurrentItem(0);
+                        setTitle("Profile");
                         break;
                 }
-               // fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
@@ -137,10 +131,6 @@ public class ServerHomeActivity extends AppCompatActivity {
             return "page" + position;
         }
 
-        /*public float getPageWidth (int position) {
-            return 0.93f;
-        }
-*/
     }
 
     public void setTitle(String title) {

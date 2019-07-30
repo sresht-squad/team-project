@@ -199,7 +199,6 @@ public class SignupActivity extends AppCompatActivity {
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
-                Log.d("objects size", Integer.toString(objects.size()));
                 //if there is another user with this username, toast
                 if (objects.size() > 0){
                     Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
