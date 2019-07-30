@@ -29,6 +29,8 @@ public class ServerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
+    androidx.appcompat.widget.Toolbar mActionBarToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +138,12 @@ public class ServerHomeActivity extends AppCompatActivity {
             return 0.93f;
         }
 */
+    }
+
+    public void setTitle(String title) {
+        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(title);
     }
 
 

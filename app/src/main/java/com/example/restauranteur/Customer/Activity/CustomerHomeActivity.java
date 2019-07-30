@@ -123,10 +123,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
             return "Page " + position;
         }
 
-
-
-}
-    public void setActionBarTitle(String title) {
+    }
+    public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);

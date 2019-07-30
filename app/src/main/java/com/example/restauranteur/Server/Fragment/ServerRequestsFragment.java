@@ -37,8 +37,6 @@ import static com.parse.ParseUser.getCurrentUser;
 
 
 public class ServerRequestsFragment extends Fragment {
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
     private ChatAdapter mAdapter;
@@ -101,9 +99,6 @@ public class ServerRequestsFragment extends Fragment {
         rvChat = view.findViewById(R.id.rvChat);
 
         mMessages = new ArrayList<>();
-
-        final String userId = getCurrentUser().getObjectId();
-
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
