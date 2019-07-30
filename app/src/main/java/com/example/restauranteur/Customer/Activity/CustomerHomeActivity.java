@@ -63,9 +63,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_request:
                         vpPager.setCurrentItem(0);
+                        setTitle("Request");
                         break;
                     case R.id.action_menu:
                         fragment = menu;
+                        setTitle("Order");
                         break;
                     default:
                         vpPager.setCurrentItem(0);

@@ -69,12 +69,15 @@ public class ServerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         vpPager.setCurrentItem(0);
+                        setTitle("Profile");
                         break;
                     case R.id.requests:
                         vpPager.setCurrentItem(1);
+                        setTitle("Requests");
                         break;
                     case R.id.action_active:
                         vpPager.setCurrentItem(2);
+                        setTitle("Active Visits");
                         break;
                     default:
                         fragment = profile;

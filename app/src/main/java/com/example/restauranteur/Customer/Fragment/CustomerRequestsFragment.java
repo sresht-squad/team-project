@@ -69,8 +69,6 @@ public class CustomerRequestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        ((CustomerHomeActivity) getActivity()).setTitle("Request");
-
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
