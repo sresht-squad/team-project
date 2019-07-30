@@ -14,8 +14,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.Customer.Fragment.MenuFragment;
+import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
@@ -23,6 +24,8 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import static com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment.newInstance;
 
 public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
@@ -45,7 +48,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         customerBottomNavigation = findViewById(R.id.bottom_navigation);
 
         final Fragment requests = new CustomerRequestsFragment();
-        final Fragment menu = new MenuFragment();
+        final Fragment menu = new CustomerMenuFragment();
 
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new ServerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
@@ -107,9 +110,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return CustomerRequestsFragment.newInstance(0, "Request");
+                    return newInstance(0, "Request");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return CustomerQuickRequestFragment.newInstance(1, "Quick Request");
+                    return newInstance(1, "Menu");
                 default:
                     return null;
             }

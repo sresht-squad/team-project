@@ -35,14 +35,14 @@ import java.util.ArrayList;
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
-public class MenuFragment extends Fragment {
+public class CustomerMenuFragment extends Fragment {
 
     private CardView cvServerHelp;
     private CardView cvWater;
     private CardView cvCheck;
     private CardView cvToGoBox;
 
-    public MenuFragment() {
+    public CustomerMenuFragment() {
         //required empty constructor
     }
 
