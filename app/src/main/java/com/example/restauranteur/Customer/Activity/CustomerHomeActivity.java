@@ -51,7 +51,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final Fragment menu = new CustomerMenuFragment();
 
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new ServerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
+        adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
 
@@ -124,10 +124,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
             return "Page " + position;
         }
 
-
-
-}
-    public void setActionBarTitle(String title) {
+    }
+    public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
