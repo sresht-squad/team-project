@@ -14,8 +14,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
+import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
