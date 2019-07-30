@@ -45,6 +45,15 @@ public class CustomerMenuFragment extends Fragment {
     }
 
 
+    public static CustomerMenuFragment newInstance(int page, String title) {
+        CustomerMenuFragment fragmentFirst = new CustomerMenuFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
