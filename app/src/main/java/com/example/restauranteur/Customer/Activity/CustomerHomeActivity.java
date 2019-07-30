@@ -14,14 +14,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
 import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
-import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
@@ -36,6 +36,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
 
@@ -49,6 +50,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
+
+        //viewPager transformation when swiping
+        vpPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
+        //ViewPager page indicator
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        inkPageIndicator.setViewPager(vpPager);
 
 
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
