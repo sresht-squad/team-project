@@ -1,6 +1,7 @@
 package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_new_visit);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
