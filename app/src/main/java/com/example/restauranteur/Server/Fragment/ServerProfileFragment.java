@@ -21,6 +21,8 @@ import com.example.restauranteur.Model.Server;
 public class ServerProfileFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback{
     TextView tvId;
     EditText etTableNum;
+    private String title;
+    private int page;
 
     public ServerProfileFragment() {
         // Required empty public constructor
@@ -39,6 +41,8 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        page = getArguments().getInt("someInt", 0);
+        title = getArguments().getString("someTitle");
     }
 
     @Override

@@ -35,8 +35,14 @@ public class ServerHomeActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        // could be a cool effect to make seem like a picture gallery , need to also comment out getPageWidth()
+        // in the adapter
+        /*vpPager.setClipToPadding(false);
+        vpPager.setPageMargin(12);*/
+
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
+
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
@@ -119,6 +125,10 @@ public class ServerHomeActivity extends AppCompatActivity {
             return "page" + position;
         }
 
+        /*public float getPageWidth (int position) {
+            return 0.93f;
+        }
+*/
     }
 
 

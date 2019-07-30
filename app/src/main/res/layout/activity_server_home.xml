@@ -39,6 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="@+id/fragment_placeholder"
         app:layout_constraintHorizontal_bias="0.0"
@@ -47,7 +48,7 @@
         app:layout_constraintVertical_bias="0.787">
 
         <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/pager_header"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="30dp">
 
