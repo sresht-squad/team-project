@@ -45,6 +45,14 @@
         app:layout_constraintStart_toStartOf="@+id/fragment_placeholder"
         app:layout_constraintTop_toTopOf="@+id/fragment_placeholder">
 
+        <androidx.viewpager.widget.PagerTabStrip
+            android:id="@+id/pager_header"
+            android:layout_width="match_parent"
+            android:layout_height="15dp">
+
+        </androidx.viewpager.widget.PagerTabStrip>
+
+
     </androidx.viewpager.widget.ViewPager>
 
 
