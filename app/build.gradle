@@ -51,12 +51,9 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
 
-    //Zomato API
-    implementation 'com.loopj.android:android-async-http:1.4.9'
+    //Volley API
     implementation 'com.android.volley:volley:1.1.1'
 
-    //OAuth
-    implementation 'com.codepath.libraries:android-oauth-handler:1.4.0'
     //butterknife
     //implementation 'com.jakewharton:butterknife:8.4.0'
     //annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
