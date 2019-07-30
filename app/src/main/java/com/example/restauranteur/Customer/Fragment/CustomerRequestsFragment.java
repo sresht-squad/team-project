@@ -53,6 +53,15 @@ public class CustomerRequestsFragment extends Fragment {
         //empty constructor required
     }
 
+    public static CustomerRequestsFragment newInstance(int page, String title) {
+        CustomerRequestsFragment fragmentFirst = new CustomerRequestsFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +69,7 @@ public class CustomerRequestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        ((CustomerHomeActivity) getActivity())
-                .setTitle("Requests");
+        ((CustomerHomeActivity) getActivity()).setTitle("Request");
 
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_customer_requests, parent, false);

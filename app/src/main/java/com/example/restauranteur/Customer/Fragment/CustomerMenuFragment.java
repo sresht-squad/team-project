@@ -29,13 +29,13 @@ import java.util.ArrayList;
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
-public class MenuFragment extends Fragment {
+public class CustomerMenuFragment extends Fragment {
 
     private MenuAdapter menuAdapter;
     private RecyclerView rvMenu;
     private ArrayList<MenuItem> foodItems;
 
-    public MenuFragment() {
+    public CustomerMenuFragment() {
         //required empty constructor
     }
 
@@ -117,22 +117,20 @@ public class MenuFragment extends Fragment {
                             }
                         } catch(
                     JSONException e)
-
                     {
-
+                        Log.i("Volley error", "error getting menu data");
                     }
 
-                    // textView.setText("Response is: " + response);
                  }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // textView.setText("That didn't work!");
+               Log.i("Volley error", "error getting menu data");
             }
         });
 
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
     }
