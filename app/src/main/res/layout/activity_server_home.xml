@@ -33,4 +33,23 @@
         app:menu="@menu/server_menu_bottom_navigation" />
 
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_width="399dp"
+        android:layout_height="578dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_placeholder"
+        app:layout_constraintStart_toStartOf="@+id/fragment_placeholder"
+        app:layout_constraintTop_toTopOf="@+id/fragment_placeholder">
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,16 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         // Required empty public constructor
     }
 
+    public static ServerProfileFragment newInstance(int page, String title) {
+        ServerProfileFragment fragmentFirst = new ServerProfileFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

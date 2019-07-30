@@ -11,10 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
 import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
@@ -24,12 +26,17 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     ImageView logout;
     BottomNavigationView bottomNavigationView;
+    FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
@@ -46,20 +53,20 @@ public class ServerHomeActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
-                        fragment = profile;
+                        vpPager.setCurrentItem(0);
                         break;
                     case R.id.requests:
-                        fragment = requests;
+                        vpPager.setCurrentItem(1);
                         break;
                     case R.id.action_active:
-                        fragment = new ServerActiveVisitsFragment();
+                        vpPager.setCurrentItem(2);
                         break;
                     default:
                         fragment = profile;
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
-                return true;
+               // fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
+                return false;
             }
         });
         //set default
@@ -77,5 +84,42 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return ServerProfileFragment.newInstance(0, "Page # 1");
+                case 1: // Fragment # 0 - This will show FirstFragment different title
+                    return ServerRequestsFragment.newInstance(1, "Page # 2");
+                case 2: // Fragment # 1 - This will show SecondFragment
+                    return ServerActiveVisitsFragment.newInstance(2, "Page # 3");
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
+
+    }
+
 
 }
