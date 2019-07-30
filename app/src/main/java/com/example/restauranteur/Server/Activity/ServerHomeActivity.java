@@ -71,7 +71,7 @@ public class ServerHomeActivity extends AppCompatActivity {
                 Server.logOut();
                 Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
-
+                finish();
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.example.restauranteur.Customer.Fragment;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,31 +13,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
@@ -48,6 +43,12 @@ public class CustomerRequestsFragment extends Fragment {
     private Customer customer;
     private Visit visit;
 
+    private CardView cvServerHelp;
+    private CardView cvWater;
+    private CardView cvCheck;
+    private CardView cvToGoBox;
+
+
     public CustomerRequestsFragment() {
         //empty constructor required
     }
@@ -59,12 +60,59 @@ public class CustomerRequestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        ((CustomerHomeActivity) getActivity())
+                .setTitle("Requests");
+
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_customer_chat, parent, false);
+        return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        cvServerHelp = (CardView) view.findViewById(R.id.cvServerHelp);
+        cvWater = (CardView) view.findViewById(R.id.cvWater);
+        cvCheck = (CardView) view.findViewById(R.id.cvCheck);
+        cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
+
+        cvServerHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverHelpRequest = "In-person assistance";
+                generateQuickRequest(serverHelpRequest);
+            }
+        });
+
+        //sending the waiter a request to get the water
+        //still need to connect to visit
+        cvWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String waterRequest = "Need more water";
+                generateQuickRequest(waterRequest);
+            }
+        });
+
+
+        //sending the waiter request to get the check
+        //still need to connect to visit
+        cvCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String checkRequest = "Ready for Check";
+                generateQuickRequest(checkRequest);
+            }
+        });
+
+        //sending the waiter request to get the check
+        //still need to connect to visit
+        cvToGoBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toGoBoxRequest = "To go boxes";
+                generateQuickRequest(toGoBoxRequest);
+            }
+        });
 
         // Find the text field and button
         etMessage = view.findViewById(R.id.etMessage);
@@ -75,7 +123,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new ChatAdapter(getContext(), false, userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), false, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
@@ -85,6 +133,29 @@ public class CustomerRequestsFragment extends Fragment {
         setupMessagePosting();
         displayCurrentMessages();
 
+    }
+
+    private void generateQuickRequest(String request){
+        final Message message = new Message();
+        message.setAuthor(customer);
+        message.setBody(request);
+        message.setActive(true);
+
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                visit.addMessage(message);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.i("VisitMessage", "added message to visit");
+                        mMessages.clear();
+                        displayCurrentMessages();
+                        rvChat.scrollToPosition(mMessages.size() - 1);
+                    }
+                });
+            }
+        });
     }
 
     // Setup button event handler which posts the entered message to Parse

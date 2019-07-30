@@ -9,10 +9,10 @@
         android:title="Request"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_quick_request"
+        android:id="@+id/action_menu"
         android:enabled="true"
         android:icon="@drawable/request_icon"
-        android:title="Quick Request"
+        android:title="Menu"
         app:showAsAction="ifRoom" />
 
 </menu>

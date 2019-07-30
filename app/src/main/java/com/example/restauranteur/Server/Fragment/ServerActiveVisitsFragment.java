@@ -18,6 +18,7 @@ import com.example.restauranteur.VisitAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
-        query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId()).include("visits");
+        query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
         query.findInBackground(new FindCallback<ServerInfo>() {
             @Override
@@ -72,12 +73,26 @@ public class ServerActiveVisitsFragment extends Fragment {
                     visits.clear();
                     visitAdapter.notifyDataSetChanged();
 
-                   ServerInfo serverInfo = objects.get(0);
+                   final ServerInfo serverInfo = objects.get(0);
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
-                       visits.add(serverInfo.getVisits().get(i));
-                       visitAdapter.notifyDataSetChanged();
 
+                       if (serverInfo.getVisits().get(i).getActive()){
+                           visits.add(serverInfo.getVisits().get(i));
+                           visitAdapter.notifyDataSetChanged();
+                       } else {
+                          serverInfo.removeVisit(serverInfo.getVisits().get(i));
+                          serverInfo.saveInBackground(new SaveCallback() {
+                              @Override
+                              public void done(ParseException e) {
+                                  if (e == null){
+                                      Log.i("removed" , "success");
+                                  }else{
+                                      e.printStackTrace();
+                                  }
+                              }
+                          });
+                       }
                    }
 
                 } else {

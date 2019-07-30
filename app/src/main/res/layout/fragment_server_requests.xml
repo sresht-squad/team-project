@@ -5,21 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChat"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDoneWithOrder" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerRequest">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDoneWithOrder" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tvCustomerOrders"
@@ -27,29 +38,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
         android:text="Your Customers' Orders "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/tvCustomerRequest"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTableNum"
+        android:id="@+id/tvTableNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Table #"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/swipeContainer"
         app:layout_constraintStart_toStartOf="@+id/tvCustomerOrders"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
+        app:layout_constraintTop_toTopOf="@+id/tvCustomerRequest"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvCustomerRequest"
@@ -57,28 +73,35 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Customer Request"
+        android:layout_marginBottom="16dp"
+        android:text="Request"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/swipeContainer"
         app:layout_constraintEnd_toStartOf="@+id/tvDoneWithOrder"
-        app:layout_constraintStart_toEndOf="@+id/tvTableNum"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toEndOf="@+id/tvTableNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
 
     <TextView
         android:id="@+id/tvDoneWithOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Done"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/swipeContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCustomerOrders" />
+        app:layout_constraintTop_toTopOf="@+id/tvCustomerRequest"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

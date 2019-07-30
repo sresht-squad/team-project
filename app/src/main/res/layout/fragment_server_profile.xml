@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvIdTitle" />
 
     <TextView
-        android:id="@+id/tvTableNumTitle"
+        android:id="@+id/tvTableNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -81,7 +81,7 @@
         android:gravity="center"
         android:text="Have your customers type your ID in their app or beam it to them to connect instantly."
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toTopOf="@+id/tvTableNumTitle"
+        app:layout_constraintBottom_toTopOf="@+id/tvTableNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +98,6 @@
         app:layout_constraintBottom_toTopOf="@+id/tvIdExplanation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTableNumTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTableNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

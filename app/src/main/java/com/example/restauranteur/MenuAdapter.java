@@ -1,26 +1,16 @@
-package com.example.restauranteur.Menus;
+package com.example.restauranteur;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.R;
-import com.parse.ParseException;
-import com.parse.SaveCallback;
-
 import org.json.JSONObject;
 
 import java.util.List;
-
-import static android.os.SystemClock.sleep;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private List<JSONObject> mMenuItems;

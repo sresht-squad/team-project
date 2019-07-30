@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.Customer.Fragment.CustomerQuickRequestFragment;
+import com.example.restauranteur.Customer.Fragment.MenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
@@ -23,6 +23,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
+    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         customerBottomNavigation = findViewById(R.id.bottom_navigation);
 
         final Fragment requests = new CustomerRequestsFragment();
-        final Fragment quickRequests = new CustomerQuickRequestFragment();
+        final Fragment menu = new MenuFragment();
 
 
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -49,8 +50,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     case R.id.action_request:
                         fragment = requests;
                         break;
-                    case R.id.action_quick_request:
-                        fragment = quickRequests;
+                    case R.id.action_menu:
+                        fragment = menu;
                         break;
                     default:
                         fragment = requests;
@@ -72,8 +73,15 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 Customer.logOut();
                 Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
+    }
+
+    public void setActionBarTitle(String title) {
+        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(title);
     }
 }

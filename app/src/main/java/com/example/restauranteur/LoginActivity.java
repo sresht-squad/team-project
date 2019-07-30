@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
-import com.example.restauranteur.Menus.MenuActivity;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.example.restauranteur.Model.Customer;
 import com.parse.LogInCallback;
@@ -36,10 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         etGetPassword = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.btnSignup);
-
-        //GET RID OF THIS LATER
-        Intent i = new Intent(LoginActivity.this, MenuActivity.class);
-        startActivity(i);
 
         //user persisting
         ParseUser currentUser = getCurrentUser();

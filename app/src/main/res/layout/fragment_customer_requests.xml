@@ -4,19 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#F8F8F8">
+
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:hint="Any other requests?"
+        android:imeOptions="actionSend"
+        android:inputType="textShortMessage"
+        app:layout_constraintEnd_toStartOf="@+id/btSend"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btSend"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:text="send"
+        android:textColor="#116FFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/etMessage"
+        app:layout_constraintTop_toTopOf="@+id/etMessage"></Button>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvServerHelp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvServerHelp"
-        android:layout_width="160dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="76dp"
-        app:layout_constraintBottom_toTopOf="@+id/cvCheck"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/cvWater"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">'
+        app:layout_constraintTop_toBottomOf="@+id/etMessage">'
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,35 +69,36 @@
 
             <TextView
                 android:id="@+id/tvServerHelp"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_width="67dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alef"
+                android:gravity="center"
+                android:text="Assistance"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivServerHelp"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/ivServerHelp"
+                android:layout_width="69dp"
+                android:layout_height="58dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/alef"
-                android:gravity="center"
-                android:text="Server Help"
-                android:textSize="19sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivServerHelp"
-                app:layout_constraintVertical_bias="0.41000003" />
-
-            <ImageView
-                android:id="@+id/ivServerHelp"
-                android:layout_width="138dp"
-                android:layout_height="137dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/waiter_icon" />
@@ -63,19 +109,14 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvWater"
-        android:layout_width="160dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="76dp"
-        app:layout_constraintBottom_toTopOf="@+id/cvToGoBox"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cvServerHelp"
+        app:layout_constraintEnd_toStartOf="@+id/cvCheck"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cvServerHelp"
-        app:layout_constraintTop_toTopOf="parent">'
+        app:layout_constraintStart_toEndOf="@+id/cvServerHelp">'
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -83,8 +124,8 @@
 
             <TextView
                 android:id="@+id/tvWater"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_width="59dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
@@ -94,18 +135,21 @@
                 android:fontFamily="@font/alef"
                 android:gravity="center"
                 android:text="Water"
-                android:textSize="19sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivWater"
-                app:layout_constraintVertical_bias="0.71000004" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
                 android:id="@+id/ivWater"
-                android:layout_width="236dp"
-                android:layout_height="131dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="61dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/drink_icon" />
@@ -117,15 +161,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCheck"
-        android:layout_width="160dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvServerHelp">'
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cvWater"
+        app:layout_constraintEnd_toStartOf="@+id/cvToGoBox"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cvWater"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">'
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -133,26 +179,26 @@
 
             <TextView
                 android:id="@+id/tvCheck"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="59dp"
+                android:layout_height="19dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="11dp"
                 android:fontFamily="@font/alef"
                 android:gravity="center"
                 android:text="Check"
-                android:textSize="19sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/ivCheck"
-                android:layout_width="0dp"
-                android:layout_height="118dp"
+                android:layout_width="62dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
@@ -161,27 +207,32 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/tvCheck"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.518"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.444"
+                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/check_icon_blue" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvToGoBox"
-        android:layout_width="160dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cvCheck"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvWater">'
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cvCheck"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">'
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -189,33 +240,36 @@
 
             <TextView
                 android:id="@+id/tvToGoBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="68dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alef"
+                android:gravity="center"
+                android:text="To Go"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivToGoBox"
+                app:layout_constraintVertical_bias="0.29000002" />
+
+            <ImageView
+                android:id="@+id/ivToGoBox"
+                android:layout_width="60dp"
+                android:layout_height="54dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/alef"
-                android:gravity="center"
-                android:text="To Go Boxes"
-                android:textSize="19sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivToGoBox" />
-
-            <ImageView
-                android:id="@+id/ivToGoBox"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/to_go_box_icon" />
