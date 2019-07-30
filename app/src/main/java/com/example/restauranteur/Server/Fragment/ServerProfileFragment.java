@@ -21,14 +21,28 @@ import com.example.restauranteur.Model.Server;
 public class ServerProfileFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback{
     TextView tvId;
     EditText etTableNum;
+    private String title;
+    private int page;
 
     public ServerProfileFragment() {
         // Required empty public constructor
     }
 
+    public static ServerProfileFragment newInstance(int page, String title) {
+        ServerProfileFragment fragmentFirst = new ServerProfileFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        page = getArguments().getInt("someInt", 0);
+        title = getArguments().getString("someTitle");
     }
 
     @Override
