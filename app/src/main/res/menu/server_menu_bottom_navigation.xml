@@ -19,6 +19,7 @@
     <item
         android:id="@+id/action_active"
         android:title="active"
+        android:icon="@drawable/people_icon"
         android:enabled = "true"
         app:showAsAction="ifRoom" />
 
