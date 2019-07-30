@@ -97,8 +97,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         });
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 3;
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+        private int NUM_ITEMS = 3;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -115,10 +115,13 @@ public class ServerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
+                    setTitle("Profile");
                     return ServerProfileFragment.newInstance(0, "Profile");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
+                    setTitle("Requests");
                     return ServerRequestsFragment.newInstance(1, "Requests");
                 case 2: // Fragment # 1 - This will show SecondFragment
+                    setTitle("Active Visits");
                     return ServerActiveVisitsFragment.newInstance(2, "Active Visits");
                 default:
                     return null;
