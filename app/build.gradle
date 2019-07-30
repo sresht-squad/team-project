@@ -56,4 +56,10 @@ dependencies {
     //implementation 'com.jakewharton:butterknife:8.4.0'
     //annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
+    //Viewpager transformations
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+
+    //Viewpager indicator circle
+    implementation 'com.pacioianu.david:ink-page-indicator:1.3.0'
+
 }

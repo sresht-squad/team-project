@@ -47,17 +47,17 @@
         app:layout_constraintTop_toTopOf="@+id/fragment_placeholder"
         app:layout_constraintVertical_bias="0.787">
 
-        <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/tab_layout"
+        <com.pixelcan.inkpageindicator.InkPageIndicator
+            android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
-
-        </androidx.viewpager.widget.PagerTabStrip>
-
+            android:layout_height="wrap_content"
+            app:ipi_dotDiameter="8dp"
+            app:ipi_dotGap="8dp"
+            app:ipi_animationDuration="320"
+            app:ipi_pageIndicatorColor="@android:color/darker_gray"
+            app:ipi_currentPageIndicatorColor="@android:color/black"/>
 
     </androidx.viewpager.widget.ViewPager>
-
-
 
 
 

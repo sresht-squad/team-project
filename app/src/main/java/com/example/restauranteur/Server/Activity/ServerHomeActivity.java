@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
 import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
@@ -21,6 +22,7 @@ import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
 import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
@@ -43,6 +45,11 @@ public class ServerHomeActivity extends AppCompatActivity {
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
+        //viewPager transformation when swiping
+        vpPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
+        //ViewPager page indicator
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        inkPageIndicator.setViewPager(vpPager);
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
