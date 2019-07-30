@@ -103,11 +103,11 @@ public class ServerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return ServerProfileFragment.newInstance(0, "Page # 1");
+                    return ServerProfileFragment.newInstance(0, "Profile");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return ServerRequestsFragment.newInstance(1, "Page # 2");
+                    return ServerRequestsFragment.newInstance(1, "Requests");
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    return ServerActiveVisitsFragment.newInstance(2, "Page # 3");
+                    return ServerActiveVisitsFragment.newInstance(2, "Active Visits");
                 default:
                     return null;
             }
@@ -116,7 +116,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Page " + position;
+            return "page" + position;
         }
 
     }

@@ -49,7 +49,7 @@
         <androidx.viewpager.widget.PagerTabStrip
             android:id="@+id/pager_header"
             android:layout_width="match_parent"
-            android:layout_height="5dp">
+            android:layout_height="30dp">
 
         </androidx.viewpager.widget.PagerTabStrip>
 
