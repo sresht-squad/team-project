@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.R;
 
@@ -26,14 +27,14 @@ import java.util.ArrayList;
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
-public class MenuFragment extends Fragment {
+public class CustomerMenuFragment extends Fragment {
 
     private CardView cvServerHelp;
     private CardView cvWater;
     private CardView cvCheck;
     private CardView cvToGoBox;
 
-    public MenuFragment() {
+    public CustomerMenuFragment() {
         //required empty constructor
     }
 
@@ -43,8 +44,8 @@ public class MenuFragment extends Fragment {
 
     }
 
-    public static MenuFragment newInstance(int page, String title) {
-        MenuFragment fragmentFirst = new MenuFragment();
+    public static CustomerMenuFragment newInstance(int page, String title) {
+        CustomerMenuFragment fragmentFirst = new CustomerMenuFragment();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -63,6 +64,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((CustomerHomeActivity) getActivity()).setTitle("Order");
 
         String authentication =  REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
 
