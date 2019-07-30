@@ -1,12 +1,15 @@
 package com.example.restauranteur.Customer.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.cardview.widget.CardView;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.R;
 
@@ -29,20 +31,19 @@ import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
 public class CustomerMenuFragment extends Fragment {
 
-    private CardView cvServerHelp;
-    private CardView cvWater;
-    private CardView cvCheck;
-    private CardView cvToGoBox;
+    private MenuAdapter menuAdapter;
+    private RecyclerView rvMenu;
+    private ArrayList<MenuItem> foodItems;
 
     public CustomerMenuFragment() {
         //required empty constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
 
     public static CustomerMenuFragment newInstance(int page, String title) {
         CustomerMenuFragment fragmentFirst = new CustomerMenuFragment();
@@ -64,8 +65,13 @@ public class CustomerMenuFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ((CustomerHomeActivity) getActivity()).setTitle("Order");
+        foodItems = new ArrayList<>();
+        menuAdapter = new MenuAdapter(foodItems);
+        rvMenu = view.findViewById(R.id.rvMenuItems);
+        rvMenu.setAdapter(menuAdapter);
+        // associate the LayoutManager with the RecyclerView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvMenu.setLayoutManager(linearLayoutManager);
 
         String authentication =  REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
 
@@ -86,25 +92,54 @@ public class CustomerMenuFragment extends Fragment {
                         // Display the first 500 characters of the response string.
                         try {
                             JSONObject obj = new JSONObject(response);
-                            JSONArray items = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus").getJSONArray("items"); //.getJSONObject("menus").getJSONArray();
-                            ArrayList<MenuItem> foodItems = new ArrayList<>();
+                            JSONObject entries = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
+                                    .getJSONArray("items").getJSONObject(0).getJSONObject("entries");
+                            JSONArray subMenus = entries.getJSONArray("items");
+                            int subMenuNum = Integer.valueOf(entries.getString("count"));
 
-                            JSONObject menus = obj.getJSONObject("menus");
+                            //This part gets the menu headings: breakfast, appetizers, etc
+                            for (int i = 0; i < subMenuNum; i++) {
+                                JSONObject subMenu = subMenus.getJSONObject(i);
+                                String sectionTitle = subMenu.getString("name");
+                                MenuItem heading = new MenuItem();
+                                heading.setName(sectionTitle);
+                                Log.i("SECTION", sectionTitle);
+                                heading.setHeading(true);
+                                foodItems.add(heading);
+                                menuAdapter.notifyDataSetChanged();
 
-                           // textView.setText("Response is: " + response);
-                        } catch (JSONException e){
+                                int foodsCount = subMenu.getJSONObject("entries").getInt("count");
+                                JSONArray foods = subMenu.getJSONObject("entries").getJSONArray("items");
 
-                        }
-                        // textView.setText("Response is: " + response);
+                                //Gets the specific menu items under that heading
+                                for (int j = 0; j < foodsCount; j++){
+                                    JSONObject foodObject = foods.getJSONObject(j);
+                                    MenuItem food = new MenuItem();
+                                    food.setName(foodObject.getString("name"));
+                                    food.setDescription(foodObject.getString("description"));
+                                    food.setHeading(false);
+                                    //food.setPrice(foodObject.getString("price"));
+                                    foodItems.add(food);
+                                    menuAdapter.notifyDataSetChanged();
+
+                                }
+                            }
+                        } catch(
+                    JSONException e)
+                    {
+                        Log.i("Volley error", "error getting menu data");
                     }
+
+                 }
+
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // textView.setText("That didn't work!");
+               Log.i("Volley error", "error getting menu data");
             }
         });
 
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
     }
