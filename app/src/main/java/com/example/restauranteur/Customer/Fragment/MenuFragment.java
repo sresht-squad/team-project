@@ -1,11 +1,9 @@
 package com.example.restauranteur.Customer.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -18,11 +16,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.R;
-import com.example.restauranteur.Model.Customer;
-import com.example.restauranteur.Model.Visit;
-import com.example.restauranteur.Model.Message;
-import com.parse.ParseException;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +41,15 @@ public class MenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    public static MenuFragment newInstance(int page, String title) {
+        MenuFragment fragmentFirst = new MenuFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
     }
 
     @Override

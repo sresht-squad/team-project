@@ -14,14 +14,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.Customer.Fragment.MenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
-import com.example.restauranteur.R;
+import com.example.restauranteur.Customer.Fragment.MenuFragment;
+import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
-import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CustomerHomeActivity extends AppCompatActivity {
@@ -48,7 +46,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final Fragment menu = new MenuFragment();
 
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new ServerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
+        adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
 
@@ -89,6 +87,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     }
 
+    public void setActionBarTitle(String title) {
+        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(title);
+    }
+
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 2;
 
@@ -109,7 +113,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 case 0: // Fragment # 0 - This will show FirstFragment
                     return CustomerRequestsFragment.newInstance(0, "Request");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return CustomerQuickRequestFragment.newInstance(1, "Quick Request");
+                    return MenuFragment.newInstance(1, "Quick Request");
                 default:
                     return null;
             }
@@ -124,9 +128,5 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
 
 }
-    public void setActionBarTitle(String title) {
-        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle(title);
-    }
+
 }
