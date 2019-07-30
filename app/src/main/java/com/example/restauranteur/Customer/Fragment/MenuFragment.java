@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
@@ -61,6 +63,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((CustomerHomeActivity) getActivity()).setTitle("Order");
 
         String authentication =  REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
 

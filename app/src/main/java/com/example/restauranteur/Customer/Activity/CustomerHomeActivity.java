@@ -81,9 +81,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     }
 
-    public void setActionBarTitle(String title) {
+    public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 }

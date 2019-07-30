@@ -5,7 +5,6 @@
     android:background="#F4AC45"
     android:elevation="4dp">
 
-
     <ImageView
         android:id="@+id/ivLogout"
         android:layout_width="30dp"
