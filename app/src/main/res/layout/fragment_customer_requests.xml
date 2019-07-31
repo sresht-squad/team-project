@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:background="#F8F8F8">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
 
     <EditText
         android:id="@+id/etMessage"
@@ -24,7 +20,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btSend"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btSend"

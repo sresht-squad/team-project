@@ -2,13 +2,18 @@ package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,7 +34,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
     BottomNavigationView customerBottomNavigation;
     Visit visit;
     FragmentPagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +98,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     }
 
-    public void setActionBarTitle(String title) {
-        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle(title);
+    public void setTitle(String title) {
+        getActionBar().setTitle(title);
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -154,8 +156,40 @@ public class CustomerHomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.customer_menu_top, menu);
 
+        //lookup the searchview
+        android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        // Expand the search view and request focus
+        searchItem.expandActionView();
+        searchView.requestFocus();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                // perform query here
 
+                // Fetch the data remotely
+                fetchBooks(s);
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }
