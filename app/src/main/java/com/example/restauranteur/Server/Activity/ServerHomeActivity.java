@@ -31,7 +31,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +55,15 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        /*final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments here
         final Fragment profile = new ServerProfileFragment();
-        final Fragment requests = new ServerRequestsFragment();
+        final Fragment requests = new ServerRequestsFragment();*/
+
+        //default vpPager sets the profile as the default page
+        vpPager.setCurrentItem(0);
+        vpPager.setOnPageChangeListener(new PageChange());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -69,18 +72,15 @@ public class ServerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         vpPager.setCurrentItem(0);
-                        break;
+                        return true;
                     case R.id.requests:
                         vpPager.setCurrentItem(1);
-                        break;
+                        return true;
                     case R.id.action_active:
                         vpPager.setCurrentItem(2);
-                        break;
-                    default:
-                        fragment = profile;
-                        break;
+                        return true;
                 }
-               // fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
+                //fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
@@ -136,14 +136,37 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         /*public float getPageWidth (int position) {
             return 0.93f;
-        }
-*/
+        }*/
     }
 
     public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
+    }
+
+
+    public class PageChange implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    bottomNavigationView.setSelectedItemId(R.id.profile);
+                    break;
+                case 1:
+                    bottomNavigationView.setSelectedItemId(R.id.requests);
+                    break;
+                case 2:
+                    bottomNavigationView.setSelectedItemId(R.id.action_active);
+                    break;
+            }
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
     }
 
 
