@@ -25,6 +25,7 @@ import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -51,6 +52,7 @@ public class SignupActivity extends AppCompatActivity {
     Server server;
     ServerInfo serverInfo;
     CustomerInfo customerInfo;
+    ParseInstallation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,8 +127,11 @@ public class SignupActivity extends AppCompatActivity {
                                 Log.i("ServerSignup", "New Server created");
                                 // create the serverInfo object
                                 createServerInfo();
+                                //create the installation for that user
+                                createInstallation();
                                 // connect the new created serverInfo with the new server
                                 server.put("serverInfo",serverInfo);
+                                server.put("installation", installation);
                                 server.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
@@ -144,9 +149,22 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    
+    private void createInstallation (){
 
+        ParseInstallation.getCurrentInstallation().put("channels", new ArrayList<String>());
+        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("Installation", "New Installation");
 
+                } else {
+                    Log.i("ServerInfo", "ServerInfo not working");
+                }
+            }
+        });
+
+    }
 
 
     private void createServerInfo (){

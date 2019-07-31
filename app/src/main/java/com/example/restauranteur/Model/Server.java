@@ -2,6 +2,7 @@ package com.example.restauranteur.Model;
 
 
 import com.parse.LogInCallback;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -15,6 +16,7 @@ import java.util.List;
 public class Server {
     private ParseUser user;
     private static final String SERVER_INFO = "serverInfo";
+    private static final String SERVER_INSTALLATION = "installation";
     
     
     public Server(ParseUser parseUser){
@@ -76,6 +78,11 @@ public class Server {
     //being able to get the serverInfo object
     public ServerInfo getServerInfo(){
         return (ServerInfo) user.getParseObject("serverInfo");
+    }
+
+    //being able to get the server Installation
+    public ParseInstallation getServerInstallation(){
+        return (ParseInstallation) user.getParseObject("installation");
     }
 
 
