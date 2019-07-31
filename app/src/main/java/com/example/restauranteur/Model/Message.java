@@ -43,7 +43,7 @@ public class Message extends ParseObject {
                 return getString(BODY_KEY);
         }
 
-            public void setBody(String body) {
+        public void setBody(String body) {
             put(BODY_KEY, body);
         }
 
