@@ -92,7 +92,7 @@ public class CustomerMenuFragment extends Fragment {
 
         String restaurant = villageInn;
 
-        String url_search = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74" + search_authentication;
+        String url_search = "https://api.foursquare.com/v2/venues/search_toolbar?ll=40.7,-74" + search_authentication;
         String url_venue_details = "https://api.foursquare.com/v2/venues/" + restaurant + authentication;
         String url_menu = "https://api.foursquare.com/v2/venues/" + restaurant + menuAuthentication;
 
