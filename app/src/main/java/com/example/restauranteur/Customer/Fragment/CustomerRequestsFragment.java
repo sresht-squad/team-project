@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.R;
@@ -30,6 +32,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 public class CustomerRequestsFragment extends Fragment {
@@ -37,7 +40,8 @@ public class CustomerRequestsFragment extends Fragment {
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    private ChatAdapter mAdapter;
+    public ChatAdapter mAdapter;
+    public MenuAdapter menuAdapter;
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
@@ -47,6 +51,8 @@ public class CustomerRequestsFragment extends Fragment {
     private CardView cvWater;
     private CardView cvCheck;
     private CardView cvToGoBox;
+
+    private SwipeRefreshLayout swipeContainer;
 
 
     public CustomerRequestsFragment() {
@@ -73,6 +79,8 @@ public class CustomerRequestsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
 
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -80,6 +88,16 @@ public class CustomerRequestsFragment extends Fragment {
         cvWater = (CardView) view.findViewById(R.id.cvWater);
         cvCheck = (CardView) view.findViewById(R.id.cvCheck);
         cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
+
+        MenuAdapter adapter = new MenuAdapter(null, new MenuAdapter.EventListener() {
+            @Override
+            public void onEvent(int position) {
+                Toast.makeText(getActivity(), "click ok button at" + position, Toast.LENGTH_SHORT).show();
+                displayCurrentMessages();
+            }
+        });
+
+
 
         cvServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +154,29 @@ public class CustomerRequestsFragment extends Fragment {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
+
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("REFRESHING", "we are refreshing whoooo");
+                //first clear everything out
+                mAdapter.clear();
+                //repopulate
+                displayCurrentMessages();
+                //now make sure swipeContainer.setRefreshing is set to false
+                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         setupMessagePosting();
         displayCurrentMessages();
 
@@ -176,7 +217,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-    private void postMessage() {
+    public void postMessage() {
         String data = etMessage.getText().toString();
         // Using new `Message` Parse-backed model now
         final Message message = new Message();
@@ -208,7 +249,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-    private void displayCurrentMessages() {
+    public void displayCurrentMessages() {
         Log.i("DISPLAY", "ALL_MESSAGES");
         if (mMessages != null) {
             mMessages.clear();
@@ -222,5 +263,6 @@ public class CustomerRequestsFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 }

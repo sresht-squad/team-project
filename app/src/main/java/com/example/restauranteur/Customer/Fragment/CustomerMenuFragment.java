@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
-public class CustomerMenuFragment extends Fragment {
+public class CustomerMenuFragment extends Fragment{
 
     private MenuAdapter menuAdapter;
     private RecyclerView rvMenu;
@@ -73,7 +73,7 @@ public class CustomerMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foodItems = new ArrayList<>();
-        menuAdapter = new MenuAdapter(foodItems);
+        menuAdapter = new MenuAdapter(foodItems, null);
         menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);
