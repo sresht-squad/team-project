@@ -5,6 +5,7 @@ public class MenuItem {
     private String price;
     private String description;
     private boolean heading;
+    private boolean mainHeading;
 
 
     public String getName(){
@@ -37,5 +38,13 @@ public class MenuItem {
 
     public void setHeading(Boolean isHeading){
         heading = isHeading;
+    }
+
+    public Boolean getMainHeading(){
+        return mainHeading;
+    }
+
+    public void setMainHeading(Boolean isMainHeading){
+        mainHeading = isMainHeading;
     }
 }

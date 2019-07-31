@@ -46,6 +46,14 @@ public class ServerInfo extends ParseObject {
         removeAll(KEY_VISITS, removedVisits);
     }
 
+    public String getRestaurantId(){
+        try {
+            return fetchIfNeeded().getString("restaurantId");
+        } catch (ParseException e) {
+            return "";
+        }
+    }
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.restauranteur.Model;
 
 
 import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -17,7 +18,7 @@ public class Server {
     private ParseUser user;
     private static final String SERVER_INFO = "serverInfo";
     private static final String SERVER_INSTALLATION = "installation";
-    
+
     
     public Server(ParseUser parseUser){
         user = parseUser;
@@ -46,7 +47,7 @@ public class Server {
     public void saveInBackground(SaveCallback callback){
         user.saveInBackground(callback);
     }
-
+    // Being able to put Server data into Parse
     public void put(String key, String value){
         user.put(key, value);
     }
@@ -71,13 +72,22 @@ public class Server {
         user.put(key,serverInfo);
     }
 
+    public void put(String key, ParseInstallation installation){
+        user.put(key,installation);
+    }
+
+
     public void addVisit(Visit visit){
         user.add("visits", visit);
     }
 
     //being able to get the serverInfo object
     public ServerInfo getServerInfo(){
-        return (ServerInfo) user.getParseObject("serverInfo");
+        try {
+            return (ServerInfo) user.fetchIfNeeded().getParseObject("serverInfo");
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     //being able to get the server Installation

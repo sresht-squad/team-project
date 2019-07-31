@@ -131,7 +131,6 @@ public class SignupActivity extends AppCompatActivity {
                                 createInstallation();
                                 // connect the new created serverInfo with the new server
                                 server.put("serverInfo",serverInfo);
-                                server.put("installation", installation);
                                 server.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
@@ -151,7 +150,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private void createInstallation (){
 
-        ParseInstallation.getCurrentInstallation().put("channels", new ArrayList<String>());
+       installation = new ParseInstallation();
+       installation.put("channels", new ArrayList<String>());
         ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
