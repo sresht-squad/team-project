@@ -2,7 +2,6 @@ package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,11 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -35,7 +32,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
+    public static ViewPager vpPager;
     FragmentPagerAdapter adapterViewPager;
+    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBC42")));
 
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
 
@@ -124,12 +124,23 @@ public class CustomerHomeActivity extends AppCompatActivity {
             return "Page " + position;
         }
 
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof CustomerMenuFragment) {
+                return POSITION_UNCHANGED;
+            } else {
+                return POSITION_NONE;
+            }
+        }
+
+
     }
 
     public class PageChange implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
+
         @Override
         public void onPageSelected(int position) {
             switch (position) {
@@ -141,6 +152,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     break;
             }
         }
+
         @Override
         public void onPageScrollStateChanged(int state) {
         }

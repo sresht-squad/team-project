@@ -1,25 +1,22 @@
 package com.example.restauranteur.Customer.Fragment;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.text.Layout;
+import android.content.DialogInterface;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
-import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.Model.Message;
@@ -29,29 +26,18 @@ import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 import static android.view.Gravity.CENTER;
 import static android.view.Gravity.LEFT;
 import static android.view.View.GONE;
-import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private ArrayList<MenuItem> mMenuItems;
     Context context;
-    ViewGroup myParent;
-
-    public interface EventListener {
-        void onEvent(int data);
-    }
-
-    EventListener listener;
 
 
-    MenuAdapter(ArrayList<MenuItem> menuItems, EventListener listener) {
+    MenuAdapter(ArrayList<MenuItem> menuItems) {
         mMenuItems= menuItems;
-        this.listener = listener;
-
     }
 
     @Override
@@ -139,14 +125,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
+            //When an item is clicked, a box will pop up prompting you to place the order or cancel
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 MenuItem item = mMenuItems.get(position);
-                String order = item.getName();
-                Toast.makeText(context, order, Toast.LENGTH_LONG).show();
-              //  EventListener.onEvent();
-                //AboutBox.Show((CustomerHomeActivity) context.getClass());
-                postMessage(order);
+                final String order = item.getName();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("Place Order", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        postMessage(order);
+                    }
+                });
+                builder.setTitle(order).setMessage("Would you like to order 1 " + order + " ?").create().show();
             }
         }
     }
@@ -162,15 +154,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             @Override
             public void done(ParseException e) {
                 //if the message saves successfully, save it to the visit as well
-                Toast.makeText(context, "Created message on Parse", Toast.LENGTH_SHORT).show();
                 visit.addMessage(message);
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-               //         Toast.makeText(this, "Message added to visit", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        ViewPager viewPager = CustomerHomeActivity.vpPager;
+                        viewPager.getAdapter().notifyDataSetChanged();
+                        Toast.makeText(context, "Order has been placed", Toast.LENGTH_LONG).show();
                     }
                 });
-                notifyDataSetChanged();
             }
         });
     }

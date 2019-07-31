@@ -34,7 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 
@@ -79,7 +78,7 @@ public class CustomerMenuFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foodItems = new ArrayList<>();
-        menuAdapter = new MenuAdapter(foodItems, null);
+        menuAdapter = new MenuAdapter(foodItems);
         menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);
@@ -136,6 +135,7 @@ public class CustomerMenuFragment extends Fragment{
             public boolean onQueryTextChange(String s) {
                 return false;
             }
+
         });
 
         //on close of the searchview, go back to the full menu
@@ -266,7 +266,7 @@ public class CustomerMenuFragment extends Fragment{
                 results.add(foodItems.get(i));
             }
         }
-        menuAdapterSearch = new MenuAdapter(results, null);
+        menuAdapterSearch = new MenuAdapter(results);
         rvMenu.setAdapter(menuAdapterSearch);
     }
 

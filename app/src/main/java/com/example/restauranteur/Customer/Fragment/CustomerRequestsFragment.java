@@ -1,11 +1,9 @@
 package com.example.restauranteur.Customer.Fragment;
 
-import android.app.ActionBar;
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
@@ -32,7 +29,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class CustomerRequestsFragment extends Fragment {
@@ -40,17 +36,11 @@ public class CustomerRequestsFragment extends Fragment {
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    public ChatAdapter mAdapter;
-    public MenuAdapter menuAdapter;
+    private ChatAdapter mAdapter;
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
     private Visit visit;
-
-    private CardView cvServerHelp;
-    private CardView cvWater;
-    private CardView cvCheck;
-    private CardView cvToGoBox;
 
     private SwipeRefreshLayout swipeContainer;
 
@@ -85,20 +75,10 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        cvServerHelp = (CardView) view.findViewById(R.id.cvServerHelp);
-        cvWater = (CardView) view.findViewById(R.id.cvWater);
-        cvCheck = (CardView) view.findViewById(R.id.cvCheck);
-        cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
-
-        MenuAdapter adapter = new MenuAdapter(null, new MenuAdapter.EventListener() {
-            @Override
-            public void onEvent(int position) {
-                Toast.makeText(getActivity(), "click ok button at" + position, Toast.LENGTH_SHORT).show();
-                displayCurrentMessages();
-            }
-        });
-
-
+        CardView cvServerHelp = view.findViewById(R.id.cvServerHelp);
+        CardView cvWater = view.findViewById(R.id.cvWater);
+        CardView cvCheck = view.findViewById(R.id.cvCheck);
+        CardView cvToGoBox = view.findViewById(R.id.cvToGoBox);
 
         cvServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,13 +141,8 @@ public class CustomerRequestsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.d("REFRESHING", "we are refreshing whoooo");
-                //first clear everything out
-                mAdapter.clear();
-                //repopulate
                 displayCurrentMessages();
-                //now make sure swipeContainer.setRefreshing is set to false
-                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
+                //now make sure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
             }
         });
 
@@ -218,7 +193,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-    public void postMessage() {
+    private void postMessage() {
         String data = etMessage.getText().toString();
         // Using new `Message` Parse-backed model now
         final Message message = new Message();
@@ -250,7 +225,7 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-    public void displayCurrentMessages() {
+    private void displayCurrentMessages() {
         Log.i("DISPLAY", "ALL_MESSAGES");
         if (mMessages != null) {
             mMessages.clear();
