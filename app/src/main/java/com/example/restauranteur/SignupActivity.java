@@ -57,6 +57,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getActionBar().hide();
 
         //connecting to layout
         etGetFirstName = findViewById(R.id.etFirstName);
