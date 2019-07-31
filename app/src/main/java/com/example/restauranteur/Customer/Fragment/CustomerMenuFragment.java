@@ -73,7 +73,7 @@ public class CustomerMenuFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foodItems = new ArrayList<>();
-        menuAdapter = new MenuAdapter(foodItems, null);
+        menuAdapter = new MenuAdapter(foodItems);
         menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);

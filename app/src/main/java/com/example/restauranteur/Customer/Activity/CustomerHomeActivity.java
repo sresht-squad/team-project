@@ -3,6 +3,8 @@ package com.example.restauranteur.Customer.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
@@ -28,8 +31,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
-    FragmentPagerAdapter adapterViewPager;
+    FragmentStatePagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
+    public static ViewPager vpPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final Fragment requests = new CustomerRequestsFragment();
         final Fragment menu = new CustomerMenuFragment();
 
-        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
@@ -100,8 +104,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+    public class MyPagerAdapter extends FragmentStatePagerAdapter {
+        private int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -118,19 +122,34 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
+                    Log.i("GET", "ITEM");
                     return CustomerRequestsFragment.newInstance(0, "Request");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
+                    Log.i("GET", "ITEM");
                     return CustomerMenuFragment.newInstance(1, "Quick Request");
                 default:
+                    Log.i("GET", "ITEM");
                     return null;
             }
         }
+
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof CustomerMenuFragment) {
+                return POSITION_UNCHANGED;
+            } else {
+                return POSITION_NONE;
+            }
+        }
+
 
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "Page " + position;
         }
+
+
 
     }
 
@@ -153,9 +172,5 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public void onPageScrollStateChanged(int state) {
         }
     }
-
-
-
-
 
 }

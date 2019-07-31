@@ -89,6 +89,7 @@ public class CustomerRequestsFragment extends Fragment {
         cvCheck = (CardView) view.findViewById(R.id.cvCheck);
         cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
 
+        /*
         MenuAdapter adapter = new MenuAdapter(null, new MenuAdapter.EventListener() {
             @Override
             public void onEvent(int position) {
@@ -96,6 +97,7 @@ public class CustomerRequestsFragment extends Fragment {
                 displayCurrentMessages();
             }
         });
+        */
 
 
 
