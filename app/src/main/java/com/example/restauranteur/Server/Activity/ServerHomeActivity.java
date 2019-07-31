@@ -31,7 +31,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,28 +55,32 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
+        /*final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // define fragments here
+        final Fragment profile = new ServerProfileFragment();
+        final Fragment requests = new ServerRequestsFragment();*/
+
+        //default vpPager sets the profile as the default page
+        vpPager.setCurrentItem(0);
+        vpPager.setOnPageChangeListener(new PageChange());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         vpPager.setCurrentItem(0);
-                        setTitle("Profile");
-                        break;
+                        return true;
                     case R.id.requests:
                         vpPager.setCurrentItem(1);
-                        setTitle("Requests");
-                        break;
+                        return true;
                     case R.id.action_active:
                         vpPager.setCurrentItem(2);
-                        setTitle("Active Visits");
-                        break;
-                    default:
-                        vpPager.setCurrentItem(0);
-                        setTitle("Profile");
-                        break;
+                        return true;
                 }
+                //fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
@@ -97,8 +100,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         });
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-        private int NUM_ITEMS = 3;
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -115,13 +118,10 @@ public class ServerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    setTitle("Profile");
                     return ServerProfileFragment.newInstance(0, "Profile");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    setTitle("Requests");
                     return ServerRequestsFragment.newInstance(1, "Requests");
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    setTitle("Active Visits");
                     return ServerActiveVisitsFragment.newInstance(2, "Active Visits");
                 default:
                     return null;
@@ -134,12 +134,39 @@ public class ServerHomeActivity extends AppCompatActivity {
             return "page" + position;
         }
 
+        /*public float getPageWidth (int position) {
+            return 0.93f;
+        }*/
     }
 
     public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
+    }
+
+
+    public class PageChange implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    bottomNavigationView.setSelectedItemId(R.id.profile);
+                    break;
+                case 1:
+                    bottomNavigationView.setSelectedItemId(R.id.requests);
+                    break;
+                case 2:
+                    bottomNavigationView.setSelectedItemId(R.id.action_active);
+                    break;
+            }
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
     }
 
 

@@ -58,25 +58,20 @@ public class CustomerHomeActivity extends AppCompatActivity {
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
         inkPageIndicator.setViewPager(vpPager);
 
+        vpPager.setCurrentItem(0);
+        vpPager.setOnPageChangeListener(new PageChange());
 
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment;
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_request:
                         vpPager.setCurrentItem(0);
-                        setTitle("Request");
-                        break;
+                        return true;
                     case R.id.action_menu:
                         vpPager.setCurrentItem(1);
-                        fragment = menu;
-                        setTitle("Order");
-                        break;
-                    default:
-                        vpPager.setCurrentItem(0);
-                        break;
+                        return true;
                 }
                 return false;
             }
@@ -97,6 +92,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setActionBarTitle(String title) {
+        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(title);
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -132,9 +133,29 @@ public class CustomerHomeActivity extends AppCompatActivity {
         }
 
     }
-    public void setTitle(String title) {
-        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle(title);
+
+    public class PageChange implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    customerBottomNavigation.setSelectedItemId(R.id.action_request);
+                    break;
+                case 1:
+                    customerBottomNavigation.setSelectedItemId(R.id.action_menu);
+                    break;
+            }
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
     }
+
+
+
+
+
 }
