@@ -44,7 +44,6 @@ public class CustomerMenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     public static CustomerMenuFragment newInstance(int page, String title) {
         CustomerMenuFragment fragmentFirst = new CustomerMenuFragment();
         Bundle args = new Bundle();
@@ -52,6 +51,7 @@ public class CustomerMenuFragment extends Fragment {
         args.putString("someTitle", title);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
+
     }
 
     @Override

@@ -54,8 +54,6 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
 
-        getActivity().setTitle("Profile");
-
         tvId = view.findViewById(R.id.tvId);
         etTableNum = view.findViewById(R.id.etTableNum);
 

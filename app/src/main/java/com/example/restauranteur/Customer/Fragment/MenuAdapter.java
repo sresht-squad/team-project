@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.MenuItem;
@@ -15,6 +16,7 @@ import com.example.restauranteur.R;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
+import static android.view.Gravity.LEFT;
 import static android.view.View.GONE;
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
@@ -37,21 +39,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-            if (mMenuItems.get(position).getHeading()){
-                Log.i("HEADING", mMenuItems.get(position).getName());
-            }
-        MenuItem food = mMenuItems.get(position);
-        holder.foodName.setText(food.getName());
-        if (food.getPrice() == null){
+    public void onBindViewHolder(ViewHolder holder, int p) {
+            int position = holder.getAdapterPosition();
+        MenuItem item = mMenuItems.get(position);
+        holder.foodName.setText(item.getName());
+        if (item.getPrice() == null){
             holder.price.setVisibility(GONE);
         }
-        if (mMenuItems.get(position).getHeading()){
+        if (item.getHeading()){
+            Log.i("HEADING", mMenuItems.get(position).getName());
+          //  holder.menuCardview.setCardBackgroundColor();
             holder.foodName.setGravity(CENTER);
             holder.foodName.setTextSize(20);
             holder.description.setVisibility(GONE);
         } else{
-            holder.description.setText(food.getDescription());
+            holder.foodName.setGravity(LEFT);
+            holder.foodName.setTextSize(16);
+            holder.description.setText(item.getDescription());
+            holder.description.setVisibility(View.VISIBLE);
         }
     }
 
@@ -67,12 +72,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         TextView foodName;
         TextView description;
         TextView price;
+        CardView menuCardview;
 
         ViewHolder(View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.foodName);
             description = itemView.findViewById(R.id.foodDescription);
             price = itemView.findViewById(R.id.tvPrice);
+            menuCardview = itemView.findViewById(R.id.cardView);
 
         }
     }
