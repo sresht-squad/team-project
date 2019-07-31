@@ -1,12 +1,16 @@
 package com.example.restauranteur.Customer.Fragment;
 
 import android.content.Context;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.MenuItem;
@@ -15,6 +19,7 @@ import com.example.restauranteur.R;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
+import static android.view.Gravity.LEFT;
 import static android.view.View.GONE;
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
@@ -38,20 +43,41 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-            if (mMenuItems.get(position).getHeading()){
-                Log.i("HEADING", mMenuItems.get(position).getName());
-            }
-        MenuItem food = mMenuItems.get(position);
-        holder.foodName.setText(food.getName());
-        if (food.getPrice() == null){
-            holder.price.setVisibility(GONE);
+
+        MenuItem item = mMenuItems.get(position);
+        holder.foodName.setText(item.getName());
+        if (item.getPrice() == null){
+            holder.price.setVisibility(View.GONE);
+        } else {
+            holder.price.setText(item.getPrice());
+            holder.price.setVisibility(View.VISIBLE);
         }
-        if (mMenuItems.get(position).getHeading()){
+
+        if (item.getDescription() == null){
+            holder.description.setVisibility(View.GONE);
+            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, 0, 0, 0);
+            holder.description.setLayoutParams(layoutParams);
+        } else {
+            holder.description.setVisibility(View.VISIBLE);
+            holder.description.setLayoutParams(holder.defaultParams);
+        }
+
+        if (item.getHeading()){
+            Log.i("HEADING", mMenuItems.get(position).getName());
+            holder.menuCardview.setCardBackgroundColor(0xFFFAFAFA);
+            holder.clMenuFade.setVisibility(GONE);
+            holder.foodName.setTextAppearance(android.R.style.TextAppearance_Large);
             holder.foodName.setGravity(CENTER);
-            holder.foodName.setTextSize(20);
-            holder.description.setVisibility(GONE);
+            //holder.foodName.setTextSize(20);
+            holder.description.setVisibility(View.INVISIBLE);
         } else{
-            holder.description.setText(food.getDescription());
+            holder.foodName.setGravity(LEFT);
+            holder.clMenuFade.setVisibility(View.VISIBLE);
+            holder.menuCardview.setCardBackgroundColor(0xFFFFFFFF);
+            holder.foodName.setTextSize(16);
+            holder.description.setText(item.getDescription());
+            holder.description.setVisibility(View.VISIBLE);
         }
     }
 
@@ -67,12 +93,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         TextView foodName;
         TextView description;
         TextView price;
+        CardView menuCardview;
+        ConstraintLayout clMenu;
+        ConstraintLayout clMenuFade;
+        ConstraintLayout.LayoutParams defaultParams;
 
         ViewHolder(View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.foodName);
             description = itemView.findViewById(R.id.foodDescription);
             price = itemView.findViewById(R.id.tvPrice);
+            menuCardview = itemView.findViewById(R.id.cardView);
+            clMenu = itemView.findViewById(R.id.clMenuItem);
+            clMenuFade = itemView.findViewById(R.id.constraintLayout2);
+            defaultParams = (ConstraintLayout.LayoutParams) description.getLayoutParams();
 
         }
     }

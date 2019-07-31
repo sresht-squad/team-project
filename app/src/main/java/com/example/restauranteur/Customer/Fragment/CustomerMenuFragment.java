@@ -1,10 +1,12 @@
 package com.example.restauranteur.Customer.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -34,6 +36,8 @@ public class CustomerMenuFragment extends Fragment {
     private MenuAdapter menuAdapter;
     private RecyclerView rvMenu;
     private ArrayList<MenuItem> foodItems;
+    private String restaurantName;
+    private TextView menuName;
 
     public CustomerMenuFragment() {
         //required empty constructor
@@ -67,80 +71,139 @@ public class CustomerMenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
         foodItems = new ArrayList<>();
         menuAdapter = new MenuAdapter(foodItems);
+        menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvMenu.setLayoutManager(linearLayoutManager);
 
-        String authentication =  REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
+        String search_authentication = "&client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
+        String authentication = "?client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
 
-        String url_search = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_id=" + authentication;
-        String url_venue_details =  "https://api.foursquare.com/v2/venues/4ac518eff964a52064ad20e3?client_id=" + authentication;
-        String url_menu = "https://api.foursquare.com/v2/venues/4b70720ff964a520e71a2de3/menu?client_id=" + authentication;
+        String menuAuthentication = "/menu?client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
+
+        String panera = "4b70720ff964a520e71a2de3";
+        String oliveGarden = "46d715faf964a5206c4a1fe3";
+        String restaurantWithNoMenu = "51c9f997498e17f9e5bfbb52";
+        String appleBees = "4c349961a0ced13a7463186e"; //has prices
+        String villageInn = "4b53440df964a520e59427e3";
 
 
-        // Instantiate the RequestQueue.
+        String restaurant = villageInn;
+
+        String url_search = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74" + search_authentication;
+        String url_venue_details = "https://api.foursquare.com/v2/venues/" + restaurant + authentication;
+        String url_menu = "https://api.foursquare.com/v2/venues/" + restaurant + menuAuthentication;
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        // Request a string response from the provided URL.
-        // final JSONObject obj;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONObject entries = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
-                                    .getJSONArray("items").getJSONObject(0).getJSONObject("entries");
-                            JSONArray subMenus = entries.getJSONArray("items");
-                            int subMenuNum = Integer.valueOf(entries.getString("count"));
-
-                            //This part gets the menu headings: breakfast, appetizers, etc
-                            for (int i = 0; i < subMenuNum; i++) {
-                                JSONObject subMenu = subMenus.getJSONObject(i);
-                                String sectionTitle = subMenu.getString("name");
-                                MenuItem heading = new MenuItem();
-                                heading.setName(sectionTitle);
-                                Log.i("SECTION", sectionTitle);
-                                heading.setHeading(true);
-                                foodItems.add(heading);
-                                menuAdapter.notifyDataSetChanged();
-
-                                int foodsCount = subMenu.getJSONObject("entries").getInt("count");
-                                JSONArray foods = subMenu.getJSONObject("entries").getJSONArray("items");
-
-                                //Gets the specific menu items under that heading
-                                for (int j = 0; j < foodsCount; j++){
-                                    JSONObject foodObject = foods.getJSONObject(j);
-                                    MenuItem food = new MenuItem();
-                                    food.setName(foodObject.getString("name"));
-                                    food.setDescription(foodObject.getString("description"));
-                                    food.setHeading(false);
-                                    //food.setPrice(foodObject.getString("price"));
-                                    foodItems.add(food);
-                                    menuAdapter.notifyDataSetChanged();
-
-                                }
-                            }
-                        } catch(
-                    JSONException e)
-                    {
-                        Log.i("Volley error", "error getting menu data");
-                    }
-
-                 }
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-               Log.i("Volley error", "error getting menu data");
-            }
-        });
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
-
+        getRestaurantName(queue, url_venue_details);
+        getMenu(queue, url_menu);
     }
+
+        // Instantiate the RequestQueue
+
+
+        void getMenu(RequestQueue queue, String url_menu) {
+            // Request a string response from the provided URL.
+            // final JSONObject obj;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // Display the first 500 characters of the response string.
+                            try {
+                                JSONObject obj = new JSONObject(response);
+                                JSONArray menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
+                                        .getJSONArray("items");
+
+                                //for all main menus
+                                for (int a = 0; a < menus.length(); a++) {
+                                    JSONObject mainMenu = menus.getJSONObject(a).getJSONObject("entries");
+
+                                    JSONArray subMenus = mainMenu.getJSONArray("items");
+                                    int subMenuNum = Integer.valueOf(mainMenu.getString("count"));
+
+                                    //This part gets the menu headings: breakfast, appetizers, etc
+                                    for (int i = 0; i < subMenuNum; i++) {
+                                        JSONObject subMenu = subMenus.getJSONObject(i);
+                                        String sectionTitle = subMenu.getString("name");
+                                        MenuItem heading = new MenuItem();
+                                        heading.setName(sectionTitle);
+                                        Log.i("SECTION", sectionTitle);
+                                        heading.setHeading(true);
+                                        foodItems.add(heading);
+                                        menuAdapter.notifyDataSetChanged();
+
+                                        int foodsCount = subMenu.getJSONObject("entries").getInt("count");
+                                        JSONArray foods = subMenu.getJSONObject("entries").getJSONArray("items");
+
+                                        //Gets the specific menu items under that heading
+                                        for (int j = 0; j < foodsCount; j++) {
+                                            JSONObject foodObject = foods.getJSONObject(j);
+                                            MenuItem food = new MenuItem();
+                                            if (foodObject.has("name")) {
+                                                food.setName(foodObject.getString("name"));
+                                            }
+                                            if (foodObject.has("description")) {
+                                                food.setDescription(foodObject.getString("description"));
+                                            }
+                                            if (foodObject.has("price")) {
+                                                food.setPrice(foodObject.getString("price"));
+                                            }
+                                            food.setHeading(false);
+                                            foodItems.add(food);
+                                            menuAdapter.notifyDataSetChanged();
+
+                                        }
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                Log.i("Volley error", "error getting menu data");
+                            }
+                        }
+
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("Volley error", "error getting menu data");
+                }
+            });
+
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+        }
+
+
+        void getRestaurantName(RequestQueue queue, String url_venue){
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url_venue,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // Display the first 500 characters of the response string.
+                            try {
+                                JSONObject obj = new JSONObject(response);
+                                obj = obj.getJSONObject("response").getJSONObject("venue");
+                                restaurantName = obj.getString("name");
+                                Log.i("NAME_REST", restaurantName);
+                                menuName.setText(restaurantName);
+                               // restaurantName = venue.toString();
+                            }
+                            catch (JSONException e) {
+                                Log.i("Volley error", "error getting menu data");
+                            }
+                        }
+
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("Volley error", "error getting menu data");
+                }
+            });
+
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+        }
+
 }
