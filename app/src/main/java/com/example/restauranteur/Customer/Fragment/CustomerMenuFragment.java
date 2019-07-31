@@ -110,15 +110,14 @@ public class CustomerMenuFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.customer_menu_top, menu);
+        inflater.inflate(R.menu.customer_menu_top_fragment, menu);
 
         //lookup the searchview
         android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        // Expand the search view and request focus
-        searchItem.expandActionView();
-        searchView.requestFocus();
+        //set hint
+        searchView.setQueryHint("Search Menu...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -138,7 +137,34 @@ public class CustomerMenuFragment extends Fragment {
             }
         });
 
+        //on close of the searchview, go back to the full menu
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+
+                searchMenu("");
+
+                return false;
+            }
+        });
+
+
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.ivLogout) {
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
