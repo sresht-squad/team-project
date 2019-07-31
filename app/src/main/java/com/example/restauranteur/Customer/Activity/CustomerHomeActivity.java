@@ -151,17 +151,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.customer_menu_top, menu);
 
-//        MenuItem miLogout = menu.findItem(R.id.ivLogout);
-//        final ImageView logout = (ImageView) MenuItemCompat.getActionView(miLogout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Customer.logOut();
-//                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        MenuItem miLogout = menu.findItem(R.id.ivLogout);
+        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Customer.logOut();
+                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return false;
+            }
+        });
 
         return super.onCreateOptionsMenu(menu);
     }
