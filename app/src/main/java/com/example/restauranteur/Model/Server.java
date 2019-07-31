@@ -2,6 +2,7 @@ package com.example.restauranteur.Model;
 
 
 import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -75,7 +76,11 @@ public class Server {
 
     //being able to get the serverInfo object
     public ServerInfo getServerInfo(){
-        return (ServerInfo) user.getParseObject("serverInfo");
+        try {
+            return (ServerInfo) user.fetchIfNeeded().getParseObject("serverInfo");
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
 

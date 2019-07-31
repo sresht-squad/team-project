@@ -71,9 +71,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             holder.foodName.setGravity(CENTER);
             //holder.foodName.setTextSize(20);
             holder.description.setVisibility(View.INVISIBLE);
+            if (item.getMainHeading()){
+                holder.foodName.setTextAppearance(android.R.style.TextAppearance_Material_Display1);
+            }
         } else{
             holder.foodName.setGravity(LEFT);
             holder.clMenuFade.setVisibility(View.VISIBLE);
+            holder.foodName.setTextAppearance(android.R.style.TextAppearance_Small);
             holder.menuCardview.setCardBackgroundColor(0xFFFFFFFF);
             holder.foodName.setTextSize(16);
             holder.description.setText(item.getDescription());

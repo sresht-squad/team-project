@@ -1,5 +1,7 @@
 package com.example.restauranteur.Model;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -44,6 +46,14 @@ public class ServerInfo extends ParseObject {
         List<Visit> removedVisits = new ArrayList<>();
         removedVisits.add(visit);
         removeAll(KEY_VISITS, removedVisits);
+    }
+
+    public String getRestaurantId(){
+        try {
+            return fetchIfNeeded().getString("restaurantId");
+        } catch (ParseException e) {
+            return "";
+        }
     }
 
 
