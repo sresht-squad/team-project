@@ -13,6 +13,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class CustomerMenuFragment extends Fragment {
     private ArrayList<MenuItem> foodItems;
     private String restaurantName;
     private TextView menuName;
+    private MenuAdapter menuAdapterSearch;
 
     public CustomerMenuFragment() {
         //required empty constructor
@@ -50,6 +52,7 @@ public class CustomerMenuFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     public static CustomerMenuFragment newInstance(int page, String title) {
@@ -103,6 +106,39 @@ public class CustomerMenuFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         getRestaurantName(queue, url_venue_details);
         getMenu(queue, url_menu);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.customer_menu_top, menu);
+
+        //lookup the searchview
+        android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        // Expand the search view and request focus
+        searchItem.expandActionView();
+        searchView.requestFocus();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                searchMenu(s);
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 
@@ -179,8 +215,16 @@ public class CustomerMenuFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-  
-
+    void searchMenu(String query){
+        ArrayList<MenuItem> results = new ArrayList<>();
+        for (int i = 0; i < foodItems.size(); i++){
+            if (foodItems.get(i).getName().contains(query)){
+                results.add(foodItems.get(i));
+            }
+        }
+        menuAdapterSearch = new MenuAdapter(results);
+        rvMenu.setAdapter(menuAdapterSearch);
+    }
 
     void getRestaurantName(RequestQueue queue, String url_venue){
 

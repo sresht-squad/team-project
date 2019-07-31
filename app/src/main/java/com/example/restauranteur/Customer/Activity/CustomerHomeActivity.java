@@ -41,7 +41,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
 
@@ -83,18 +82,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
         //setdefault
         customerBottomNavigation.setSelectedItemId(R.id.action_request);
-
-
-        logout = findViewById(R.id.ivLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Customer.logOut();
-                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
@@ -161,34 +148,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.customer_menu_top, menu);
 
-        //lookup the searchview
-        android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        // Expand the search view and request focus
-        searchItem.expandActionView();
-        searchView.requestFocus();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                // perform query here
-
-                // Fetch the data remotely
-                fetchBooks(s);
-
-                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-                // see https://code.google.com/p/android/issues/detail?id=24599
-                searchView.clearFocus();
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
+//        MenuItem miLogout = menu.findItem(R.id.ivLogout);
+//        final ImageView logout = (ImageView) MenuItemCompat.getActionView(miLogout);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Customer.logOut();
+//                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
         return super.onCreateOptionsMenu(menu);
     }
