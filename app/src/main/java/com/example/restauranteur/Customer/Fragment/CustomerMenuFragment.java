@@ -244,7 +244,7 @@ public class CustomerMenuFragment extends Fragment {
     void searchMenu(String query){
         ArrayList<MenuItem> results = new ArrayList<>();
         for (int i = 0; i < foodItems.size(); i++){
-            if (foodItems.get(i).getName().contains(query)){
+            if (foodItems.get(i).getName().contains(query) && !foodItems.get(i).getHeading()){
                 results.add(foodItems.get(i));
             }
         }
