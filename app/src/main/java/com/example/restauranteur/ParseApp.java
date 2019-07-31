@@ -3,6 +3,7 @@ package com.example.restauranteur;
 import android.app.Application;
 
 import com.example.restauranteur.Model.CustomerInfo;
+import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
@@ -22,6 +23,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(ServerInfo.class);
         ParseObject.registerSubclass(CustomerInfo.class);
+        ParseObject.registerSubclass(Installation.class);
 
 
         // Use for monitoring Parse network traffic

@@ -9,6 +9,8 @@ import java.util.List;
 @ParseClassName("Installation")
 public class Installation extends ParseInstallation {
 
+    private ParseInstallation parseInstallation;
+
 
     private static final String KEY_CHANNELS = "channels";
     private static final String KEY_BADGE = "badge";

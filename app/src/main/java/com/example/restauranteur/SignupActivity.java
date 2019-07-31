@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
+import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
@@ -127,14 +128,21 @@ public class SignupActivity extends AppCompatActivity {
                                 Log.i("ServerSignup", "New Server created");
                                 // create the serverInfo object
                                 createServerInfo();
-                                //create the installation for that user
-                                createInstallation();
+
                                 // connect the new created serverInfo with the new server
                                 server.put("serverInfo",serverInfo);
                                 server.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
-                                        login(newUsername, newPassword);
+                                        //create the installation for that user
+                                        createInstallation();
+                                        server.put("installation", installation);
+                                        server.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                login(newUsername,newPassword);
+                                            }
+                                        });
                                     }
                                 });
 
@@ -150,16 +158,16 @@ public class SignupActivity extends AppCompatActivity {
 
     private void createInstallation (){
 
-       installation = new ParseInstallation();
+       installation = new Installation();
        installation.put("channels", new ArrayList<String>());
-        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+       installation.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     Log.i("Installation", "New Installation");
 
                 } else {
-                    Log.i("ServerInfo", "ServerInfo not working");
+                    Log.i("Installation", "installation failed");
                 }
             }
         });
@@ -185,7 +193,6 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void createCustomerInfo (){
         // call this in callBack to gurantee association

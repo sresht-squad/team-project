@@ -72,7 +72,7 @@ public class Server {
         user.put(key,serverInfo);
     }
 
-    public void put(String key, ParseInstallation installation){
+    public void put(String key, Installation installation){
         user.put(key,installation);
     }
 
