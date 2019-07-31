@@ -39,8 +39,9 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_visit_detail);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getActionBar().hide();
-
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         final Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
         String nameText = intent.getStringExtra("NAME_TEXT");

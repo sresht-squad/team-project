@@ -47,7 +47,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_new_visit);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        getActionBar().hide();
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
 
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);

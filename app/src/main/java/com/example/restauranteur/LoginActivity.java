@@ -33,7 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getActionBar().hide();
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
 
         etGetUsername = findViewById(R.id.etUsernameLogin);
         etGetPassword = findViewById(R.id.etPasswordLogin);
