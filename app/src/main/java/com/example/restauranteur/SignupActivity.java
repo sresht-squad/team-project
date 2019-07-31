@@ -144,6 +144,11 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    
+
+
+
+
     private void createServerInfo (){
         // call this in callBack to gurantee association
         // put into the method and doing it the save callBack
