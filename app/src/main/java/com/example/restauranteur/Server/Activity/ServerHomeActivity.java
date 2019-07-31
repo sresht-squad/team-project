@@ -36,7 +36,9 @@ public class ServerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         // could be a cool effect to make seem like a picture gallery , need to also comment out getPageWidth()
         // in the adapter

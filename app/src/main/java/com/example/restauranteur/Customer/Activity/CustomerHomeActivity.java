@@ -2,9 +2,11 @@ package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
@@ -31,17 +32,18 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
-    FragmentStatePagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
     public static ViewPager vpPager;
+    FragmentPagerAdapter adapterViewPager;
+    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBC42")));
 
-
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
 
@@ -52,7 +54,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final Fragment requests = new CustomerRequestsFragment();
         final Fragment menu = new CustomerMenuFragment();
 
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
@@ -84,28 +86,14 @@ public class CustomerHomeActivity extends AppCompatActivity {
         //setdefault
         customerBottomNavigation.setSelectedItemId(R.id.action_request);
 
-
-        logout = findViewById(R.id.ivLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Customer.logOut();
-                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
     }
 
-    public void setActionBarTitle(String title) {
-        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle(title);
+    public void setTitle(String title) {
+        getActionBar().setTitle(title);
     }
 
-    public class MyPagerAdapter extends FragmentStatePagerAdapter {
-        private int NUM_ITEMS = 2;
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -122,15 +110,18 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    Log.i("GET", "ITEM");
                     return CustomerRequestsFragment.newInstance(0, "Request");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    Log.i("GET", "ITEM");
                     return CustomerMenuFragment.newInstance(1, "Quick Request");
                 default:
-                    Log.i("GET", "ITEM");
                     return null;
             }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
         }
 
         @Override
@@ -143,20 +134,13 @@ public class CustomerHomeActivity extends AppCompatActivity {
         }
 
 
-        // Returns the page title for the top indicator
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "Page " + position;
-        }
-
-
-
     }
 
     public class PageChange implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
+
         @Override
         public void onPageSelected(int position) {
             switch (position) {
@@ -168,9 +152,29 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     break;
             }
         }
+
         @Override
         public void onPageScrollStateChanged(int state) {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.customer_menu_top, menu);
+
+        MenuItem miLogout = menu.findItem(R.id.ivLogout);
+        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Customer.logOut();
+                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }

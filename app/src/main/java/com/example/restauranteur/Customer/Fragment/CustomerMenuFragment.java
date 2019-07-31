@@ -1,14 +1,19 @@
 package com.example.restauranteur.Customer.Fragment;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +26,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.MenuItem;
-import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 
@@ -41,6 +45,7 @@ public class CustomerMenuFragment extends Fragment{
     private ArrayList<MenuItem> foodItems;
     private String restaurantName;
     private TextView menuName;
+    private MenuAdapter menuAdapterSearch;
 
     public CustomerMenuFragment() {
         //required empty constructor
@@ -49,6 +54,7 @@ public class CustomerMenuFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     public static CustomerMenuFragment newInstance(int page, String title) {
@@ -58,7 +64,6 @@ public class CustomerMenuFragment extends Fragment{
         args.putString("someTitle", title);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
-
     }
 
     @Override
@@ -66,6 +71,7 @@ public class CustomerMenuFragment extends Fragment{
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_menu, parent, false);
     }
+
 
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
@@ -91,7 +97,6 @@ public class CustomerMenuFragment extends Fragment{
         String appleBees = "4c349961a0ced13a7463186e"; //has prices
         String villageInn = "4b53440df964a520e59427e3";
 
-
         Visit visit = Customer.getCurrentCustomer().getCurrentVisit();
         String restaurant = visit.getServer().getServerInfo().getRestaurantId();
 
@@ -104,21 +109,81 @@ public class CustomerMenuFragment extends Fragment{
         getMenu(queue, url_menu);
     }
 
-        // Instantiate the RequestQueue
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.customer_menu_top_fragment, menu);
+
+        //lookup the searchview
+        android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        //set hint
+        searchView.setQueryHint("Search Menu...");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                searchMenu(s);
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+        //on close of the searchview, go back to the full menu
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+
+                searchMenu("");
+
+                return false;
+            }
+        });
 
 
-        void getMenu(RequestQueue queue, String url_menu) {
-            // Request a string response from the provided URL.
-            // final JSONObject obj;
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // Display the first 500 characters of the response string.
-                            try {
-                                JSONObject obj = new JSONObject(response);
-                                JSONArray menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
-                                        .getJSONArray("items");
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.ivLogout) {
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    // Instantiate the RequestQueue
+
+
+    void getMenu(RequestQueue queue, String url_menu) {
+        // Request a string response from the provided URL.
+        // final JSONObject obj;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            JSONArray menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
+                                    .getJSONArray("items");
 
                                 //for all main menus
                                 for (int a = 0; a < menus.length(); a++) {
@@ -194,7 +259,18 @@ public class CustomerMenuFragment extends Fragment{
         }
 
 
-        private void getRestaurantName(RequestQueue queue, String url_venue){
+    private void searchMenu(String query){
+        ArrayList<MenuItem> results = new ArrayList<>();
+        for (int i = 0; i < foodItems.size(); i++){
+            if (foodItems.get(i).getName().contains(query) && !foodItems.get(i).getHeading()){
+                results.add(foodItems.get(i));
+            }
+        }
+        menuAdapterSearch = new MenuAdapter(results);
+        rvMenu.setAdapter(menuAdapterSearch);
+    }
+
+    private void getRestaurantName(RequestQueue queue, String url_venue){
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url_venue,
                     new Response.Listener<String>() {
