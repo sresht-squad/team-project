@@ -1,11 +1,12 @@
 package com.example.restauranteur.Server.Activity;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,22 +15,27 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
-import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
 import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class ServerHomeActivity extends AppCompatActivity {
 
-    ImageView logout;
+    public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
+
+    public View notificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +55,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         vpPager.setAdapter(adapterViewPager);
 
         //viewPager transformation when swiping
-        vpPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
         //ViewPager page indicator
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
         inkPageIndicator.setViewPager(vpPager);
@@ -89,18 +94,30 @@ public class ServerHomeActivity extends AppCompatActivity {
         //set default
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
-
-//        logout = findViewById(R.id.ivLogout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Server.logOut();
-//                Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
+        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
     }
+
+    //connecting badge to textView and setting text
+   public void addBadgeActiveView(int notificationSize){
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
+
+        notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+
+        TextView numberOfActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+
+        String notificationSizeToString = Integer.toString(notificationSize);
+
+        numberOfActive.setText(notificationSizeToString);
+        itemView.addView(notificationBadge);
+    }
+
+    //when to make the badge visible
+     public void refreshActiveBadgeView(int size) {
+        notificationBadge.setVisibility(size > 0? VISIBLE : GONE);
+    }
+
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
