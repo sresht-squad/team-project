@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -110,28 +111,28 @@ public class ServerHomeActivity extends AppCompatActivity {
         });
 
 
-        addBadgeView();
+        addBadgeActiveView();
         refreshBadgeView();
-
 
     }
 
-    private void addBadgeView(){
+    private void addBadgeActiveView(){
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
         notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
+        TextView text = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+        int notificationSize = Server.getCurrentServer().getVisits().size();
+        String notification = Integer.toString(notificationSize);
+        text.setText(notification);
         itemView.addView(notificationBadge);
     }
 
     private void refreshBadgeView() {
-        boolean test = true;
         //Server.getCurrentServer().getVisits().size() > 0
-        notificationBadge.setVisibility(test ? VISIBLE : GONE);
+        notificationBadge.setVisibility(Server.getCurrentServer().getVisits().size() > 0? VISIBLE : GONE);
     }
-
-
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
