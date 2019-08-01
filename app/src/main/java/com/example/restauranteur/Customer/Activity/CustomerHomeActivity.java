@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
 import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.LoginActivity;
@@ -56,9 +55,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
-
-        //viewPager transformation when swiping
-        vpPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
+        
         //ViewPager page indicator
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
         inkPageIndicator.setViewPager(vpPager);
