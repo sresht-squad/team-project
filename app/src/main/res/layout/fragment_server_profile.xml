@@ -4,11 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/server_profile_background_image"
-    tools:context=".Server.Activity.ServerHomeActivity" >
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="409dp"
+        android:layout_height="575dp"
+        android:background="@drawable/server_profile_background_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".Server.Activity.ServerHomeActivity">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
@@ -44,17 +56,16 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="24dp"
             android:gravity="left|center_vertical"
             android:text="Have your customers type your ID in their app or beam it to them to connect instantly."
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#BC2C2C2C"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTableNumber"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTableNumber" />
 
         <TextView
             android:id="@+id/tvTableNumber"
@@ -97,12 +108,34 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-thin"
-            android:text="ServerID:"
+            android:text="Your ID:"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#F0050505"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="53dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="Log Out"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
