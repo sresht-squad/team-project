@@ -25,7 +25,7 @@ public class ChatApplication extends Application {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
-        // set applicationId and server based on the values in the Heroku settings.
+        // set applicationId and server_profile_background_image based on the values in the Heroku settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("restauranteur")

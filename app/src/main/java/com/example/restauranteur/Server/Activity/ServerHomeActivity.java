@@ -90,16 +90,16 @@ public class ServerHomeActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
 
-        logout = findViewById(R.id.ivLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Server.logOut();
-                Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        logout = findViewById(R.id.ivLogout);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Server.logOut();
+//                Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

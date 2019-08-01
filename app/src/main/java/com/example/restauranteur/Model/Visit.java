@@ -18,7 +18,7 @@ public class Visit extends ParseObject {
 
     private static final String KEY_TABLENUMBER = "tableNumber";
     private static final String KEY_CUSTOMERS = "customers";
-    private static final String KEY_SERVER = "server";
+    private static final String KEY_SERVER = "server_profile_background_image";
     private static final String KEY_ACTIVE = "active";
 
     // get and setter for table number
@@ -39,7 +39,7 @@ public class Visit extends ParseObject {
         return getJSONArray("customers");
     }
 
-    // get and setter for server
+    // get and setter for server_profile_background_image
     public void setServer(Server server) {
         put(KEY_SERVER, server.getParseUser());
     }
@@ -95,7 +95,7 @@ public class Visit extends ParseObject {
         }
 
         public Query checkSameVisit(Server server, String tableNumber){
-            whereEqualTo("server", server.getParseUser());
+            whereEqualTo("server_profile_background_image", server.getParseUser());
             whereEqualTo("tableNumber", tableNumber);
             return this;
         }
