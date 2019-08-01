@@ -33,17 +33,20 @@ import static android.view.View.VISIBLE;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
-    ImageView logout;
+    public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
-    View notificationBadge;
+    public View notificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
+
+
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
@@ -65,7 +68,6 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
-
 
         /*final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -100,7 +102,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         //set default
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
-
         logout = findViewById(R.id.ivLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,31 +113,28 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
 
-
-        addBadgeActiveView();
-        refreshBadgeView();
-
+        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
+        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
     }
 
-    public void addBadgeActiveView(){
+    //connecting badge to textView and setting text
+   public void addBadgeActiveView(int notificationSize){
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
         notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
-        TextView numberActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+        TextView numberOfActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
 
-
-        int notificationSize = Server.getCurrentServer().getVisits().size();
         String notificationSizeToString = Integer.toString(notificationSize);
 
-        numberActive.setText(notificationSizeToString);
+        numberOfActive.setText(notificationSizeToString);
         itemView.addView(notificationBadge);
     }
 
-    public void refreshBadgeView() {
-        //Server.getCurrentServer().getVisits().size() > 0
-        notificationBadge.setVisibility(Server.getCurrentServer().getVisits().size() > 0? VISIBLE : GONE);
+    //when to make the badge visible
+     public void refreshActiveBadgeView(int size) {
+        notificationBadge.setVisibility(size > 0? VISIBLE : GONE);
     }
 
 
