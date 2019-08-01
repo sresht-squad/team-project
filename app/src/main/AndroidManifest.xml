@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/fork_knife_blue"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Server.Activity.ServerVisitDetailActivity"></activity>
@@ -28,14 +28,16 @@
         </activity>
         <activity android:name=".Server.Activity.ServerHomeActivity" />
         <activity android:name=".Customer.Activity.CustomerHomeActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" />
+        <activity android:name=".SignupActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
             android:name="preloaded_fonts"

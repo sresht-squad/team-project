@@ -45,6 +45,7 @@
         android:gravity="center"
         android:text="Your Customers' Orders "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#000011"
         app:layout_constraintBottom_toTopOf="@+id/tvCustomerRequest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -44,9 +44,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
-
-
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
@@ -78,7 +75,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         //default vpPager sets the profile as the default page
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

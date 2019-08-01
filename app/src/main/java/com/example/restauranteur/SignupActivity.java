@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -59,6 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
@@ -238,10 +240,10 @@ public class SignupActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
                     View view = toast.getView();
                     //Gets the actual oval background of the Toast then sets the colour filter
-                    view.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    view.getBackground().setColorFilter(getResources().getColor(R.color.lightBlueMaterialDesign), PorterDuff.Mode.SRC_IN);
                     //Gets the TextView from the Toast so it can be edited
                     TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    text.setTextColor(getResources().getColor(R.color.white));
                     toast.show();
                 }
                 //otherwise, sign up the user
@@ -260,6 +262,7 @@ public class SignupActivity extends AppCompatActivity {
                                 });
                             } else {
                                 Log.d("Sign up", " Customer sign up failure");
+                                Toast.makeText(SignupActivity.this, "Customer sign up failed", LENGTH_LONG).show();
                                 e.printStackTrace();
                             }
                         }

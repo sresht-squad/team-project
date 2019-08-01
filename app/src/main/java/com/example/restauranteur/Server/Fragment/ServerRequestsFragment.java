@@ -75,6 +75,7 @@ public class ServerRequestsFragment extends Fragment {
                 Log.d("REFRESHING", "we are refreshing whoooo");
                 //first clear everything out
                 mAdapter.clear();
+                mMessages.clear();
                 //repopulate
                 loadMessages();
                 //now make sure swipeContainer.setRefreshing is set to false
@@ -160,7 +161,7 @@ public class ServerRequestsFragment extends Fragment {
         try {
             ParseObject.fetchAllIfNeeded(messagePointers);
         } catch (ParseException e) {
-
+            e.printStackTrace();
         }
         for (int i = 0; i < messagePointers.size(); i++) {
             Message message = (Message) messagePointers.get(i);
@@ -187,55 +188,3 @@ public class ServerRequestsFragment extends Fragment {
         }
     }
 }
-
-    /*
-        for (int i = 0; i < messagePointers.length(); i++){
-            try {
-                String messageId = messagePointers.getJSONObject(i).getString("objectId");
-                String num = thisVisit.getTableNumber();
-                extractMessages(messageId, num);
-            } catch (JSONException e) {
-                Log.i("Extracting messages", "error");
-            }
-        }
-
-    }
-    */
-
-    /*
-    private void extractMessages(String messageId, final String tableNumber) {
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        query.whereEqualTo("objectId", messageId);
-        query.findInBackground(new FindCallback<Message>() {
-            @Override
-            public void done(List<Message> objects, ParseException e) {
-                if (e == null) {
-                    if (objects != null) {
-                        for (int i = 0; i < objects.size(); i++) {
-                            Message message = objects.get(i);
-                            if (message.getActive()) {
-                                message.tableNum = tableNumber;
-                                mMessages.add(message);
-                            }
-
-                        }
-                        if (mMessages.size() > 0) {
-                            mMessages.sort(new Comparator<Message>() {
-                                public int compare(Message m1, Message m2) {
-                                    long diff = (m1.getCreatedAt().getTime() - m2.getCreatedAt().getTime());
-                                    if ( diff > 0) {
-                                        return 1;
-                                    } else if (diff == 0) {
-                                        return 0;
-                                    } else{
-                                        return -1;
-                                    }
-                                }
-                            });
-                        }
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
-    }*/
