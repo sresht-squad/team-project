@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,12 +75,13 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        CardView cvServerHelp = view.findViewById(R.id.cvServerHelp);
-        CardView cvWater = view.findViewById(R.id.cvWater);
-        CardView cvCheck = view.findViewById(R.id.cvCheck);
-        CardView cvToGoBox = view.findViewById(R.id.cvToGoBox);
+        ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
+        ImageButton ibRefill = view.findViewById(R.id.ibRefill);
+        ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+        ImageButton ibCheck = view.findViewById(R.id.ibCheck);
 
-        cvServerHelp.setOnClickListener(new View.OnClickListener() {
+
+        ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
@@ -90,10 +91,10 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter a request to get the water
         //still need to connect to visit
-        cvWater.setOnClickListener(new View.OnClickListener() {
+        ibRefill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String waterRequest = "Need more water";
+                String waterRequest = "Need a refill";
                 generateQuickRequest(waterRequest);
             }
         });
@@ -101,7 +102,7 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        cvCheck.setOnClickListener(new View.OnClickListener() {
+        ibCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String checkRequest = "Ready for Check";
@@ -111,7 +112,7 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        cvToGoBox.setOnClickListener(new View.OnClickListener() {
+        ibToGoBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To go boxes";
