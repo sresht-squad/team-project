@@ -61,7 +61,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 String serverId = etServerId.getText().toString();
                 final String tableNum = etTableNumber.getText().toString();
 
-                //query for the server_profile_background_image with the username/serverId that the customer entered
+                //query for the server with the username/serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
                 parseQuery.whereEqualTo("username", serverId);
 
@@ -106,7 +106,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                         Log.d("Saving Visit Object", "success");
 
                                                         //Adds the current new Visit into the serverInfo's visit's array
-                                                        //Query to find the serverInfo object that matches the server_profile_background_image
+                                                        //Query to find the serverInfo object that matches the server
                                                         ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
                                                         query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
 

@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         //user persisting
         ParseUser currentUser = getCurrentUser();
         if (currentUser != null) {
-            if (currentUser.getBoolean("server_profile_background_image")) {
+            if (currentUser.getBoolean("server")) {
                 Intent intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("Login", "Login success");
                     final Intent intent;
-                    if (getCurrentUser().getBoolean("server_profile_background_image")) {
+                    if (getCurrentUser().getBoolean("server")) {
                         intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
                     } else {
                         intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);

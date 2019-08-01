@@ -97,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
         server.setPassword(newPassword);
         server.setFirstName(first);
         server.setLastName(last);
-        server.put("server_profile_background_image", true);
+        server.put("server", true);
 
         //check if username is already taken
         //query for whether there is a user with the username that this user entered
@@ -127,7 +127,7 @@ public class SignupActivity extends AppCompatActivity {
                                 Log.i("ServerSignup", "New Server created");
                                 // create the serverInfo object
                                 createServerInfo();
-                                // connect the new created serverInfo with the new server_profile_background_image
+                                // connect the new created serverInfo with the new server
                                 server.put("serverInfo",serverInfo);
                                 server.saveInBackground(new SaveCallback() {
                                     @Override
@@ -137,7 +137,7 @@ public class SignupActivity extends AppCompatActivity {
                                 });
 
                             } else {
-                                Log.i("ServerSignup", "server_profile_background_image signup failed");
+                                Log.i("ServerSignup", "server signup failed");
                             }
                         }
                     });
@@ -194,7 +194,7 @@ public class SignupActivity extends AppCompatActivity {
         customer.setPassword(newPassword);
         customer.setFirstName(first);
         customer.setLastName(last);
-        customer.put("server_profile_background_image", false);
+        customer.put("server", false);
 
         //check if username is already taken
         //query for whether there is a user with the username that this user entered
@@ -246,7 +246,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("Login", "Login success");
                     final Intent intent;
-                    if (getCurrentUser().getBoolean("server_profile_background_image")) {
+                    if (getCurrentUser().getBoolean("server")) {
                         intent = new Intent(SignupActivity.this, ServerHomeActivity.class);
                     } else {
                         intent = new Intent(SignupActivity.this, CustomerNewVisitActivity.class);

@@ -113,7 +113,7 @@ public class ServerRequestsFragment extends Fragment {
         mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
         rvChat.setAdapter(mAdapter);
         Log.i("DISPLAY", "ALL_MESSAGES");
-        //for all visits that involve this server_profile_background_image
+        //for all visits that involve this server
         JSONArray visits = Server.getCurrentServer().getVisitsJSON();
         if (visits == null) {
             return;
