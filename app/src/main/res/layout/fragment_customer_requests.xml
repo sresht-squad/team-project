@@ -28,16 +28,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:paddingRight="10dp"
-        android:text="send"
+        android:text="Send"
+        android:textAllCaps="false"
         android:textColor="#116FFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/etMessage"
-        app:layout_constraintTop_toTopOf="@+id/etMessage"></Button>
+        app:layout_constraintTop_toTopOf="parent"></Button>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
