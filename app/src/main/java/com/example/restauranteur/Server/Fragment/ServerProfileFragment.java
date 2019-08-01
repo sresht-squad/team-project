@@ -1,5 +1,7 @@
 package com.example.restauranteur.Server.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -78,9 +80,18 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Server.logOut();
-                final Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Server.logOut();
+                        final Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                builder.setMessage("Are you sure you want to log out?").create().show();
             }
         });
 
