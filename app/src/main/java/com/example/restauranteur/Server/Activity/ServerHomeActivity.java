@@ -3,6 +3,7 @@ package com.example.restauranteur.Server.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,8 +22,13 @@ import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
 import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
@@ -30,6 +36,8 @@ public class ServerHomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
+
+    View notificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
+
         /*final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments here
@@ -64,6 +73,9 @@ public class ServerHomeActivity extends AppCompatActivity {
         //default vpPager sets the profile as the default page
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
+
+        addBadgeView();
+        refreshBadgeView();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -98,7 +110,27 @@ public class ServerHomeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
+
+    private void addBadgeView(){
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(0);
+
+        notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+
+        itemView.addView(notificationBadge);
+    }
+
+    private void refreshBadgeView() {
+        boolean test = false;
+        //Server.getCurrentServer().getVisits().size() > 0
+        notificationBadge.setVisibility(test ? VISIBLE : GONE);
+    }
+
+
+
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
+import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -24,6 +25,7 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -39,6 +41,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     Visit visit;
     Server server;
     ImageView logout;
+    Installation installation;
+    ParsePush push;
 
 
     @Override
@@ -60,6 +64,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 //query for the server with the username/serverId that the customer entered
                 final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
                 parseQuery.whereEqualTo("username", serverId);
+
 
                 parseQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
@@ -116,6 +121,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                                 serverInfo.saveInBackground(new SaveCallback() {
                                                                     @Override
                                                                     public void done(ParseException e) {
+
                                                                         Log.d("Saving", "success");
                                                                     }
                                                                 });
@@ -185,6 +191,10 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
     @Override
     protected void onResume(){
