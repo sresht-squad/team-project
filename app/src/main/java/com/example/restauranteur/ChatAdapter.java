@@ -1,11 +1,14 @@
 package com.example.restauranteur;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
     private Boolean serverPage;
     private Boolean detailPage;
+    private Context context;
 
     public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
@@ -32,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView;
         if (serverPage){
@@ -58,8 +62,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
-
-        holder.checkBox.setChecked(false);
     }
 
     @Override
@@ -70,34 +72,60 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
-        CheckBox checkBox;
         TextView tableNum;
 
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
             tableNum = itemView.findViewById(R.id.tvTableNumber);
-            checkBox = itemView.findViewById(R.id.checkBox);
+            if (serverPage) {
+                CheckBox checkBox = itemView.findViewById(R.id.checkBox);
+                checkBox.setChecked(false);
+                checkBox.setOnClickListener(this);
 
-            checkBox.setOnClickListener(this);
+            } else {
+                TextView tvCancel;
+                tvCancel = itemView.findViewById(R.id.tvCancel);
+                tvCancel.setOnClickListener(this);
+            }
         }
 
         @Override
         public void onClick(View view) {
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                Message m = mMessages.get(position);
-                Log.i("CLICK", m.getBody());
-                m.setActive(false);
-                m.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        sleep(200);
-                        mMessages.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, getItemCount());
-                    }
-                });
+                final Message m = mMessages.get(position);
+                if (!serverPage) {
+                    String foodName = m.getBody();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                    builder.setNegativeButton("Back", null);
+                    builder.setPositiveButton("Cancel Order", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            m.setActive(false);
+                            m.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    mMessages.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeChanged(position, getItemCount());
+                                }
+                            });
+                        }
+                    });
+                    builder.setTitle(foodName).setMessage("Would you like to cancel your order for 1  " + foodName + " ?").create().show();
+                } else {
+                    m.setActive(false);
+                    m.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            sleep(200);
+                            mMessages.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, getItemCount());
+                        }
+                    });
+                }
             }
         }
     }

@@ -45,7 +45,9 @@ public class ServerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         // could be a cool effect to make seem like a picture gallery , need to also comment out getPageWidth()
         // in the adapter
@@ -122,13 +124,13 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
-        TextView text = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+        TextView numberActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
 
 
         int notificationSize = Server.getCurrentServer().getVisits().size();
         String notificationSizeToString = Integer.toString(notificationSize);
 
-        text.setText(notificationSizeToString);
+        numberActive.setText(notificationSizeToString);
         itemView.addView(notificationBadge);
     }
 

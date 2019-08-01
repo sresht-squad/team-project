@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -28,6 +29,9 @@ public class ServerActiveVisitsFragment extends Fragment {
     ArrayList<Visit> visits;
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
+    private SwipeRefreshLayout swipeContainer;
+
+
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
@@ -65,8 +69,28 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
         visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+
 
         fetchActiveVisits();
+        
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchActiveVisits();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
     }
 
@@ -107,6 +131,8 @@ public class ServerActiveVisitsFragment extends Fragment {
                 } else {
                     e.printStackTrace();
                 }
+
+                swipeContainer.setRefreshing(false);
             }
         });
     }

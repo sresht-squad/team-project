@@ -1,7 +1,6 @@
 package com.example.restauranteur.Customer.Fragment;
 
-import android.app.ActionBar;
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
@@ -43,10 +42,7 @@ public class CustomerRequestsFragment extends Fragment {
     private Customer customer;
     private Visit visit;
 
-    private CardView cvServerHelp;
-    private CardView cvWater;
-    private CardView cvCheck;
-    private CardView cvToGoBox;
+    private SwipeRefreshLayout swipeContainer;
 
 
     public CustomerRequestsFragment() {
@@ -65,6 +61,7 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -73,13 +70,15 @@ public class CustomerRequestsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_customer_requests, parent, false);
     }
 
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        cvServerHelp = (CardView) view.findViewById(R.id.cvServerHelp);
-        cvWater = (CardView) view.findViewById(R.id.cvWater);
-        cvCheck = (CardView) view.findViewById(R.id.cvCheck);
-        cvToGoBox = (CardView) view.findViewById(R.id.cvToGoBox);
+        CardView cvServerHelp = view.findViewById(R.id.cvServerHelp);
+        CardView cvWater = view.findViewById(R.id.cvWater);
+        CardView cvCheck = view.findViewById(R.id.cvCheck);
+        CardView cvToGoBox = view.findViewById(R.id.cvToGoBox);
 
         cvServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +134,24 @@ public class CustomerRequestsFragment extends Fragment {
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
+
+
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                displayCurrentMessages();
+                //now make sure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         setupMessagePosting();
         displayCurrentMessages();
@@ -222,5 +239,6 @@ public class CustomerRequestsFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 }
