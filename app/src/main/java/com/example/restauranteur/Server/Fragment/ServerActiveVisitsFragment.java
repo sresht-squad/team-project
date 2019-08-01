@@ -79,12 +79,6 @@ public class ServerActiveVisitsFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                /*if (getActivity() instanceof ServerHomeActivity) {
-                    final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
-                    homeActivity.refreshActiveBadgeView(Server);
-                    homeActivity.addBadgeActiveView();
-                }
-*/
                 fetchActiveVisits();
             }
         });
@@ -96,7 +90,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
-    private void fetchActiveVisits(){
+    public void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
         query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
@@ -106,15 +100,14 @@ public class ServerActiveVisitsFragment extends Fragment {
                 if (e == null){
                     visits.clear();
                     visitAdapter.notifyDataSetChanged();
-
                    final ServerInfo serverInfo = objects.get(0);
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
 
                        if (getActivity() instanceof ServerHomeActivity) {
                            final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
-                           homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
                            homeActivity.addBadgeActiveView(serverInfo.getVisits().size());
+                           homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
                        }
 
                        if (serverInfo.getVisits().get(i).getActive()){

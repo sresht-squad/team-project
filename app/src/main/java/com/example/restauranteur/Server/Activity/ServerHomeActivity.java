@@ -1,6 +1,5 @@
 package com.example.restauranteur.Server.Activity;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
-import com.example.restauranteur.LoginActivity;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
@@ -97,18 +95,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         });
         //set default
         bottomNavigationView.setSelectedItemId(R.id.profile);
-
-        logout = findViewById(R.id.ivLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Server.logOut();
-                Intent intent = new Intent(ServerHomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
+        
         addBadgeActiveView(Server.getCurrentServer().getVisits().size());
         refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
     }
