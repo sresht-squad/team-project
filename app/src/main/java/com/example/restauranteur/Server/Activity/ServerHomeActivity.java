@@ -116,20 +116,23 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     }
 
-    private void addBadgeActiveView(){
+    public void addBadgeActiveView(){
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
         notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
         TextView text = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+
+
         int notificationSize = Server.getCurrentServer().getVisits().size();
-        String notification = Integer.toString(notificationSize);
-        text.setText(notification);
+        String notificationSizeToString = Integer.toString(notificationSize);
+
+        text.setText(notificationSizeToString);
         itemView.addView(notificationBadge);
     }
 
-    private void refreshBadgeView() {
+    public void refreshBadgeView() {
         //Server.getCurrentServer().getVisits().size() > 0
         notificationBadge.setVisibility(Server.getCurrentServer().getVisits().size() > 0? VISIBLE : GONE);
     }
