@@ -72,16 +72,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
-        TextView tvCancel;
         TextView tableNum;
 
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
             tableNum = itemView.findViewById(R.id.tvTableNumber);
-            tvCancel = itemView.findViewById(R.id.tvCancel);
+            if (serverPage) {
+                CheckBox checkBox = itemView.findViewById(R.id.checkBox);
+                checkBox.setChecked(false);
+                checkBox.setOnClickListener(this);
 
-           tvCancel.setOnClickListener(this);
+            } else {
+                TextView tvCancel;
+                tvCancel = itemView.findViewById(R.id.tvCancel);
+                tvCancel.setOnClickListener(this);
+            }
         }
 
         @Override
@@ -89,25 +95,37 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 final Message m = mMessages.get(position);
-                String foodName = m.getBody();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
-                builder.setNegativeButton("Back", null);
-                builder.setPositiveButton("Cancel Order", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        m.setActive(false);
-                        m.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                mMessages.remove(position);
-                                notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, getItemCount());
-                            }
-                        });
-                    }
-                });
-                builder.setTitle(foodName).setMessage("Would you like to cancel your order for 1  " + foodName + " ?").create().show();
-                Log.i("CLICK", m.getBody());
+                if (!serverPage) {
+                    String foodName = m.getBody();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                    builder.setNegativeButton("Back", null);
+                    builder.setPositiveButton("Cancel Order", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            m.setActive(false);
+                            m.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    mMessages.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeChanged(position, getItemCount());
+                                }
+                            });
+                        }
+                    });
+                    builder.setTitle(foodName).setMessage("Would you like to cancel your order for 1  " + foodName + " ?").create().show();
+                } else {
+                    m.setActive(false);
+                    m.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            sleep(200);
+                            mMessages.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, getItemCount());
+                        }
+                    });
+                }
             }
         }
     }
