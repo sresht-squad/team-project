@@ -232,7 +232,7 @@ public class CustomerRequestsFragment extends Fragment {
             mMessages.clear();
         }
         List<ParseObject> messageList = visit.getMessageList();
-        ParseObject.fetchAllIfNeededInBackground(messageList);
+        ParseObject.fetchAllInBackground(messageList);
         for (int i = 0; i < messageList.size(); i++) {
             Message message = (Message) messageList.get(i);
             if (message.getActive()) {
