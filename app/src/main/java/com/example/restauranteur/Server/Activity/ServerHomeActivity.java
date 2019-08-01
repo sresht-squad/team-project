@@ -74,8 +74,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
 
-        addBadgeView();
-        refreshBadgeView();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -112,11 +110,15 @@ public class ServerHomeActivity extends AppCompatActivity {
         });
 
 
+        addBadgeView();
+        refreshBadgeView();
+
+
     }
 
     private void addBadgeView(){
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
         notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
@@ -124,7 +126,7 @@ public class ServerHomeActivity extends AppCompatActivity {
     }
 
     private void refreshBadgeView() {
-        boolean test = false;
+        boolean test = true;
         //Server.getCurrentServer().getVisits().size() > 0
         notificationBadge.setVisibility(test ? VISIBLE : GONE);
     }
