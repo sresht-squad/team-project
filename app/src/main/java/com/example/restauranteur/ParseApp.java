@@ -3,9 +3,10 @@ package com.example.restauranteur;
 import android.app.Application;
 
 import com.example.restauranteur.Model.CustomerInfo;
+import com.example.restauranteur.Model.Installation;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
-import com.example.restauranteur.Model.Message;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -22,6 +23,8 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(ServerInfo.class);
         ParseObject.registerSubclass(CustomerInfo.class);
+        ParseObject.registerSubclass(Installation.class);
+
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
