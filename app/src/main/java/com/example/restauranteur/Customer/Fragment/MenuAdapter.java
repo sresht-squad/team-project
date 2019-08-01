@@ -23,6 +23,7 @@ import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -54,13 +55,42 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         MenuItem item = mMenuItems.get(position);
         holder.foodName.setText(item.getName());
-        if (item.getPrice() == null){
-            holder.price.setVisibility(View.GONE);
-        } else {
-            holder.price.setText(item.getPrice());
-            holder.price.setVisibility(View.VISIBLE);
-        }
 
+        if (item.getHeading()){
+            if (item.getMainHeading()){
+                setAppearanceBigHeading(holder);
+            } else{
+                setAppearanceHeading(holder);
+            }
+        } else{
+            setAppearanceFoodItem(holder, item);
+        }
+    }
+
+    private void setAppearanceBigHeading(ViewHolder holder){
+        setAppearanceHeading(holder);
+        holder.foodName.setTextSize(30);
+     //   holder.foodName.setTextColor(0x61616161);
+    }
+
+    private void setAppearanceHeading(ViewHolder holder){
+        holder.menuCardview.setCardBackgroundColor(0xFFFAFAFA);
+        holder.description.setVisibility(GONE);
+        holder.clMenuFade.setVisibility(GONE);
+        holder.foodName.setGravity(CENTER);
+        holder.foodName.setTextSize(24);
+        holder.price.setVisibility(GONE);
+       // holder.foodName.setTextColor(0x42424242);
+    }
+
+    private void setAppearanceFoodItem(ViewHolder holder, MenuItem item){
+        holder.foodName.setGravity(LEFT);
+        holder.clMenuFade.setVisibility(View.VISIBLE);
+        holder.menuCardview.setCardBackgroundColor(0xFFFFFFFF);
+        holder.foodName.setTextSize(16);
+       // holder.foodName.setTextColor(0x9E9E9E9E);
+
+        //Only show the description if there is one available
         if (item.getDescription() == null){
             holder.description.setVisibility(View.GONE);
             ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -68,28 +98,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             holder.description.setLayoutParams(layoutParams);
         } else {
             holder.description.setVisibility(View.VISIBLE);
+            holder.description.setText(item.getDescription());
             holder.description.setLayoutParams(holder.defaultParams);
         }
 
-        if (item.getHeading()){
-            Log.i("HEADING", mMenuItems.get(position).getName());
-            holder.menuCardview.setCardBackgroundColor(0xFFFAFAFA);
-            holder.clMenuFade.setVisibility(GONE);
-            holder.foodName.setTextAppearance(android.R.style.TextAppearance_Large);
-            holder.foodName.setGravity(CENTER);
-            //holder.foodName.setTextSize(20);
-            holder.description.setVisibility(View.INVISIBLE);
-            if (item.getMainHeading()){
-                holder.foodName.setTextAppearance(android.R.style.TextAppearance_Material_Display1);
-            }
-        } else{
-            holder.foodName.setGravity(LEFT);
-            holder.clMenuFade.setVisibility(View.VISIBLE);
-            holder.foodName.setTextAppearance(android.R.style.TextAppearance_Small);
-            holder.menuCardview.setCardBackgroundColor(0xFFFFFFFF);
-            holder.foodName.setTextSize(16);
-            holder.description.setText(item.getDescription());
-            holder.description.setVisibility(View.VISIBLE);
+        //Only show the price if there is a price available
+        if (item.getPrice() == null){
+            holder.price.setVisibility(View.GONE);
+        } else {
+            holder.price.setText(item.getPrice());
+            holder.price.setVisibility(View.VISIBLE);
         }
     }
 
@@ -129,16 +147,19 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 MenuItem item = mMenuItems.get(position);
-                final String order = item.getName();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
-                builder.setNegativeButton("Cancel", null);
-                builder.setPositiveButton("Place Order", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        postMessage(order);
-                    }
-                });
-                builder.setTitle(order).setMessage("Would you like to order 1 " + order + " ?").create().show();
+                //Only non-headings are clickable
+                if (!item.getHeading()) {
+                    final String order = item.getName();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                    builder.setNegativeButton("Cancel", null);
+                    builder.setPositiveButton("Place Order", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            postMessage(order);
+                        }
+                    });
+                    builder.setTitle(order).setMessage("Would you like to order 1 " + order + " ?").create().show();
+                }
             }
         }
     }
