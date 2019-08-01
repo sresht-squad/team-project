@@ -34,7 +34,7 @@
         android:paddingRight="10dp"
         android:text="Send"
         android:textAllCaps="false"
-        android:textColor="#116FFF"
+        android:textColor="#2196F3"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
