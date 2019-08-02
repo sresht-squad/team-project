@@ -90,6 +90,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                         Log.i("saved", "visit Active false");
                         
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
+                        intent.putExtra("DETAIL", true);
                         startActivity(intent);
                         finish();
                     }
