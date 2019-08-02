@@ -18,6 +18,7 @@ import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -73,14 +74,9 @@ public class ServerRequestsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.d("REFRESHING", "we are refreshing whoooo");
-                //first clear everything out
-                mAdapter.clear();
-                mMessages.clear();
                 //repopulate
                 loadMessages();
                 //now make sure swipeContainer.setRefreshing is set to false
-                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
-                //lets put it at the end of populateTimeline instead!
             }
         });
 

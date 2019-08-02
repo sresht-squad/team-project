@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
@@ -46,10 +47,6 @@ public class ServerHomeActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        // could be a cool effect to make seem like a picture gallery , need to also comment out getPageWidth()
-        // in the adapter
-        /*vpPager.setClipToPadding(false);
-        vpPager.setPageMargin(12);*/
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
@@ -61,12 +58,6 @@ public class ServerHomeActivity extends AppCompatActivity {
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
-
-        /*final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // define fragments here
-        final Fragment profile = new ServerProfileFragment();
-        final Fragment requests = new ServerRequestsFragment();*/
 
         //default vpPager sets the profile as the default page
         vpPager.setCurrentItem(0);
@@ -87,7 +78,6 @@ public class ServerHomeActivity extends AppCompatActivity {
                         vpPager.setCurrentItem(2);
                         return true;
                 }
-                //fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
@@ -122,7 +112,7 @@ public class ServerHomeActivity extends AppCompatActivity {
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
 
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        private MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
@@ -147,15 +137,20 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         }
 
+        public int getItemPosition(Object object) {
+            if (object instanceof ServerProfileFragment) {
+                return POSITION_UNCHANGED;
+            } else {
+                return POSITION_NONE;
+            }
+        }
+
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "page" + position;
         }
 
-        /*public float getPageWidth (int position) {
-            return 0.93f;
-        }*/
     }
 
     public void setTitle(String title) {
