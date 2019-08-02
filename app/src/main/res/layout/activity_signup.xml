@@ -46,6 +46,7 @@
 
     <EditText
         android:id="@+id/etUsername"
+        android:maxLength="15"
         android:layout_width="350dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -64,6 +65,7 @@
 
     <EditText
         android:id="@+id/etPassword"
+        android:maxLength="50"
         android:layout_width="350dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
@@ -82,6 +84,7 @@
 
     <EditText
         android:id="@+id/etLastName"
+        android:maxLength="50"
         android:layout_width="350dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
@@ -100,6 +103,7 @@
 
     <EditText
         android:id="@+id/etFirstName"
+        android:maxLength="50"
         android:layout_width="350dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
