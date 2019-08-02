@@ -142,7 +142,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 Log.i("MESS_ERROR", messagePointer);
             }
-            query.whereEqualTo("objectId", messagePointer);
+            query.whereEqualTo("objectId", messagePointer).whereEqualTo("active", true);
             queries.add(query);
         }
 
@@ -153,25 +153,32 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                 @Override
                 public void done(List<Message> objects, ParseException e) {
                     if (e == null) {
-                        Log.i("Query_Size", "");
-                        System.out.println(objects.size());
-                        for (int i = 0; i < objects.size(); i++) {
-                            if (objects.get(i).getActive()) {
+                        if (objects.size() == 0){
+                            setVisibilities();
+                        }
+                        else{
+                            for (int i = 0; i < objects.size(); i++) {
                                 mMessages.add(objects.get(i));
                                 mAdapter.notifyDataSetChanged();
                             }
                         }
+
                     }
                 }
             });
         }
         else{
-            rvChat.setVisibility(View.GONE);
-            clHeadings.setVisibility(View.GONE);
-            tvNoRequests.setVisibility(View.VISIBLE);
-            tvWYLT.setVisibility(View.VISIBLE);
-            btnComplete.setVisibility(View.VISIBLE);
-            ivNoRequests.setVisibility(View.VISIBLE);
+            setVisibilities();
         }
     }
+
+    private void setVisibilities(){
+        rvChat.setVisibility(View.GONE);
+        clHeadings.setVisibility(View.GONE);
+        tvNoRequests.setVisibility(View.VISIBLE);
+        tvWYLT.setVisibility(View.VISIBLE);
+        btnComplete.setVisibility(View.VISIBLE);
+        ivNoRequests.setVisibility(View.VISIBLE);
+    }
+
 }
