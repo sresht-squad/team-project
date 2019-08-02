@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.R;
 import com.example.restauranteur.ChatAdapter;
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
-import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.R;
+import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -27,13 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.parse.ParseObject.fetchAllIfNeeded;
-import static com.parse.ParseObject.fetchAllIfNeededInBackground;
-import static com.parse.ParseUser.getCurrentUser;
 
 
 public class ServerRequestsFragment extends Fragment {
@@ -186,5 +181,12 @@ public class ServerRequestsFragment extends Fragment {
             }
             mAdapter.notifyDataSetChanged();
         }
+
+        if (getActivity() instanceof ServerHomeActivity) {
+            final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
+            homeActivity.addBadgeRequestView(mMessages.size());
+            homeActivity.refreshRequestBadgeView(mMessages.size());
+        }
+
     }
 }

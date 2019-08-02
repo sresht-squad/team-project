@@ -67,8 +67,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         addBadgeActiveView(Server.getCurrentServer().getVisits().size());
         refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
 
-        addBadgeRequestView(5);
-        refreshRequestBadgeView(5);
+        /*addBadgeRequestView(5);
+        refreshRequestBadgeView(5);*/
 
         //making Request Badge Visible
 
