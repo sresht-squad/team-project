@@ -101,6 +101,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
+                intent.putExtra("DETAIL", true);
                 startActivity(intent);
             }
         };

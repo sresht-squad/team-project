@@ -1,5 +1,6 @@
 package com.example.restauranteur.Server.Activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +43,15 @@ public class ServerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        int defaultFragment = R.id.profile;
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){
+            if (intent.getBooleanExtra("DETAIL", false)) {
+                defaultFragment = R.id.action_active;
+            }
+        }
+
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
@@ -92,7 +102,7 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
         //set default
-        bottomNavigationView.setSelectedItemId(R.id.profile);
+        bottomNavigationView.setSelectedItemId(defaultFragment);
 
         addBadgeActiveView(Server.getCurrentServer().getVisits().size());
         refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
