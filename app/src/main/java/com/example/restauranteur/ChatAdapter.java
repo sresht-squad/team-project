@@ -98,7 +98,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 if (!serverPage) {
                     String foodName = m.getBody();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
-                    builder.setNegativeButton("Back", null);
                     builder.setPositiveButton("Cancel Order", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
