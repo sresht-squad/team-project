@@ -143,10 +143,10 @@
     <Button
         android:id="@+id/tvBack"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="70dp"
+        android:layout_width="75dp"
         android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="5dp"
         android:text="back"
         android:textColor="#116FFF"
