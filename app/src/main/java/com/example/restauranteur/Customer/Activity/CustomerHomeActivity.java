@@ -68,10 +68,10 @@ public class CustomerHomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()) {
-                    case R.id.action_request:
+                    case R.id.action_menu:
                         vpPager.setCurrentItem(0);
                         return true;
-                    case R.id.action_menu:
+                    case R.id.action_request:
                         vpPager.setCurrentItem(1);
                         return true;
                 }
@@ -80,7 +80,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         });
 
         //setdefault
-        customerBottomNavigation.setSelectedItemId(R.id.action_request);
+        customerBottomNavigation.setSelectedItemId(R.id.action_menu);
 
     }
 
@@ -106,11 +106,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return CustomerRequestsFragment.newInstance(0, "Request");
+                    return CustomerMenuFragment.newInstance(1, "Menu");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return CustomerMenuFragment.newInstance(1, "Quick Request");
+                    return CustomerRequestsFragment.newInstance(0, "Requests");
                 default:
-                    return null;
+                    return CustomerMenuFragment.newInstance(1, "Menu");
             }
         }
 
@@ -141,10 +141,10 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-                    customerBottomNavigation.setSelectedItemId(R.id.action_request);
+                    customerBottomNavigation.setSelectedItemId(R.id.action_menu);
                     break;
                 case 1:
-                    customerBottomNavigation.setSelectedItemId(R.id.action_menu);
+                    customerBottomNavigation.setSelectedItemId(R.id.action_request);
                     break;
             }
         }
