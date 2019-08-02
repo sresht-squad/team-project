@@ -40,6 +40,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
     private TextView tvNoRequests;
     private TextView tvWYLT;
     private Button btnComplete;
+    private ImageView ivNoRequests;
 
 
     @Override
@@ -64,6 +65,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         tvNoRequests = (TextView) findViewById(R.id.tvNoRequests);
         tvWYLT = (TextView) findViewById(R.id.tvWYLT);
         btnComplete = (Button) findViewById(R.id.btnComplete);
+        ivNoRequests = (ImageView) findViewById(R.id.ivNoRequests);
 
         //get table number
         final String tableNumber = visit.getTableNumber();
@@ -167,6 +169,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             tvNoRequests.setVisibility(View.VISIBLE);
             tvWYLT.setVisibility(View.VISIBLE);
             btnComplete.setVisibility(View.VISIBLE);
+            ivNoRequests.setVisibility(View.VISIBLE);
         }
     }
 }
