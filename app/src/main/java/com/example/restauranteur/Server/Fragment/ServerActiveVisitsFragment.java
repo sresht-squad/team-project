@@ -58,11 +58,28 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
         // Defines the xml file for the fragment
-       /* handler = new Handler();
-        update();*/
-       fetchActiveVisits();
-        return inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                visits.clear();
+                visitAdapter.notifyDataSetChanged();
+                fetchActiveVisits();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        return view;
 
     }
 
@@ -77,28 +94,13 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
         visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
+
+        fetchActiveVisits();
 
 
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                fetchActiveVisits();
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
- /*  private void update() {
+   private void update() {
       final Runnable r = new Runnable() {
            public void run() {
                fetchActiveVisits();
@@ -107,7 +109,7 @@ public class ServerActiveVisitsFragment extends Fragment {
       };
         handler.postDelayed(r, 1000);
    }
-*/
+
 
     private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
@@ -117,8 +119,6 @@ public class ServerActiveVisitsFragment extends Fragment {
             @Override
             public void done(List<ServerInfo> objects, ParseException e) {
                 if (e == null){
-                    visits.clear();
-                    visitAdapter.notifyDataSetChanged();
                    final ServerInfo serverInfo = objects.get(0);
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){

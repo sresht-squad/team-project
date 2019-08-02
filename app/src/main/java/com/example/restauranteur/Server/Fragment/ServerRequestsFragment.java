@@ -76,6 +76,7 @@ public class ServerRequestsFragment extends Fragment {
                 //now make sure swipeContainer.setRefreshing is set to false
                 //but let's not do that here becauuuuuse.... ASYNCHRONOUS
                 //lets put it at the end of populateTimeline instead!
+
             }
         });
 
@@ -101,6 +102,8 @@ public class ServerRequestsFragment extends Fragment {
         rvChat.setLayoutManager(linearLayoutManager);
 
         loadMessages();
+
+
     }
 
 
