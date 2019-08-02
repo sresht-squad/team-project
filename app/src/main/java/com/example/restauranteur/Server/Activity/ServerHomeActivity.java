@@ -35,7 +35,8 @@ public class ServerHomeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
-    public View notificationBadge;
+    public View activeNotificationBadge;
+    public View requestNotificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,16 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
+        //making Active badge Visible
         addBadgeActiveView(Server.getCurrentServer().getVisits().size());
         refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
+
+        addBadgeRequestView(5);
+        refreshRequestBadgeView(5);
+
+        //making Request Badge Visible
+
+
 
         /*final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -104,23 +113,43 @@ public class ServerHomeActivity extends AppCompatActivity {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
-        notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+        activeNotificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
-        TextView numberOfActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+        TextView numberOfActive = activeNotificationBadge.findViewById(R.id.notificationsBadgeTextView);
 
         String notificationSizeToString = Integer.toString(notificationSize);
 
         numberOfActive.setText(notificationSizeToString);
-        itemView.addView(notificationBadge);
+        itemView.addView(activeNotificationBadge);
     }
 
 
 
-    //when to make the badge visible
+    //when to make the Active Visits badge visible
      public void refreshActiveBadgeView(int size) {
-        notificationBadge.setVisibility(size > 0? VISIBLE : GONE);
+        activeNotificationBadge.setVisibility(size > 0? VISIBLE : GONE);
     }
 
+    //connecting badge to textView and setting text
+    public void addBadgeRequestView (int requestSize){
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(1);
+
+        requestNotificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+
+        TextView numberOfActive = requestNotificationBadge.findViewById(R.id.notificationsBadgeTextView);
+
+        String notificationSizeToString = Integer.toString(requestSize);
+
+        numberOfActive.setText(notificationSizeToString);
+        itemView.addView(requestNotificationBadge);
+
+    }
+
+    //when to make the request badge visible
+    public void refreshRequestBadgeView(int numberOfMessages){
+        requestNotificationBadge.setVisibility(numberOfMessages > 0? VISIBLE : GONE);
+    }
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

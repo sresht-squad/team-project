@@ -61,6 +61,7 @@ public class ServerActiveVisitsFragment extends Fragment {
         // Defines the xml file for the fragment
        /* handler = new Handler();
         update();*/
+       fetchActiveVisits();
         return inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
 
     }
