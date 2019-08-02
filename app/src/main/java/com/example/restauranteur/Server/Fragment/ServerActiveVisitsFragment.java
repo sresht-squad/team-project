@@ -62,14 +62,13 @@ public class ServerActiveVisitsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
         // Defines the xml file for the fragment
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Your code to refresh the list here.
-                visits.clear();
-                visitAdapter.notifyDataSetChanged();
+
                 fetchActiveVisits();
             }
         });
@@ -78,6 +77,10 @@ public class ServerActiveVisitsFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        handler = new Handler();
+        update();
+
 
         return view;
 
@@ -119,6 +122,8 @@ public class ServerActiveVisitsFragment extends Fragment {
             @Override
             public void done(List<ServerInfo> objects, ParseException e) {
                 if (e == null){
+                    visits.clear();
+                    visitAdapter.notifyDataSetChanged();
                    final ServerInfo serverInfo = objects.get(0);
 
                    for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
