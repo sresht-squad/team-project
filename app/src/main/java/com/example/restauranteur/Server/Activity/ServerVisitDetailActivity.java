@@ -73,7 +73,13 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         Log.i("saved", "visit Active false");
-                        
+
+
+
+
+
+
+
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
                         startActivity(intent);
                         finish();

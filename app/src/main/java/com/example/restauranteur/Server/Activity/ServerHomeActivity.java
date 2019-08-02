@@ -62,6 +62,9 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
+        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
+        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
+
         /*final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments here
@@ -94,8 +97,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         //set default
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
-        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
-        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
     }
 
     //connecting badge to textView and setting text
@@ -113,10 +114,13 @@ public class ServerHomeActivity extends AppCompatActivity {
         itemView.addView(notificationBadge);
     }
 
+
+
     //when to make the badge visible
      public void refreshActiveBadgeView(int size) {
         notificationBadge.setVisibility(size > 0? VISIBLE : GONE);
     }
+
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

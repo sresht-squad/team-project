@@ -1,6 +1,8 @@
 package com.example.restauranteur.Server.Fragment;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,9 @@ public class ServerActiveVisitsFragment extends Fragment {
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
     private SwipeRefreshLayout swipeContainer;
+    Manifest manifest;
+    Handler handler;
+
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
@@ -54,7 +59,10 @@ public class ServerActiveVisitsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
+       /* handler = new Handler();
+        update();*/
         return inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
+
     }
 
     // This event is triggered soon after onCreateView().
@@ -72,7 +80,7 @@ public class ServerActiveVisitsFragment extends Fragment {
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
 
-        fetchActiveVisits();
+
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,7 +90,6 @@ public class ServerActiveVisitsFragment extends Fragment {
                 fetchActiveVisits();
             }
         });
-
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -90,7 +97,18 @@ public class ServerActiveVisitsFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
-    public void fetchActiveVisits(){
+ /*  private void update() {
+      final Runnable r = new Runnable() {
+           public void run() {
+               fetchActiveVisits();
+                handler.postDelayed(this, 1000);
+          }
+      };
+        handler.postDelayed(r, 1000);
+   }
+*/
+
+    private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
         query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
@@ -130,7 +148,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                 } else {
                     e.printStackTrace();
                 }
-                swipeContainer.setRefreshing(false);
+               swipeContainer.setRefreshing(false);
             }
         });
     }
