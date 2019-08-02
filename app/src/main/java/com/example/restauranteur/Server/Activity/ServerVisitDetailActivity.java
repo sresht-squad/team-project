@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,11 +32,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
     private ArrayList<Message> mMessages;
     private ChatAdapter mAdapter;
     private Visit visit;
-    private RecyclerView rvChat;
-    private ConstraintLayout clHeadings;
-    private TextView tvNoRequests;
-    private TextView tvWYLT;
-    private Button btnComplete;
+    private FragmentManager fm = getSupportFragmentManager();
 
 
     @Override
@@ -53,12 +48,9 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         String nameText = intent.getStringExtra("NAME_TEXT");
 
         //id lookups
+        final RecyclerView rvChat = (RecyclerView) findViewById(R.id.rvChat);
         final TextView tvTableNumber = (TextView) findViewById(R.id.tvTableNumber);
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        clHeadings = (ConstraintLayout) findViewById(R.id.clHeadings);
-        tvNoRequests = (TextView) findViewById(R.id.tvNoRequests);
-        tvWYLT = (TextView) findViewById(R.id.tvWYLT);
-        btnComplete = (Button) findViewById(R.id.btnComplete);
+        final Button btnComplete = (Button) findViewById(R.id.btnComplete);
 
         //get table number
         final String tableNumber = visit.getTableNumber();
@@ -98,6 +90,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
     }
 
     private void displayCurrentMessages() {
+        Log.i("DISPLAY", "ALL_MESSAGES");
         JSONArray messages = visit.getMessages();
         if (mMessages != null) {
             mMessages.clear();
@@ -125,7 +118,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             queries.add(query);
         }
 
-        if  (queries.size() > 0) {
+        if  ((queries != null) && (queries.size() > 0)) {
             ParseQuery<Message> mainQuery = ParseQuery.or(queries);
             mainQuery.orderByAscending("createdAt");
             mainQuery.findInBackground(new FindCallback<Message>() {
@@ -143,13 +136,6 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
-        else{
-            rvChat.setVisibility(View.GONE);
-            clHeadings.setVisibility(View.GONE);
-            tvNoRequests.setVisibility(View.VISIBLE);
-            tvWYLT.setVisibility(View.VISIBLE);
-            btnComplete.setVisibility(View.VISIBLE);
         }
     }
 }
