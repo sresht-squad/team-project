@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +56,9 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         //id lookups
         final TextView tvTableNumber = (TextView) findViewById(R.id.tvTableNumber);
+        final ImageButton ibBack = (ImageButton) findViewById(R.id.ibBack);
+        final TextView tvBack = (TextView) findViewById(R.id.tvBack);
+
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         clHeadings = (ConstraintLayout) findViewById(R.id.clHeadings);
         tvNoRequests = (TextView) findViewById(R.id.tvNoRequests);
@@ -89,6 +94,18 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                 });
             }
         });
+
+        View.OnClickListener back = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        ibBack.setOnClickListener(back);
+        tvBack.setOnClickListener(back);
+
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
