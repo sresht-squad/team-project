@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
-import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -75,10 +73,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         Log.i("saved", "visit Active false");
-
-                        Fragment fragment = new ServerActiveVisitsFragment();
-                        ((ServerActiveVisitsFragment) fragment).fetchActiveVisits();
-
+                        
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
                         startActivity(intent);
                         finish();
