@@ -44,6 +44,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnNewVisit;
     EditText etTableNumber;
+    ImageView ivLogo;
     Visit visit;
     Server server;
     ImageView logout;
@@ -61,6 +62,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
+        ivLogo = findViewById(R.id.ivLogo);
+
+
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
