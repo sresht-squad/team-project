@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -212,7 +211,9 @@ public class CustomerRequestsFragment extends Fragment {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postMessage();
+                if (etMessage.getText().length() > 0){
+                    postMessage();
+                }
             }
         });
     }
@@ -229,12 +230,10 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 //if the message saves successfully, save it to the visit as well
-                Toast.makeText(getContext(), "Created message on Parse", Toast.LENGTH_SHORT).show();
                 visit.addMessage(message);
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
                         displayNewMessage(message);
                         etMessage.setText(null);
                     }
@@ -244,7 +243,6 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
     private void displayNewMessage(Message message) {
-        Toast.makeText(getContext(), "Displaying new message", Toast.LENGTH_SHORT).show();
         mMessages.add(message);
         mAdapter.notifyDataSetChanged(); // update adapter
     }
