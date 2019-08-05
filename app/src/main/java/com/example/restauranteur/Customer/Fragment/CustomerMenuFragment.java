@@ -83,7 +83,7 @@ public class CustomerMenuFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foodItems = new ArrayList<>();
-        menuAdapter = new MenuAdapter(foodItems);
+        menuAdapter = new MenuAdapter(foodItems, getContext());
         menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);
@@ -267,7 +267,7 @@ public class CustomerMenuFragment extends Fragment{
                 results.add(foodItems.get(i));
             }
         }
-        menuAdapterSearch = new MenuAdapter(results);
+        menuAdapterSearch = new MenuAdapter(results, getContext());
         rvMenu.setAdapter(menuAdapterSearch);
     }
 

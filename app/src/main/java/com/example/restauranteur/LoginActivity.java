@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
                 } else {
                     intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+
                 }
                 startActivity(intent);
             }

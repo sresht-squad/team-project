@@ -34,6 +34,8 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class CustomerRequestsFragment extends Fragment {
 
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
@@ -44,6 +46,9 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private Visit visit;
+    private static  Boolean checkSent;
+    private ImageButton ibCheck;
+    private CustomerRequestsFragment myFragment;
 
     private SwipeRefreshLayout swipeContainer;
 
@@ -81,8 +86,7 @@ public class CustomerRequestsFragment extends Fragment {
         ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
         ImageButton ibRefill = view.findViewById(R.id.ibRefill);
         ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
-        ImageButton ibCheck = view.findViewById(R.id.ibCheck);
-
+        ibCheck = view.findViewById(R.id.ibCheck);
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,13 +109,19 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        ibCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String checkRequest = "Ready for Check";
-                generateQuickRequest(checkRequest);
-            }
-        });
+        if ((checkSent != null) && checkSent){
+            ibCheck.setVisibility(GONE);
+        } else {
+            ibCheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String checkRequest = "Ready for Check";
+                    generateQuickRequest(checkRequest);
+                    ibCheck.setVisibility(GONE);
+                    checkSent = true;
+                }
+            });
+        }
 
         //sending the waiter request to get the check
         //still need to connect to visit
@@ -161,6 +171,31 @@ public class CustomerRequestsFragment extends Fragment {
         displayCurrentMessages();
 
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            checkSent = savedInstanceState.getBoolean("checkSent");
+            if (checkSent){
+                ibCheck.setVisibility(GONE);
+            }
+        }
+    }
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (checkSent == null){
+            checkSent = false;
+        }
+        outState.putBoolean("checkSent", checkSent);
+    }
+
 
     private void generateQuickRequest(String request){
         final Message message = new Message();

@@ -37,7 +37,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     Context context;
 
 
-    MenuAdapter(ArrayList<MenuItem> menuItems) {
+    MenuAdapter(ArrayList<MenuItem> menuItems, Context context){
+        this.context = context;
         mMenuItems= menuItems;
     }
 
@@ -180,8 +181,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     @Override
                     public void done(ParseException e) {
                         notifyDataSetChanged();
-                        ViewPager viewPager = CustomerHomeActivity.vpPager;
-                        viewPager.getAdapter().notifyDataSetChanged();
+                        if (context instanceof CustomerHomeActivity) {
+                            ((CustomerHomeActivity)context).vpPager.getAdapter().notifyDataSetChanged();
+                        }
                         Toast.makeText(context, "Order has been placed", Toast.LENGTH_LONG).show();
                     }
                 });

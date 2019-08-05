@@ -31,9 +31,10 @@ public class CustomerHomeActivity extends AppCompatActivity {
     ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
-    public static ViewPager vpPager;
+    public ViewPager vpPager;
     FragmentPagerAdapter adapterViewPager;
     androidx.appcompat.widget.Toolbar mActionBarToolbar;
+    CustomerRequestsFragment myFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +88,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
         //setdefault
         customerBottomNavigation.setSelectedItemId(R.id.action_menu);
 
+        vpPager.setOffscreenPageLimit(3);
+
     }
 
     public void setTitle(String title) {
         getActionBar().setTitle("NOPE");
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+        private int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -111,11 +115,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return CustomerMenuFragment.newInstance(1, "Menu");
+                    return CustomerMenuFragment.newInstance(0, "Menu");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return CustomerRequestsFragment.newInstance(0, "Requests");
+                    return CustomerRequestsFragment.newInstance(1, "Requests");
                 default:
-                    return CustomerMenuFragment.newInstance(1, "Menu");
+                    return CustomerMenuFragment.newInstance(0, "Menu");
             }
         }
 
