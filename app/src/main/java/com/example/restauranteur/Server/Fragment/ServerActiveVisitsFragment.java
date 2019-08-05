@@ -102,10 +102,10 @@ public class ServerActiveVisitsFragment extends Fragment {
       final Runnable r = new Runnable() {
            public void run() {
                fetchActiveVisits();
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 5000);
           }
       };
-        handler.postDelayed(r, 1000);
+        handler.postDelayed(r, 5000);
    }
 
 
@@ -131,6 +131,7 @@ public class ServerActiveVisitsFragment extends Fragment {
 
                        visits.add(serverInfo.getVisits().get(i));
                        visitAdapter.notifyDataSetChanged();
+
 
                    }
                 } else {

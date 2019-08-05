@@ -9,7 +9,6 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,7 +26,12 @@ public class Visit extends ParseObject {
     }
 
     public String getTableNumber() {
-        return getString(KEY_TABLENUMBER);
+        try {
+            return fetchIfNeeded().getString(KEY_TABLENUMBER);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // get and setter for customer
