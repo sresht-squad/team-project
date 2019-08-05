@@ -171,7 +171,7 @@ public class CustomerRequestsFragment extends Fragment {
 
     private void changeColors(final ImageView view){
         view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
-        sleep(200);
+        sleep(150);
         view.setBackgroundResource(R.drawable.rounded_image_button_selector);
 
     }
