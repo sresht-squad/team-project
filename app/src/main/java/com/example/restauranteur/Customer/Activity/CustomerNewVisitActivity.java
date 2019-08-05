@@ -203,8 +203,13 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(false);
+    }
+
 
 
     public void setTitle(String title) {
