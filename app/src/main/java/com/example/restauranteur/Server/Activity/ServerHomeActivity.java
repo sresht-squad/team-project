@@ -1,5 +1,6 @@
 package com.example.restauranteur.Server.Activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,14 +44,19 @@ public class ServerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        int defaultFragment = R.id.profile;
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){
+            if (intent.getBooleanExtra("DETAIL", false)) {
+                defaultFragment = R.id.action_active;
+            }
+        }
+
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
         final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        // could be a cool effect to make seem like a picture gallery , need to also comment out getPageWidth()
-        // in the adapter
-        /*vpPager.setClipToPadding(false);
-        vpPager.setPageMargin(12);*/
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
@@ -66,21 +72,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         //making Active badge Visible
         addBadgeActiveView(Server.getCurrentServer().getVisits().size());
         refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
-
-        /*addBadgeRequestView(5);
-        refreshRequestBadgeView(5);*/
-
-        //making Request Badge Visible
-
-
-
-        /*final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // define fragments here
-        final Fragment profile = new ServerProfileFragment();
-        final Fragment requests = new ServerRequestsFragment();*/
-
-        //default vpPager sets the profile as the default page
+        
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
 
@@ -104,7 +96,7 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         });
         //set default
-        bottomNavigationView.setSelectedItemId(R.id.profile);
+        bottomNavigationView.setSelectedItemId(defaultFragment);
 
     }
 
@@ -155,7 +147,7 @@ public class ServerHomeActivity extends AppCompatActivity {
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
 
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        private MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
@@ -180,15 +172,20 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         }
 
+        public int getItemPosition(Object object) {
+            if (object instanceof ServerProfileFragment) {
+                return POSITION_UNCHANGED;
+            } else {
+                return POSITION_NONE;
+            }
+        }
+
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "page" + position;
         }
 
-        /*public float getPageWidth (int position) {
-            return 0.93f;
-        }*/
     }
 
     public void setTitle(String title) {

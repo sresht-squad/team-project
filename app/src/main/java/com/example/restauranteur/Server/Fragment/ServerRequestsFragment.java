@@ -18,6 +18,8 @@ import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
+import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -68,9 +70,6 @@ public class ServerRequestsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.d("REFRESHING", "we are refreshing whoooo");
-                //first clear everything out
-                mAdapter.clear();
-                mMessages.clear();
                 //repopulate
                 loadMessages();
                 //now make sure swipeContainer.setRefreshing is set to false
@@ -102,8 +101,6 @@ public class ServerRequestsFragment extends Fragment {
         rvChat.setLayoutManager(linearLayoutManager);
 
         loadMessages();
-
-
     }
 
 

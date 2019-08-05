@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -112,6 +111,8 @@ public class SignupActivity extends AppCompatActivity {
             public void done(List<ParseUser> objects, ParseException e) {
                 //if there is another user with this username, toast
                 if (objects.size() > 0){
+
+
                     Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
                     View view = toast.getView();
                     //Gets the actual oval background of the Toast then sets the colour filter

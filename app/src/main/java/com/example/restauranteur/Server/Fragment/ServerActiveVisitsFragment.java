@@ -78,9 +78,6 @@ public class ServerActiveVisitsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        handler = new Handler();
-        update();
-
 
         return view;
 
@@ -99,7 +96,6 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setAdapter(visitAdapter);
 
         fetchActiveVisits();
-
 
     }
 
