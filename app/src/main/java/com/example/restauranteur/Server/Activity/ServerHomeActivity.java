@@ -34,7 +34,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     public View activeNotificationBadge;
     public View requestNotificationBadge;

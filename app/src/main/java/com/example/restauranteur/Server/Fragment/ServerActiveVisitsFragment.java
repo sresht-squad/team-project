@@ -31,7 +31,6 @@ public class ServerActiveVisitsFragment extends Fragment {
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
     private SwipeRefreshLayout swipeContainer;
-    Manifest manifest;
     Handler handler;
 
 

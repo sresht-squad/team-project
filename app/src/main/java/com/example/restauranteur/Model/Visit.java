@@ -40,7 +40,14 @@ public class Visit extends ParseObject {
     }
 
     public JSONArray getCustomers() {
-        return getJSONArray("customers");
+        JSONArray customers = new JSONArray();
+        try {
+           customers = fetchIfNeeded().getJSONArray("customers");
+            return customers;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     // get and setter for server
