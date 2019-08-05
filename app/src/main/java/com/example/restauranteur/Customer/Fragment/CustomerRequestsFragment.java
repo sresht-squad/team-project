@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
@@ -78,16 +81,17 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
-        ImageButton ibRefill = view.findViewById(R.id.ibRefill);
-        ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
-        ImageButton ibCheck = view.findViewById(R.id.ibCheck);
+        final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
+        final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
+        final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+        final ImageButton ibCheck = view.findViewById(R.id.ibCheck);
 
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
+                changeColors(ibServerHelp);
                 generateQuickRequest(serverHelpRequest);
             }
         });
@@ -98,6 +102,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Need a refill";
+                changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
         });
@@ -109,6 +114,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String checkRequest = "Ready for Check";
+                changeColors(ibCheck);
                 generateQuickRequest(checkRequest);
             }
         });
@@ -119,6 +125,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To go boxes";
+                changeColors(ibToGoBox);
                 generateQuickRequest(toGoBoxRequest);
             }
         });
@@ -162,7 +169,15 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    private void generateQuickRequest(String request){
+    private void changeColors(final ImageView view){
+        view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
+        sleep(200);
+        view.setBackgroundResource(R.drawable.rounded_image_button_selector);
+
+    }
+
+    private void generateQuickRequest( final String request){
+
         final Message message = new Message();
         message.setAuthor(customer);
         message.setBody(request);
