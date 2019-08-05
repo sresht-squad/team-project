@@ -50,7 +50,6 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Visit visit = mVisits.get(position);
-        holder.tvTableNumber.setText(visit.getTableNumber());
         //get the objectId of the first customer attached to the visit
         String customerObjectId = null;
         try {
@@ -76,6 +75,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 holder.tvActiveVisit.setText(nameText);
             }
         });
+        holder.tvTableNumber.setText(visit.getTableNumber());
     }
 
     @Override
