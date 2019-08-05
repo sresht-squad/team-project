@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -39,11 +40,15 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBC42")));
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
+
+        setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar));
+
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -85,7 +90,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     }
 
     public void setTitle(String title) {
-        getActionBar().setTitle(title);
+        getActionBar().setTitle("NOPE");
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

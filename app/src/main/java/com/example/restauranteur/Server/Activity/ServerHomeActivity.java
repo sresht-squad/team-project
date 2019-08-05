@@ -163,11 +163,13 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     }
 
+    /*
     public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
     }
+    */
 
 
     public class PageChange implements ViewPager.OnPageChangeListener {
