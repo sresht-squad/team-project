@@ -1,7 +1,8 @@
 package com.example.restauranteur.Server.Fragment;
 
+import android.Manifest;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import com.example.restauranteur.VisitAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,9 @@ public class ServerActiveVisitsFragment extends Fragment {
     RecyclerView rvActiveVisit;
     VisitAdapter visitAdapter;
     private SwipeRefreshLayout swipeContainer;
+    Manifest manifest;
+    Handler handler;
+
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
@@ -53,8 +56,29 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_server_active_visit, parent, false);
+        // Lookup the swipe container view
+        // Setup refresh listener which triggers new data loading
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+
+                fetchActiveVisits();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        return view;
+
     }
 
     // This event is triggered soon after onCreateView().
@@ -68,29 +92,24 @@ public class ServerActiveVisitsFragment extends Fragment {
         rvActiveVisit.setLayoutManager(new LinearLayoutManager(getContext()));
         visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
+
 
         fetchActiveVisits();
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                fetchActiveVisits();
-            }
-        });
 
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
-    public void fetchActiveVisits(){
+   private void update() {
+      final Runnable r = new Runnable() {
+           public void run() {
+               fetchActiveVisits();
+                handler.postDelayed(this, 5000);
+          }
+      };
+        handler.postDelayed(r, 5000);
+   }
+
+
+    private void fetchActiveVisits(){
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
         query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
@@ -102,7 +121,7 @@ public class ServerActiveVisitsFragment extends Fragment {
                     visitAdapter.notifyDataSetChanged();
                    final ServerInfo serverInfo = objects.get(0);
 
-                   for (int i = 0 ; i < serverInfo.getVisits().size() ; i++){
+                   for (int i = 0 ; i < serverInfo.getVisits().size() ; i++) {
 
                        if (getActivity() instanceof ServerHomeActivity) {
                            final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
@@ -110,27 +129,15 @@ public class ServerActiveVisitsFragment extends Fragment {
                            homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
                        }
 
-                       if (serverInfo.getVisits().get(i).getActive()){
-                           visits.add(serverInfo.getVisits().get(i));
-                           visitAdapter.notifyDataSetChanged();
-                       } else {
-                          serverInfo.removeVisit(serverInfo.getVisits().get(i));
-                          serverInfo.saveInBackground(new SaveCallback() {
-                              @Override
-                              public void done(ParseException e) {
-                                  if (e == null){
-                                      Log.i("removed" , "success");
-                                  }else{
-                                      e.printStackTrace();
-                                  }
-                              }
-                          });
-                       }
+                       visits.add(serverInfo.getVisits().get(i));
+                       visitAdapter.notifyDataSetChanged();
+
+
                    }
                 } else {
                     e.printStackTrace();
                 }
-                swipeContainer.setRefreshing(false);
+               swipeContainer.setRefreshing(false);
             }
         });
     }
