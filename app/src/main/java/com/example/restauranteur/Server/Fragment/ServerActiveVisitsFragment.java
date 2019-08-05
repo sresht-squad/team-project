@@ -93,6 +93,7 @@ public class ServerActiveVisitsFragment extends Fragment {
         visitAdapter = new VisitAdapter(visits);
         rvActiveVisit.setAdapter(visitAdapter);
 
+
         fetchActiveVisits();
 
     }
@@ -128,10 +129,9 @@ public class ServerActiveVisitsFragment extends Fragment {
                            homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
                        }
 
-                       if (serverInfo.getVisits().get(i).getActive()) {
-                           visits.add(serverInfo.getVisits().get(i));
-                           visitAdapter.notifyDataSetChanged();
-                       }
+                       visits.add(serverInfo.getVisits().get(i));
+                       visitAdapter.notifyDataSetChanged();
+
                    }
                 } else {
                     e.printStackTrace();
