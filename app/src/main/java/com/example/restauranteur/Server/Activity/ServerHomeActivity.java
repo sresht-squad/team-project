@@ -119,7 +119,10 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     //when to make the Active Visits badge visible
      public void refreshActiveBadgeView(int size) {
-        activeNotificationBadge.setVisibility(size > 0? VISIBLE : GONE);
+        activeNotificationBadge.setVisibility(size != 0? VISIBLE : GONE);
+
+
+
     }
 
     //connecting badge to textView and setting text
@@ -188,11 +191,13 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     }
 
+    /*
     public void setTitle(String title) {
         mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
         getSupportActionBar().setTitle(title);
     }
+    */
 
 
     public class PageChange implements ViewPager.OnPageChangeListener {

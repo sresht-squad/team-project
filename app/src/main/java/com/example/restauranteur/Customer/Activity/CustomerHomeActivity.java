@@ -2,8 +2,6 @@ package com.example.restauranteur.Customer.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,11 +37,15 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBC42")));
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         Intent intent = getIntent();
         visit = intent.getParcelableExtra("VISIT");
+
+        setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar));
+
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -85,7 +87,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     }
 
     public void setTitle(String title) {
-        getActionBar().setTitle(title);
+        getActionBar().setTitle("NOPE");
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

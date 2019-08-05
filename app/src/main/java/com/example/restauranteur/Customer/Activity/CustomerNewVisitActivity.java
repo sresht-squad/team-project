@@ -7,6 +7,9 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,11 +55,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_new_visit);
+        setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar));
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        if (getSupportActionBar() != null){
-            getSupportActionBar().hide();
-        }
 
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
@@ -200,20 +200,32 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-        logout = findViewById(R.id.ivLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
+
+    public void setTitle(String title) {
+        getActionBar().setTitle(title);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.customer_menu_top, menu);
+
+        MenuItem miLogout = menu.findItem(R.id.ivLogout);
+        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem menuItem) {
                 Customer.logOut();
                 Intent intent = new Intent(CustomerNewVisitActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+                return false;
             }
         });
+
+        return super.onCreateOptionsMenu(menu);
     }
-
-
 
 
 
