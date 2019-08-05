@@ -11,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,7 +71,9 @@ public class CustomerMenuFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_menu, parent, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu, parent, false);
+
+        return rootView;
     }
 
 
@@ -82,6 +87,9 @@ public class CustomerMenuFragment extends Fragment{
         menuName = view.findViewById(R.id.tvMenuTitle);
         rvMenu = view.findViewById(R.id.rvMenuItems);
         rvMenu.setAdapter(menuAdapter);
+        //Toolbar myToolbar = view.findViewById(R.id.myToolbar);
+       // myToolbar.setTitle("Menu");
+
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvMenu.setLayoutManager(linearLayoutManager);
@@ -108,9 +116,11 @@ public class CustomerMenuFragment extends Fragment{
         getMenu(queue, url_menu);
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.customer_menu_top_fragment, menu);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Menu");
 
         //lookup the searchview
         android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -155,15 +165,6 @@ public class CustomerMenuFragment extends Fragment{
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.ivLogout) {
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }
