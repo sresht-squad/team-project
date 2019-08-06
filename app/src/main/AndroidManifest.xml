@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".Server.Activity.ServerHomeActivity" />
         <activity android:name=".Customer.Activity.CustomerHomeActivity" />
-        <activity android:name=".LoginActivity"
+        <activity android:name=".LoginSignup.LoginActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity"
+        <activity android:name=".LoginSignup.SignupActivity"
             android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
