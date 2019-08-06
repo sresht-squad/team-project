@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -25,12 +29,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class CustomerHomeActivity extends AppCompatActivity {
-    ImageView logout;
     BottomNavigationView customerBottomNavigation;
     Visit visit;
     public static ViewPager vpPager;
     FragmentPagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +74,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_menu:
                         vpPager.setCurrentItem(0);
+                        setTitleVisibility(true);
                         return true;
                     case R.id.action_request:
                         vpPager.setCurrentItem(1);
+                        setTitleVisibility(false);
                         return true;
                 }
                 return false;
@@ -86,8 +90,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     }
 
-    public void setTitle(String title) {
-        getActionBar().setTitle("NOPE");
+    public void setTitleVisibility(Boolean logo){
+        ImageView ivLogo = (ImageView) findViewById(R.id.ivLogo);
+        TextView tvOrders = (TextView) findViewById(R.id.tvOrders);
+        if(logo){
+            tvOrders.setVisibility(View.GONE);
+            ivLogo.setVisibility(View.VISIBLE);
+        }
+        else{
+            ivLogo.setVisibility(View.GONE);
+            tvOrders.setVisibility(View.VISIBLE);
+        }
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

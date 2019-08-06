@@ -1,5 +1,6 @@
 package com.example.restauranteur.Customer.Fragment;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.Model.Visit;
@@ -31,6 +34,7 @@ import com.example.restauranteur.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -79,6 +83,7 @@ public class CustomerMenuFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         foodItems = new ArrayList<>();
         menuAdapter = new MenuAdapter(foodItems);
         menuName = view.findViewById(R.id.tvMenuTitle);
@@ -117,7 +122,6 @@ public class CustomerMenuFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.customer_menu_top_fragment, menu);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Menu");
 
         //lookup the searchview
         android.view.MenuItem searchItem = menu.findItem(R.id.action_search);
