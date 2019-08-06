@@ -15,7 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.ChatAdapter;
+import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ServerVisitDetailActivity extends AppCompatActivity {
     private ArrayList<Message> mMessages;
-    private ChatAdapter mAdapter;
+    private RequestsAdapter mAdapter;
     private Visit visit;
     private RecyclerView rvChat;
     private ConstraintLayout clHeadings;
@@ -76,7 +76,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         //set chat adapter
         mMessages = new ArrayList<>();
-        mAdapter = new ChatAdapter(this, true, true, mMessages);
+        mAdapter = new RequestsAdapter(this, true, true, mMessages);
         rvChat.setAdapter(mAdapter);
 
 

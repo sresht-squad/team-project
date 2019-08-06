@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.LoginSignup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
+import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.example.restauranteur.Model.Customer;
 import com.parse.LogInCallback;
@@ -60,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
                 } else {
                     intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+
                 }
                 startActivity(intent);
             }

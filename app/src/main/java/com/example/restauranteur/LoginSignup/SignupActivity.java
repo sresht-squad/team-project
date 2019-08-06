@@ -1,4 +1,4 @@
-package com.example.restauranteur;
+package com.example.restauranteur.LoginSignup;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -22,6 +22,7 @@ import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;

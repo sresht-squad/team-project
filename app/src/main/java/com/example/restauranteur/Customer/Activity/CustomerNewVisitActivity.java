@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.LoginActivity;
+import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Installation;
@@ -44,6 +44,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     EditText etServerId;
     Button btnNewVisit;
     EditText etTableNumber;
+    ImageView ivLogo;
     Visit visit;
     Server server;
     ImageView logout;
@@ -61,6 +62,9 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
+        ivLogo = findViewById(R.id.ivLogo);
+
+
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,8 +203,13 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(false);
+    }
+
 
 
     public void setTitle(String title) {

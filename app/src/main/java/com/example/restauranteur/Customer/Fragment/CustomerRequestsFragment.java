@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
+import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.R;
-import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
@@ -44,12 +44,13 @@ public class CustomerRequestsFragment extends Fragment {
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    private ChatAdapter mAdapter;
+    private RequestsAdapter mAdapter;
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
     private Visit visit;
-
+    private ImageButton ibCheck;
+    private boolean sentCheck;
     private SwipeRefreshLayout swipeContainer;
 
 
@@ -86,7 +87,7 @@ public class CustomerRequestsFragment extends Fragment {
         final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
         final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
         final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
-        final ImageButton ibCheck = view.findViewById(R.id.ibCheck);
+        ibCheck = view.findViewById(R.id.ibCheck);
 
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
@@ -112,14 +113,20 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        ibCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String checkRequest = "Ready for Check";
-                changeColors(ibCheck);
-                generateQuickRequest(checkRequest);
-            }
-        });
+        if (sentCheck) {
+            ibCheck.setVisibility(View.GONE);
+        } else {
+            ibCheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String checkRequest = "Ready for Check";
+                    changeColors(ibCheck);
+                    generateQuickRequest(checkRequest);
+                    ibCheck.setVisibility(View.GONE);
+                    sentCheck = true;
+                }
+            });
+        }
 
         //sending the waiter request to get the check
         //still need to connect to visit
@@ -141,7 +148,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new ChatAdapter(getContext(), false, false, mMessages);
+        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
@@ -160,9 +167,8 @@ public class CustomerRequestsFragment extends Fragment {
         });
 
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
+        swipeContainer.setColorSchemeResources(R.color.lightBlueMaterialDesign,
+                R.color.yellow,
                 android.R.color.holo_red_light);
 
 
