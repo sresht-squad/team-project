@@ -4,20 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Customer.Activity.CustomerNewVisitActivity">
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/myToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFBC42"
-        android:elevation="4dp"
+    <ImageView
+        android:id="@+id/ivCircle"
+        android:layout_width="165dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/circle_blue_border" />
 
     <Button
         android:id="@+id/btnNewVisit"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="216dp"
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
@@ -38,17 +44,16 @@
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
-        android:hint="Server ID"
+        android:hint="  Server ID"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvCircular" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCircle" />
 
     <EditText
         android:id="@+id/tvTableNumber"
@@ -56,12 +61,12 @@
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
-        android:hint="Table Number"
+        android:hint="  Table Number"
         android:inputType="number"
         android:maxLength="3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,40 +74,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etServerId" />
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvCircular"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:elevation="12dp"
-        android:innerRadius="0dp"
-        android:shape="ring"
-        android:thicknessRatio="1.9"
-        app:cardCornerRadius="50dp"
+    <ImageView
+        android:id="@+id/ivForkKnife"
+        android:layout_width="93dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="157dp"
+        android:layout_marginLeft="157dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="157dp"
+        android:layout_marginRight="157dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myToolbar">
-
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@drawable/circle"
-            android:src="@drawable/fork_knife_blue"
-            tools:layout_editor_absoluteX="217dp"
-            tools:layout_editor_absoluteY="170dp" />
-
-    </androidx.cardview.widget.CardView>
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fork_knife_blue" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
