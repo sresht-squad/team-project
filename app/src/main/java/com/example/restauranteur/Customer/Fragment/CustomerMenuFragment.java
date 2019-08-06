@@ -145,7 +145,7 @@ public class CustomerMenuFragment extends Fragment{
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 searchView.clearFocus();
-                
+
                 return true;
             }
 

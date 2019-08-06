@@ -1,7 +1,5 @@
 package com.example.restauranteur.LoginSignup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -11,11 +9,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
+import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
-import com.example.restauranteur.Model.Customer;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
