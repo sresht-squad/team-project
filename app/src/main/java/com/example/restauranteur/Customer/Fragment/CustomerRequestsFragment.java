@@ -101,7 +101,7 @@ public class CustomerRequestsFragment extends Fragment {
         ibRefill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String waterRequest = "Need a refill";
+                String waterRequest = "Refill";
                 changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
@@ -116,7 +116,7 @@ public class CustomerRequestsFragment extends Fragment {
             ibCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String checkRequest = "Ready for Check";
+                    String checkRequest = "Check";
                     changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
                     ibCheck.setVisibility(View.GONE);

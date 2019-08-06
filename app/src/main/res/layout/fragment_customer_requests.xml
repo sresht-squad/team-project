@@ -28,7 +28,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="To Go"
+        android:text="Boxes"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/ibToGoBox"
         app:layout_constraintStart_toStartOf="@+id/ibToGoBox"
