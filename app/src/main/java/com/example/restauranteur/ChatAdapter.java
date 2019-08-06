@@ -112,7 +112,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                             });
                         }
                     });
-                    builder.setTitle(foodName).setMessage("Would you like to cancel your order for 1  " + foodName + " ?").create().show();
+                    builder.setTitle(foodName).setMessage("Would you like to cancel your request for  " + foodName + " ?").create().show();
                 } else {
                     m.setActive(false);
                     m.saveInBackground(new SaveCallback() {

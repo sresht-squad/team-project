@@ -1,7 +1,5 @@
 package com.example.restauranteur.Customer.Fragment;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -37,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 import static com.example.restauranteur.Keys.REST_CONSUMER_KEY;
 import static com.example.restauranteur.Keys.REST_CONSUMER_SECRET;
 

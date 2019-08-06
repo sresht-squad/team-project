@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
@@ -35,9 +34,9 @@ public class ServerHomeActivity extends AppCompatActivity {
     public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
 
-    public View notificationBadge;
+    public View activeNotificationBadge;
+    public View requestNotificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,10 @@ public class ServerHomeActivity extends AppCompatActivity {
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
-        //default vpPager sets the profile as the default page
+        //making Active badge Visible
+        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
+        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
+        
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
 
@@ -88,14 +90,13 @@ public class ServerHomeActivity extends AppCompatActivity {
                         vpPager.setCurrentItem(2);
                         return true;
                 }
+                //fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
         //set default
         bottomNavigationView.setSelectedItemId(defaultFragment);
 
-        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
-        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
     }
 
     //connecting badge to textView and setting text
@@ -103,19 +104,45 @@ public class ServerHomeActivity extends AppCompatActivity {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
 
-        notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+        activeNotificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
 
-        TextView numberOfActive = notificationBadge.findViewById(R.id.notificationsBadgeTextView);
+        TextView numberOfActive = activeNotificationBadge.findViewById(R.id.notificationsBadgeTextView);
 
         String notificationSizeToString = Integer.toString(notificationSize);
 
         numberOfActive.setText(notificationSizeToString);
-        itemView.addView(notificationBadge);
+        itemView.addView(activeNotificationBadge);
     }
 
-    //when to make the badge visible
+
+
+    //when to make the Active Visits badge visible
      public void refreshActiveBadgeView(int size) {
-        notificationBadge.setVisibility(size > 0? VISIBLE : GONE);
+        activeNotificationBadge.setVisibility(size != 0? VISIBLE : GONE);
+
+
+
+    }
+
+    //connecting badge to textView and setting text
+    public void addBadgeRequestView (int requestSize){
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(1);
+
+        requestNotificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
+
+        TextView numberOfActive = requestNotificationBadge.findViewById(R.id.notificationsBadgeTextView);
+
+        String notificationSizeToString = Integer.toString(requestSize);
+
+        numberOfActive.setText(notificationSizeToString);
+        itemView.addView(requestNotificationBadge);
+
+    }
+
+    //when to make the request badge visible
+    public void refreshRequestBadgeView(int numberOfMessages){
+        requestNotificationBadge.setVisibility(numberOfMessages > 0? VISIBLE : GONE);
     }
 
 

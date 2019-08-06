@@ -1,6 +1,7 @@
 package com.example.restauranteur.Customer.Fragment;
 
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,7 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.GONE;
+import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
@@ -46,10 +47,8 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private Visit visit;
-    private static  Boolean checkSent;
     private ImageButton ibCheck;
-    private CustomerRequestsFragment myFragment;
-
+    private boolean sentCheck;
     private SwipeRefreshLayout swipeContainer;
 
 
@@ -83,15 +82,17 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
-        ImageButton ibRefill = view.findViewById(R.id.ibRefill);
-        ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+        final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
+        final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
+        final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
         ibCheck = view.findViewById(R.id.ibCheck);
+
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
+                changeColors(ibServerHelp);
                 generateQuickRequest(serverHelpRequest);
             }
         });
@@ -102,6 +103,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Need a refill";
+                changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
         });
@@ -109,16 +111,17 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        if ((checkSent != null) && checkSent){
-            ibCheck.setVisibility(GONE);
+        if (sentCheck) {
+            ibCheck.setVisibility(View.GONE);
         } else {
             ibCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String checkRequest = "Ready for Check";
+                    changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
-                    ibCheck.setVisibility(GONE);
-                    checkSent = true;
+                    ibCheck.setVisibility(View.GONE);
+                    sentCheck = true;
                 }
             });
         }
@@ -129,6 +132,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To go boxes";
+                changeColors(ibToGoBox);
                 generateQuickRequest(toGoBoxRequest);
             }
         });
@@ -161,9 +165,8 @@ public class CustomerRequestsFragment extends Fragment {
         });
 
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
+        swipeContainer.setColorSchemeResources(R.color.lightBlueMaterialDesign,
+                R.color.yellow,
                 android.R.color.holo_red_light);
 
 
@@ -172,32 +175,15 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-            checkSent = savedInstanceState.getBoolean("checkSent");
-            if (checkSent){
-                ibCheck.setVisibility(GONE);
-            }
-        }
+    private void changeColors(final ImageView view){
+        view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
+        sleep(150);
+        view.setBackgroundResource(R.drawable.rounded_image_button_selector);
+
     }
 
+    private void generateQuickRequest( final String request){
 
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (checkSent == null){
-            checkSent = false;
-        }
-        outState.putBoolean("checkSent", checkSent);
-    }
-
-
-    private void generateQuickRequest(String request){
         final Message message = new Message();
         message.setAuthor(customer);
         message.setBody(request);
@@ -232,7 +218,9 @@ public class CustomerRequestsFragment extends Fragment {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postMessage();
+                if (etMessage.getText().length() > 0){
+                    postMessage();
+                }
             }
         });
     }
@@ -249,12 +237,10 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 //if the message saves successfully, save it to the visit as well
-                Toast.makeText(getContext(), "Created message on Parse", Toast.LENGTH_SHORT).show();
                 visit.addMessage(message);
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Message added to visit", Toast.LENGTH_SHORT).show();
                         displayNewMessage(message);
                         etMessage.setText(null);
                     }
@@ -264,7 +250,6 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
     private void displayNewMessage(Message message) {
-        Toast.makeText(getContext(), "Displaying new message", Toast.LENGTH_SHORT).show();
         mMessages.add(message);
         mAdapter.notifyDataSetChanged(); // update adapter
     }

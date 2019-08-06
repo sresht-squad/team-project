@@ -1,10 +1,7 @@
 package com.example.restauranteur.Customer.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -30,7 +27,6 @@ import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
-import com.example.restauranteur.SignupActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
