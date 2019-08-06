@@ -65,7 +65,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         ivLogo = findViewById(R.id.ivLogo);
 
 
-
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
