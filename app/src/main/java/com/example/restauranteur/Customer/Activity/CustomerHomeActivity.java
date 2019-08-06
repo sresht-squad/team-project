@@ -94,6 +94,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     }
 
+    //for setting logo vs title
     public void setTitleVisibility(Boolean logo){
         ImageView ivLogo = (ImageView) findViewById(R.id.ivLogo);
         TextView tvOrders = (TextView) findViewById(R.id.tvOrders);
@@ -104,6 +105,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
         else{
             ivLogo.setVisibility(View.GONE);
             tvOrders.setVisibility(View.VISIBLE);
+        }
+    }
+
+    //for changing logo visibility from fragment
+    public void setLogoVisibility(Boolean visible){
+        ImageView ivLogo = (ImageView) findViewById(R.id.ivLogo);
+        if (visible){
+            ivLogo.setVisibility(View.VISIBLE);
+        }
+        else{
+            ivLogo.setVisibility(View.GONE);
         }
     }
 
