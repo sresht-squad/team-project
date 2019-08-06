@@ -24,7 +24,7 @@ public class Message extends ParseObject {
 
         public boolean getActive() {
             try{
-                return fetchIfNeeded().getBoolean(STATUS);
+                return fetch().getBoolean(STATUS);
             }
             catch (ParseException e){
                 return false;

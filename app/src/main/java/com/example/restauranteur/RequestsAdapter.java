@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Message;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.util.List;
@@ -60,6 +61,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
+        if (!message.getActive()) {
+            removeMessage(message, position);
+        }
     }
 
     @Override
@@ -112,7 +116,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 }
             }
         }
-    }
+    };
+
 
     // Clean all elements of the recycler
     public void clear() {
@@ -120,7 +125,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    private void removeMessage(Message m, final int position){
+    public void removeMessage(Message m, final int position){
         m.setActive(false);
         m.saveInBackground(new SaveCallback() {
             @Override

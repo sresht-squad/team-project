@@ -9,6 +9,7 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,6 +33,10 @@ public class Visit extends ParseObject {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Date getUpdatedAt(){
+        return getDate("createdAt");
     }
 
     // get and setter for customer
