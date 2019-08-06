@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restauranteur.LoginActivity;
+import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.Model.Installation;

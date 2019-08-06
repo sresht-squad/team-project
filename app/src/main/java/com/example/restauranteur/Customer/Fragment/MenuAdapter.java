@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.Customer;
@@ -23,7 +21,6 @@ import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     Context context;
 
 
-    MenuAdapter(ArrayList<MenuItem> menuItems, Context context){
+    public MenuAdapter(ArrayList<MenuItem> menuItems, Context context){
         this.context = context;
         mMenuItems= menuItems;
     }

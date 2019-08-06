@@ -19,8 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
-import com.example.restauranteur.LoginActivity;
+import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Server;
 

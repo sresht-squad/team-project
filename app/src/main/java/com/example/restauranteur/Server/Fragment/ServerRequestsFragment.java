@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.ChatAdapter;
+import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
-import com.example.restauranteur.Server.Activity.ServerHomeActivity;
-import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -36,7 +34,7 @@ import java.util.List;
 public class ServerRequestsFragment extends Fragment {
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    private ChatAdapter mAdapter;
+    private RequestsAdapter mAdapter;
     private SwipeRefreshLayout swipeContainer;
 
     public ServerRequestsFragment() {
@@ -105,7 +103,7 @@ public class ServerRequestsFragment extends Fragment {
 
     // Query messages from Parse so we can load them into the chat adapter
     private void loadMessages() {
-        mAdapter = new ChatAdapter(getContext(), true, false, mMessages);
+        mAdapter = new RequestsAdapter(getContext(), true, false, mMessages);
         rvChat.setAdapter(mAdapter);
         Log.i("DISPLAY", "ALL_MESSAGES");
         //for all visits that involve this server
