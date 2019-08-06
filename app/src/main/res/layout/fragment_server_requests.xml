@@ -45,7 +45,7 @@
         android:layout_marginRight="8dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
-        android:text="Your Customers' Orders "
+        android:text="Customer Orders"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000116"
         app:layout_constraintBottom_toTopOf="@+id/tvCustomerRequest"

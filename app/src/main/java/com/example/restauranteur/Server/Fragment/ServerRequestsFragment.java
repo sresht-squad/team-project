@@ -69,11 +69,11 @@ public class ServerRequestsFragment extends Fragment {
             public void onRefresh() {
                 Log.d("REFRESHING", "we are refreshing whoooo");
                 //repopulate
+                //refreshMessages();
                 loadMessages();
                 //now make sure swipeContainer.setRefreshing is set to false
                 //but let's not do that here becauuuuuse.... ASYNCHRONOUS
                 //lets put it at the end of populateTimeline instead!
-
             }
         });
 
@@ -90,13 +90,11 @@ public class ServerRequestsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         rvChat = view.findViewById(R.id.rvChat);
-
         mMessages = new ArrayList<>();
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
-
         loadMessages();
     }
 
@@ -105,7 +103,7 @@ public class ServerRequestsFragment extends Fragment {
     private void loadMessages() {
         mAdapter = new RequestsAdapter(getContext(), true, false, mMessages);
         rvChat.setAdapter(mAdapter);
-        Log.i("DISPLAY", "ALL_MESSAGES");
+
         //for all visits that involve this server
         JSONArray visits = Server.getCurrentServer().getVisitsJSON();
         if (visits == null) {
@@ -184,6 +182,24 @@ public class ServerRequestsFragment extends Fragment {
             homeActivity.addBadgeRequestView(mMessages.size());
             homeActivity.refreshRequestBadgeView(mMessages.size());
         }
+
+    }
+
+
+    private void refreshMessages(){
+        for (int i = 0; i < mMessages.size(); i++) {
+            Message message = mMessages.get(i);
+            if (!message.getActive()) {
+                mMessages.remove(message);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+        getNewMessages();
+        swipeContainer.setRefreshing(false);
+    }
+
+
+    private void getNewMessages(){
 
     }
 }

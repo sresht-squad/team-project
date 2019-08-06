@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,17 +23,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.os.SystemClock.sleep;
@@ -77,7 +83,6 @@ public class CustomerRequestsFragment extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -101,7 +106,7 @@ public class CustomerRequestsFragment extends Fragment {
         ibRefill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String waterRequest = "Need a refill";
+                String waterRequest = "Refill";
                 changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
@@ -116,7 +121,7 @@ public class CustomerRequestsFragment extends Fragment {
             ibCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String checkRequest = "Ready for Check";
+                    String checkRequest = "Check";
                     changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
                     ibCheck.setVisibility(View.GONE);
@@ -158,7 +163,7 @@ public class CustomerRequestsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                displayCurrentMessages();
+                checkForCompletedOrders();
                 //now make sure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
             }
         });
@@ -174,14 +179,14 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    private void changeColors(final ImageView view){
+    private void changeColors(final ImageView view) {
         view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
         sleep(150);
         view.setBackgroundResource(R.drawable.rounded_image_button_selector);
 
     }
 
-    private void generateQuickRequest( final String request){
+    private void generateQuickRequest(final String request) {
 
         final Message message = new Message();
         message.setAuthor(customer);
@@ -208,7 +213,6 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your Orders");
     }
 
     // Setup button event handler which posts the entered message to Parse
@@ -217,7 +221,7 @@ public class CustomerRequestsFragment extends Fragment {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etMessage.getText().length() > 0){
+                if (etMessage.getText().length() > 0) {
                     postMessage();
                 }
             }
@@ -255,7 +259,6 @@ public class CustomerRequestsFragment extends Fragment {
 
 
     private void displayCurrentMessages() {
-        Log.i("DISPLAY", "ALL_MESSAGES");
         if (mMessages != null) {
             mMessages.clear();
         }
@@ -265,6 +268,18 @@ public class CustomerRequestsFragment extends Fragment {
             Message message = (Message) messageList.get(i);
             if (message.getActive()) {
                 mMessages.add(message);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+        swipeContainer.setRefreshing(false);
+    }
+
+    private void checkForCompletedOrders() {
+        //delete orders that server has marked as complete
+        for (int i = 0; i < mMessages.size(); i++) {
+            Message message = mMessages.get(i);
+            if (!message.getActive()) {
+                mMessages.remove(message);
                 mAdapter.notifyDataSetChanged();
             }
         }

@@ -18,7 +18,7 @@
         android:layout_marginRight="8dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
-        android:text="Your Customers"
+        android:text="Customers"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/tvCustomerRequest"
         app:layout_constraintEnd_toEndOf="parent"
