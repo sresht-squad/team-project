@@ -17,12 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.LoginActivity;
-import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.R;
 
 public class ServerProfileFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback{
     TextView tvId;
@@ -30,6 +30,7 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     private String title;
     private int page;
     private Button btnLogout;
+    private CardView cvImageholder;
 
     public ServerProfileFragment() {
         // Required empty public constructor
@@ -63,23 +64,11 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
 
         tvId = view.findViewById(R.id.tvId);
         etTableNum = view.findViewById(R.id.etTableNum);
-        btnLogout = view.findViewById(R.id.btnLogout);
+        cvImageholder = view.findViewById(R.id.cvImageholder);
 
-        //check whether the phone is able to send via NFC
-        NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getContext());
-        //no adapter, no NFC available on phone
-        if (mAdapter == null) {
-            Toast.makeText(getContext(), "This device does not have NFC capability.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        //if adapter exists but is not enabled, phone does not have NFC enabled in settings
-        if (!mAdapter.isEnabled()) {
-            Toast.makeText(getContext(), "Please enable NFC via Settings.", Toast.LENGTH_LONG).show();
-        }
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        cvImageholder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
                 builder.setNegativeButton("Cancel", null);
                 builder.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
@@ -94,6 +83,18 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
                 builder.setMessage("Are you sure you want to log out?").create().show();
             }
         });
+
+        //check whether the phone is able to send via NFC
+        NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getContext());
+        //no adapter, no NFC available on phone
+        if (mAdapter == null) {
+            Toast.makeText(getContext(), "This device does not have NFC capability.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        //if adapter exists but is not enabled, phone does not have NFC enabled in settings
+        if (!mAdapter.isEnabled()) {
+            Toast.makeText(getContext(), "Please enable NFC via Settings.", Toast.LENGTH_LONG).show();
+        }
 
         mAdapter.setNdefPushMessageCallback(this, getActivity());
 
