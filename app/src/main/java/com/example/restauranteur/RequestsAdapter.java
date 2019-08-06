@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Message;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.util.List;
@@ -60,6 +61,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
+        if (!message.getActive()) {
+            removeMessage(message, position);
+        }
     }
 
     @Override
@@ -78,8 +82,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             tableNum = itemView.findViewById(R.id.tvTableNumber);
             if (serverPage) {
                 CheckBox checkBox = itemView.findViewById(R.id.checkBox);
-                checkBox.setChecked(false);
                 checkBox.setOnClickListener(this);
+                checkBox.setChecked(false);
 
             } else {
                 TextView tvCancel;
@@ -93,44 +97,44 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 final Message m = mMessages.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                String foodName = m.getBody();
                 if (!serverPage) {
-                    String foodName = m.getBody();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
-                    builder.setPositiveButton("Cancel Order", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Cancel Request", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            m.setActive(false);
-                            m.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    mMessages.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, getItemCount());
-                                }
-                            });
+                            removeMessage(m, position);
                         }
-                    });
-                    builder.setTitle(foodName).setMessage("Would you like to cancel your request for  " + foodName + " ?").create().show();
+                    }).setTitle(foodName).setMessage("Would you like to cancel your request for \"" + foodName + "\" ?").create().show();
                 } else {
-                    m.setActive(false);
-                    m.saveInBackground(new SaveCallback() {
+                    builder.setPositiveButton("Mark Complete", new DialogInterface.OnClickListener() {
                         @Override
-                        public void done(ParseException e) {
-                            sleep(200);
-                            mMessages.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, getItemCount());
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            removeMessage(m, position);
                         }
-                    });
+                    }).setTitle(foodName).setMessage("Would you like to mark this request as complete?").create().show();
                 }
             }
         }
-    }
+    };
+
 
     // Clean all elements of the recycler
     public void clear() {
         mMessages.clear();
         notifyDataSetChanged();
+    }
+
+    public void removeMessage(Message m, final int position){
+        m.setActive(false);
+        m.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                mMessages.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, getItemCount());
+            }
+        });
     }
 
 }
