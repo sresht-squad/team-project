@@ -1,27 +1,20 @@
-package com.example.restauranteur;
+package com.example.restauranteur.Server.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Model.Server;
-import com.example.restauranteur.Model.Customer;
-import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Visit;
-import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
+import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.json.JSONException;
 

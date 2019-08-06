@@ -1,7 +1,6 @@
 package com.example.restauranteur.Customer.Fragment;
 
 
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.R;
-import com.example.restauranteur.ChatAdapter;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
@@ -42,7 +41,7 @@ public class CustomerRequestsFragment extends Fragment {
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
-    private ChatAdapter mAdapter;
+    private RequestsAdapter mAdapter;
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
@@ -146,7 +145,7 @@ public class CustomerRequestsFragment extends Fragment {
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new ChatAdapter(getContext(), false, false, mMessages);
+        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView

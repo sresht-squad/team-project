@@ -1,6 +1,5 @@
 package com.example.restauranteur.Server.Fragment;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
-import com.example.restauranteur.VisitAdapter;
+import com.example.restauranteur.Server.Activity.VisitAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

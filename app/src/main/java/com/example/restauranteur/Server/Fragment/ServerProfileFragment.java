@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.restauranteur.LoginActivity;
+import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 

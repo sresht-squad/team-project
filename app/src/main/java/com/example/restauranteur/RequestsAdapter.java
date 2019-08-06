@@ -3,12 +3,10 @@ package com.example.restauranteur;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -22,13 +20,13 @@ import java.util.List;
 
 import static android.os.SystemClock.sleep;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
     private List<Message> mMessages;
     private Boolean serverPage;
     private Boolean detailPage;
     private Context context;
 
-    public ChatAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
+    public RequestsAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
         detailPage = detailScreen;
