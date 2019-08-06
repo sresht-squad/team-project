@@ -130,6 +130,13 @@ public class CustomerMenuFragment extends Fragment{
         //set hint
         searchView.setQueryHint("Search Menu...");
 
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((CustomerHomeActivity)getActivity()).setLogoVisibility(false);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -155,6 +162,8 @@ public class CustomerMenuFragment extends Fragment{
             public boolean onClose() {
 
                 searchMenu("");
+
+                ((CustomerHomeActivity)getActivity()).setLogoVisibility(true);
 
                 return false;
             }
