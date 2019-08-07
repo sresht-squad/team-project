@@ -132,7 +132,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                 sentCheck = false;
                             }
                         }
-                    }).setTitle(foodName).setMessage("Would you like to cancel your request for \"" + foodName + "\" ?").create().show();
+                    }).setTitle(foodName).setMessage("Would you like to cancel your request?").create().show();
                 } else {
                     builder.setPositiveButton("Mark Complete", new DialogInterface.OnClickListener() {
                         @Override

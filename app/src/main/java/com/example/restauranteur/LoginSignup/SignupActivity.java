@@ -47,14 +47,13 @@ public class SignupActivity extends AppCompatActivity {
     private EditText etGetPassword;
     private EditText etGetFirstName;
     private EditText etGetLastName;
-    RadioGroup serverOrCustomer;
-    RadioButton rbServer;
-    RadioButton rbCustomer;
-    Button btnSignup;
-    Server server;
-    ServerInfo serverInfo;
-    CustomerInfo customerInfo;
-    ParseInstallation installation;
+    private RadioGroup serverOrCustomer;
+    private RadioButton rbServer;
+    private RadioButton rbCustomer;
+    private Server server;
+    private ServerInfo serverInfo;
+    private CustomerInfo customerInfo;
+    private ParseInstallation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,7 @@ public class SignupActivity extends AppCompatActivity {
         etGetLastName = findViewById(R.id.etLastName);
         etGetUsername = findViewById(R.id.etUsername);
         etGetPassword = findViewById(R.id.etPassword);
-        btnSignup = findViewById(R.id.btnSignup2);
+        Button btnSignup = findViewById(R.id.btnSignup2);
         serverOrCustomer = findViewById(R.id.radioGroup);
         rbServer = findViewById(R.id.rbServer);
         rbCustomer = findViewById(R.id.rbCustomer);
@@ -81,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                 final String newPassword = etGetPassword.getText().toString();
                 final String firstName = etGetFirstName.getText().toString();
                 final String lastName = etGetLastName.getText().toString();
-                int selectedId = serverOrCustomer.getCheckedRadioButtonId();
+                final int selectedId = serverOrCustomer.getCheckedRadioButtonId();
 
                 if (selectedId == rbServer.getId()) {
                     signUpServer(newUsername, newPassword, firstName, lastName);
@@ -112,12 +111,10 @@ public class SignupActivity extends AppCompatActivity {
             public void done(List<ParseUser> objects, ParseException e) {
                 //if there is another user with this username, toast
                 if (objects.size() > 0){
-
-
                     Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
                     View view = toast.getView();
-                    //Gets the actual oval background of the Toast then sets the colour filter
-                    view.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    //Gets the actual oval background of the Toast then sets the color filter
+                    view.getBackground().setColorFilter(getResources().getColor(R.color.lightBlueMaterialDesign), PorterDuff.Mode.SRC_IN);
                     //Gets the TextView from the Toast so it can be edited
                     TextView text = view.findViewById(android.R.id.message);
                     text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -130,10 +127,8 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void done(com.parse.ParseException e) {
                             if (e == null) {
-                                Log.i("ServerSignup", "New Server created");
                                 // create the serverInfo object
                                 createServerInfo();
-
                                 // connect the new created serverInfo with the new server
                                 server.put("serverInfo",serverInfo);
                                 server.saveInBackground(new SaveCallback() {
@@ -151,8 +146,6 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                 });
 
-                            } else {
-                                Log.i("ServerSignup", "server signup failed");
                             }
                         }
                     });
@@ -189,11 +182,8 @@ public class SignupActivity extends AppCompatActivity {
         serverInfo.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e == null) {
-                    Log.i("ServerInfo", "New ServerInfo");
-
-                } else {
-                    Log.i("ServerInfo", "ServerInfo not working");
+                if (e != null){
+                    e.printStackTrace();
                 }
             }
         });
@@ -207,18 +197,14 @@ public class SignupActivity extends AppCompatActivity {
         customerInfo.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e == null) {
-                    Log.i("CustomerInfo", "New CustomerInfo");
-
-                } else {
-                    Log.i("CustomerInfo", "Customer Info not working");
+                if (e != null){
+                    e.printStackTrace();
                 }
             }
         });
     }
 
     private void signUpCustomer(final String newUsername, final String newPassword, String first, String last){
-        Log.d("signup","signup pressed");
         // Create the Customer
         final Customer customer = new Customer(new ParseUser());
 
@@ -238,12 +224,12 @@ public class SignupActivity extends AppCompatActivity {
             public void done(List<ParseUser> objects, ParseException e) {
                 //if there is another user with this username, toast
                 if (objects.size() > 0){
-                    Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
-                    View view = toast.getView();
+                    final Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
+                    final View view = toast.getView();
                     //Gets the actual oval background of the Toast then sets the colour filter
                     view.getBackground().setColorFilter(getResources().getColor(R.color.lightBlueMaterialDesign), PorterDuff.Mode.SRC_IN);
                     //Gets the TextView from the Toast so it can be edited
-                    TextView text = view.findViewById(android.R.id.message);
+                    final TextView text = view.findViewById(android.R.id.message);
                     text.setTextColor(getResources().getColor(R.color.white));
                     toast.show();
                 }
@@ -262,8 +248,6 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                 });
                             } else {
-                                Log.d("Sign up", " Customer sign up failure");
-                                Toast.makeText(SignupActivity.this, "Customer sign up failed", LENGTH_LONG).show();
                                 e.printStackTrace();
                             }
                         }
@@ -278,7 +262,6 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Log.d("Login", "Login success");
                     final Intent intent;
                     if (getCurrentUser().getBoolean("server")) {
                         intent = new Intent(SignupActivity.this, ServerHomeActivity.class);
@@ -287,8 +270,6 @@ public class SignupActivity extends AppCompatActivity {
                     }
                     startActivity(intent);
                     finish();
-                } else {
-                    Log.e("Login", "Login failure");
                 }
             }
         });

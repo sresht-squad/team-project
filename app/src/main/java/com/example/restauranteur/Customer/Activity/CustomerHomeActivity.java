@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -23,18 +21,13 @@ import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
-import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class CustomerHomeActivity extends AppCompatActivity {
-    BottomNavigationView customerBottomNavigation;
-    Visit visit;
+    private BottomNavigationView customerBottomNavigation;
     public ViewPager vpPager;
-    FragmentPagerAdapter adapterViewPager;
-    androidx.appcompat.widget.Toolbar mActionBarToolbar;
-    CustomerRequestsFragment myFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,24 +35,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
-        Intent intent = getIntent();
-        visit = intent.getParcelableExtra("VISIT");
-
         setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar));
 
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        customerBottomNavigation = findViewById(R.id.bottom_navigation);
-
-        final Fragment requests = new CustomerRequestsFragment();
-        final Fragment menu = new CustomerMenuFragment();
-
-        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
+        //find the viewpager and set the adapter
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        FragmentPagerAdapter adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         
         //ViewPager page indicator
@@ -69,6 +49,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
 
+        //find and set the bottom navigation
+        customerBottomNavigation = findViewById(R.id.bottom_navigation);
         customerBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -91,7 +73,26 @@ public class CustomerHomeActivity extends AppCompatActivity {
         customerBottomNavigation.setSelectedItemId(R.id.action_menu);
 
         vpPager.setOffscreenPageLimit(3);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.customer_menu_top, menu);
+
+        MenuItem miLogout = menu.findItem(R.id.ivLogout);
+        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Customer.logOut();
+                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     //for setting logo vs title
@@ -127,7 +128,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
             super(fragmentManager);
         }
 
-        // Returns total number of pages
+        // Returns total number of pages, must be implemented
         @Override
         public int getCount() {
             return NUM_ITEMS;
@@ -137,9 +138,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
+                case 0:
                     return CustomerMenuFragment.newInstance(0, "Menu");
-                case 1: // Fragment # 0 - This will show FirstFragment different title
+                case 1:
                     return CustomerRequestsFragment.newInstance(1, "Requests");
                 default:
                     return CustomerMenuFragment.newInstance(0, "Menu");
@@ -184,25 +185,5 @@ public class CustomerHomeActivity extends AppCompatActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.customer_menu_top, menu);
-
-        MenuItem miLogout = menu.findItem(R.id.ivLogout);
-        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Customer.logOut();
-                Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
     }
 }

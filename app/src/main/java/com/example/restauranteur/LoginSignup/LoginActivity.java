@@ -25,8 +25,6 @@ import static com.parse.ParseUser.logInInBackground;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button btnLogin;
-    Button btnSignUp;
     private EditText etGetUsername;
     private EditText etGetPassword;
 
@@ -43,18 +41,18 @@ public class LoginActivity extends AppCompatActivity {
 
         etGetUsername = findViewById(R.id.etUsernameLogin);
         etGetPassword = findViewById(R.id.etPasswordLogin);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnSignUp = findViewById(R.id.btnSignup);
+        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnSignUp = findViewById(R.id.btnSignup);
 
         //user persisting
-        ParseUser currentUser = getCurrentUser();
+        final ParseUser currentUser = getCurrentUser();
         if (currentUser != null) {
             if (currentUser.getBoolean("server")) {
-                Intent intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
+                final Intent intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
                 startActivity(intent);
                 finish();
             } else {
-                Customer customer = new Customer(currentUser);
+                final Customer customer = new Customer(currentUser);
                 Intent intent;
                 //persists current visit
                 if (customer.getCurrentVisit() == null) {
@@ -71,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = etGetUsername.getText().toString();
-                String password = etGetPassword.getText().toString();
+                final String username = etGetUsername.getText().toString();
+                final String password = etGetPassword.getText().toString();
                 login(username, password);
             }
         });
@@ -81,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+                final Intent i = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -94,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Log.d("Login", "Login success");
                     final Intent intent;
                     if (getCurrentUser().getBoolean("server")) {
                         intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
@@ -103,8 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     startActivity(intent);
                     finish();
-                } else {
-                    Log.e("Login", "Login failure");
                 }
             }
         });
