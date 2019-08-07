@@ -30,7 +30,6 @@
         android:layout_marginRight="8dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
-        android:text="Menu Not Available"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#3A3939"
         android:textSize="35sp"
