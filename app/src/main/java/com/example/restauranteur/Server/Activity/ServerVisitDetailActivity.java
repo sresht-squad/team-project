@@ -99,7 +99,6 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                             }
                         });
 
-
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
                         intent.putExtra("DETAIL", true);
                         startActivity(intent);
@@ -120,7 +119,6 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         ibBack.setOnClickListener(back);
         tvBack.setOnClickListener(back);
-
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

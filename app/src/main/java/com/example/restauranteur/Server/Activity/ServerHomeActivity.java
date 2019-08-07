@@ -35,6 +35,7 @@ public class ServerHomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
 
+
     public View activeNotificationBadge;
     public View requestNotificationBadge;
 
