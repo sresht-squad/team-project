@@ -175,8 +175,8 @@ public class CustomerRequestsFragment extends Fragment {
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        mMessages.clear();
-                        displayCurrentMessages();
+                        mMessages.add(message);
+                        mAdapter.notifyItemInserted(mMessages.size() - 1);
                         rvChat.scrollToPosition(mMessages.size() - 1);
                     }
                 });
