@@ -47,10 +47,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     ImageView ivLogo;
     Visit visit;
     Server server;
-    ImageView logout;
     Installation installation;
-    ParsePush push;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +69,10 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 final String tableNum = etTableNumber.getText().toString();
 
                 if (serverId.equals("")){
-                    Toast.makeText(CustomerNewVisitActivity.this, "Please enter a server Id", LENGTH_LONG).show();
-                    Log.i("Server", "Invalid");
+                    Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for their ID", LENGTH_LONG).show();
                 }
                 else if (tableNum.equals("")) {
-                    Toast.makeText(CustomerNewVisitActivity.this, "Please enter a table number", LENGTH_LONG).show();
-                    Log.i("Table", "Invalid");
+                    Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for the table number ", LENGTH_LONG).show();
 
                 } else {
 
@@ -90,8 +85,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                         public void done(final List<ParseUser> objects, ParseException e) {
                             if (e == null) {
                                 if (objects.size() == 0) {
-                                    Toast.makeText(CustomerNewVisitActivity.this, "Please enter a valid server ID", LENGTH_LONG).show();
-                                    Log.i("Server", "Invalid");
+                                    Toast.makeText(CustomerNewVisitActivity.this, "Invalid server ID. Please ask your server for their ID", LENGTH_LONG).show();
                                     return;
                                 }
                                     server = new Server(objects.get(0));
@@ -123,12 +117,8 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             if (e != null) {
-                                                                Log.d("Saving", "Error while saving");
                                                                 e.printStackTrace();
                                                             } else {
-                                                                // Log lets user know the visit was created
-                                                                Log.d("Saving Visit Object", "success");
-
                                                                 //Adds the current new Visit into the serverInfo's visit's array
                                                                 //Query to find the serverInfo object that matches the server
                                                                 ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
@@ -144,8 +134,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                                         serverInfo.saveInBackground(new SaveCallback() {
                                                                             @Override
                                                                             public void done(ParseException e) {
-
-                                                                                Log.d("Saving", "success");
                                                                             }
                                                                         });
 
@@ -155,14 +143,12 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                                 customerInfo.saveInBackground(new SaveCallback() {
                                                                     @Override
                                                                     public void done(ParseException e) {
-                                                                        if (e == null) {
-                                                                            Log.d("Saved visit in CustInfo", "success");
-                                                                        } else {
-                                                                            Log.d("Saved visit in CustInfo", "FAILURE");
+                                                                        if (e != null) {
+                                                                            e.printStackTrace();
                                                                         }
                                                                     }
                                                                 });
-                                                                Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                                final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
                                                                 startActivity(intent);
                                                                 finish();
                                                             }
@@ -171,18 +157,15 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                 }
                                                 //if visit already exists, add customer to visit
                                                 else {
-                                                    Visit sameVisit = visitObjects.get(0);
+                                                    final Visit sameVisit = visitObjects.get(0);
                                                     sameVisit.addCustomer(Customer.getCurrentCustomer());
                                                     sameVisit.saveInBackground(new SaveCallback() {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             if (e != null) {
-                                                                Log.d("Saving", "Error while saving sameVisit");
                                                                 e.printStackTrace();
-                                                            } else {
-                                                                Log.d("Saving", "success");
                                                             }
-                                                            Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                                                            final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
                                                             startActivity(intent);
                                                             finish();
                                                         }
@@ -190,7 +173,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                                                 }
                                             } else {
                                                 e.printStackTrace();
-                                                Log.d("CHECKSAMEVISIT", "objects null");
                                             }
                                         }
                                     });
