@@ -96,7 +96,6 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
-                changeColors(ibServerHelp);
                 generateQuickRequest(serverHelpRequest);
             }
         });
@@ -107,7 +106,6 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Refill";
-                changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
         });
@@ -122,7 +120,6 @@ public class CustomerRequestsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     String checkRequest = "Check";
-                    changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
                     ibCheck.setVisibility(View.GONE);
                     sentCheck = true;
@@ -136,7 +133,6 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To go boxes";
-                changeColors(ibToGoBox);
                 generateQuickRequest(toGoBoxRequest);
             }
         });
@@ -179,12 +175,6 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    private void changeColors(final ImageView view) {
-        view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
-        sleep(150);
-        view.setBackgroundResource(R.drawable.rounded_image_button_selector);
-
-    }
 
     private void generateQuickRequest(final String request) {
 

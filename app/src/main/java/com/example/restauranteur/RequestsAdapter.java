@@ -105,7 +105,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         public void onClick(DialogInterface dialogInterface, int i) {
                             removeMessage(m, position);
                         }
-                    }).setTitle(foodName).setMessage("Would you like to cancel your request for \"" + foodName + "\" ?").create().show();
+                    }).setTitle(foodName).setMessage("Would you like to cancel your request?").create().show();
                 } else {
                     builder.setPositiveButton("Mark Complete", new DialogInterface.OnClickListener() {
                         @Override
