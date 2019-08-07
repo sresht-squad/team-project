@@ -297,6 +297,8 @@ public class CustomerMenuFragment extends Fragment{
                                // restaurantName = venue.toString();
                             }
                             catch (JSONException e) {
+                                String name = "Menu Not Available";
+                                menuName.setText(name);
                                 Log.i("Volley error", "error getting menu data");
                             }
                         }
@@ -304,6 +306,8 @@ public class CustomerMenuFragment extends Fragment{
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    String name = "Menu Not Available";
+                    menuName.setText(name);
                     Log.i("Volley error", "error getting menu data");
                 }
             });
