@@ -1,17 +1,21 @@
 package com.example.restauranteur;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.Model.Message;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -20,17 +24,22 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 import static android.os.SystemClock.sleep;
+import static android.view.View.GONE;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
     private List<Message> mMessages;
     private Boolean serverPage;
     private Boolean detailPage;
     private Context context;
+    ImageButton ibCheck;
+    static public Boolean sentCheck;
+    TextView tvCheck;
 
-    public RequestsAdapter(Context context, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
+    public RequestsAdapter(Context myContext, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
         detailPage = detailScreen;
+        context = myContext;
     }
 
     @Override
@@ -47,6 +56,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             }
         } else {
             contactView = inflater.inflate(R.layout.item_chat_customer, parent, false);
+            ibCheck = ((Activity) context).findViewById(R.id.ibCheck);
+            tvCheck = ((Activity) context).findViewById(R.id.tvCheck);
+            if ((sentCheck != null) && sentCheck){
+                ibCheck.setVisibility(GONE);
+            }
         }
 
         ViewHolder viewHolder = new ViewHolder(contactView);
@@ -61,6 +75,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
+        if (message.getBody().equals("Check")) {
+            sentCheck = true;
+            ibCheck.setVisibility(GONE);
+            tvCheck.setVisibility(GONE);
+
+        }
         if (!message.getActive()) {
             removeMessage(message, position);
         }
@@ -75,13 +95,14 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView body;
         TextView tableNum;
+        CheckBox checkBox;
 
         ViewHolder(View itemView) {
             super(itemView);
             body = itemView.findViewById(R.id.tvBody);
             tableNum = itemView.findViewById(R.id.tvTableNumber);
             if (serverPage) {
-                CheckBox checkBox = itemView.findViewById(R.id.checkBox);
+                checkBox = itemView.findViewById(R.id.checkBox);
                 checkBox.setOnClickListener(this);
                 checkBox.setChecked(false);
 
@@ -104,6 +125,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             removeMessage(m, position);
+                            //if the customer cancels their check, set check button to visible again
+                            if (m.getBody().equals("Check")) {
+                                ibCheck.setVisibility(View.VISIBLE);
+                                tvCheck.setVisibility(View.VISIBLE);
+                                sentCheck = false;
+                            }
                         }
                     }).setTitle(foodName).setMessage("Would you like to cancel your request for \"" + foodName + "\" ?").create().show();
                 } else {
@@ -135,6 +162,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 notifyItemRangeChanged(position, getItemCount());
             }
         });
+    }
+
+    public Boolean getSentCheck(){
+        if (sentCheck == null){
+            return false;
+        }
+        return sentCheck;
     }
 
 }

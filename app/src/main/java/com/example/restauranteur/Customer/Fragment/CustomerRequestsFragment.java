@@ -52,13 +52,12 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private Visit visit;
-    private ImageButton ibCheck;
-    private boolean sentCheck;
+    public ImageButton ibCheck;
     private SwipeRefreshLayout swipeContainer;
 
 
     public CustomerRequestsFragment() {
-        //empty constructor required
+        setRetainInstance(true);
     }
 
     public static CustomerRequestsFragment newInstance(int page, String title) {
@@ -89,8 +88,9 @@ public class CustomerRequestsFragment extends Fragment {
         final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
         final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
         final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+        mMessages = new ArrayList<>();
+        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         ibCheck = view.findViewById(R.id.ibCheck);
-
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +115,7 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        if (sentCheck) {
+        if (mAdapter.getSentCheck()) {
             ibCheck.setVisibility(View.GONE);
         } else {
             ibCheck.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,6 @@ public class CustomerRequestsFragment extends Fragment {
                     changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
                     ibCheck.setVisibility(View.GONE);
-                    sentCheck = true;
                 }
             });
         }
@@ -145,12 +144,10 @@ public class CustomerRequestsFragment extends Fragment {
         etMessage = view.findViewById(R.id.etMessage);
         btSend = view.findViewById(R.id.btSend);
         rvChat = view.findViewById(R.id.rvChat);
-        mMessages = new ArrayList<>();
         customer = new Customer(ParseUser.getCurrentUser());
         visit = customer.getCurrentVisit();
         final String userId = Customer.getCurrentCustomer().getObjectId();
         Log.d("current customer", userId);
-        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecyclerView
@@ -208,6 +205,12 @@ public class CustomerRequestsFragment extends Fragment {
                 });
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
