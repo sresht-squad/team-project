@@ -27,7 +27,7 @@ import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class CustomerHomeActivity extends AppCompatActivity {
     private BottomNavigationView customerBottomNavigation;
-    private ViewPager vpPager;
+    public ViewPager vpPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
