@@ -208,6 +208,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCustomers" />
 
+    <Button
+        android:id="@+id/btLogout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/gradient_background"
+        android:fontFamily="@font/baloo_bhai"
+        android:text="Log out"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cdIdTable"
+        app:layout_constraintVertical_bias="0.784" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
