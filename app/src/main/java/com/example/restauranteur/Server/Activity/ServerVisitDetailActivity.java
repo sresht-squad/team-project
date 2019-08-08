@@ -96,10 +96,11 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                         serverInfo.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
-                                Log.i("removed", "visit");
+                                if (e != null){
+                                    e.printStackTrace();
+                                }
                             }
                         });
-
 
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
                         intent.putExtra("DETAIL", true);
@@ -113,9 +114,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         View.OnClickListener back = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
-                intent.putExtra("DETAIL", true);
-                startActivity(intent);
+                finish();
             }
         };
 
