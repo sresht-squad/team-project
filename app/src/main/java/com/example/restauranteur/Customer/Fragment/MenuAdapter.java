@@ -160,7 +160,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                             postMessage(order);
                         }
                     });
-                    builder.setTitle(order).setMessage("Would you like to order 1 " + order + " ?").create().show();
+                    builder.setTitle(order).setMessage("Would you like to request an order of " + order + " ?").create().show();
                 }
             }
         }
