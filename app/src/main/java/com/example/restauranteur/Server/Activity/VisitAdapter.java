@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Visit;
@@ -17,7 +16,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.List;
@@ -34,7 +32,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
 
     @Override
-    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View VisitView = inflater.inflate(R.layout.item_visit, parent, false);
@@ -42,7 +40,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     }
 
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Visit visit = mVisits.get(position);
         //get the objectId of the first customer attached to the visit
@@ -62,18 +60,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 //get the first name
-                if ((objects != null) && (objects.size() > 0)) {
-                    final String customerName = objects.get(0).getString("firstName");
-                    //format it like so: Name (number in party)
-                    int numCustomers = 0;
-                    JSONArray customers = visit.getJSONArray("customers");
-                    if (customers != null) {
-                        numCustomers = customers.length();
-                    }
-                    nameText = "(" + numCustomers + ") " + customerName;
-                    holder.tvActiveVisit.setText(nameText);
-                    holder.tvTableNumber.setText(visit.getTableNumber());
-                }
+                final String customerName = objects.get(0).getString("firstName");
+
+                //format it like so: Name (number in party)
+                final int numCustomers = visit.getJSONArray("customers").length();
+                nameText = "(" + numCustomers +") " + customerName;
+                holder.tvName.setText(nameText);
+                holder.tvTableNumber.setText(visit.getTableNumber());
             }
         });
     }
@@ -85,13 +78,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView tvActiveVisit;
+        TextView tvName;
         TextView tvTableNumber;
 
-        ViewHolder(View itemView){
+        public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
-            tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
+            tvName = itemView.findViewById(R.id.tvName);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
             itemView.setOnClickListener(this);
         }
@@ -121,7 +114,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 final Intent intent = new Intent(context, ServerVisitDetailActivity.class);
                 final Visit visit = mVisits.get(position);
                 intent.putExtra("VISIT", visit);
-                intent.putExtra("NAME_TEXT", nameText);
+                intent.putExtra("NAME_TEXT", tvName.getText());
                 context.startActivity(intent);
             }
         }

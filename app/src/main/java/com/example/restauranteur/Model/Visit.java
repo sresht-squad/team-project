@@ -1,7 +1,5 @@
 package com.example.restauranteur.Model;
 
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -64,19 +62,18 @@ public class Visit extends ParseObject {
         try {
             return new Server(fetchIfNeeded().getParseUser(KEY_SERVER));
         } catch (ParseException e) {
-            Log.e("OOPS", "Something has gone terribly wrong with Parse", e);
             return null;
         }
     }
 
-        public JSONArray getMessages(){
-            try {
-                return fetchIfNeeded().getJSONArray("messages");
-            }catch (ParseException e) {
-                Log.e("Parse Error", "Something has gone terribly wrong with Parse", e);
-                return null;
-            }
+    public JSONArray getMessages(){
+        try {
+            return fetchIfNeeded().getJSONArray("messages");
+        }catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
     public void setActive(boolean active){
         put(KEY_ACTIVE, active);
@@ -104,7 +101,6 @@ public class Visit extends ParseObject {
         }
 
     //From the order class include the waiter table and customer table
-
     public static class Query extends ParseQuery<Visit> {
         public Query() {
             super(Visit.class);
@@ -115,8 +111,5 @@ public class Visit extends ParseObject {
             whereEqualTo("tableNumber", tableNumber);
             return this;
         }
-
     }
-
-
 }

@@ -20,7 +20,7 @@ public class ServerInfo extends ParseObject {
         return getList("visits");
     }
 
-    public ArrayList<Visit> getVisitsFetch() {
+    ArrayList<Visit> getVisitsFetch() {
         try {
             return (ArrayList<Visit>) fetchIfNeeded().get("visits");
         } catch (ParseException e){
@@ -28,7 +28,7 @@ public class ServerInfo extends ParseObject {
         }
     }
 
-    public JSONArray getVisitsJSON() {
+    JSONArray getVisitsJSON() {
         try {
             return fetch().getJSONArray("visits");
         } catch (ParseException e){

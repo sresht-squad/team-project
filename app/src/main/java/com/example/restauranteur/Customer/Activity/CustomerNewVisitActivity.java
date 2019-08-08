@@ -6,7 +6,6 @@ import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
-import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -29,7 +27,6 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -47,7 +44,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     ImageView ivLogo;
     Visit visit;
     Server server;
-    Installation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
