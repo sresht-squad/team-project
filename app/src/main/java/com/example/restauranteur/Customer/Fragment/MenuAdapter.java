@@ -75,6 +75,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         }
         else{
             holder.menuCardView.setVisibility(GONE);
+            holder.clMenuFade.setVisibility(GONE);
+            holder.clMenu.setVisibility(GONE);
         }
     }
 
