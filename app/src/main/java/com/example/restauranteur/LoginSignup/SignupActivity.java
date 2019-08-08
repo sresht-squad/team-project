@@ -106,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 //if there is another user with this username, toast
-                if (objects.size() > 0){
+                if ((objects != null) && (objects.size() > 0)){
                     Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
                     View view = toast.getView();
                     //Gets the actual oval background of the Toast then sets the color filter

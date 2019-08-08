@@ -68,7 +68,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     private void setAppearanceBigHeading(ViewHolder holder){
         setAppearanceHeading(holder);
-        holder.foodName.setTextSize(30);
+        holder.foodName.setTextSize(28);
     }
 
     private void setAppearanceHeading(ViewHolder holder){
@@ -151,7 +151,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                             postMessage(order);
                         }
                     });
-                    builder.setTitle(order).setMessage("Would you like to order 1 " + order + " ?").create().show();
+                    builder.setTitle(order).setMessage("Would you like to order \"" + order + "\" ?").create().show();
                 }
             }
         }
