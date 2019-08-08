@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Visit;
@@ -16,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View VisitView = inflater.inflate(R.layout.item_visit, parent, false);
@@ -40,7 +42,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     }
 
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         final Visit visit = mVisits.get(position);
         //get the objectId of the first customer attached to the visit
@@ -63,7 +65,11 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 if ((objects != null) && (objects.size() > 0)) {
                     final String customerName = objects.get(0).getString("firstName");
                     //format it like so: Name (number in party)
-                    final int numCustomers = visit.getJSONArray("customers").length();
+                    int numCustomers = 0;
+                    JSONArray customers = visit.getJSONArray("customers");
+                    if (customers != null) {
+                        numCustomers = customers.length();
+                    }
                     nameText = "(" + numCustomers + ") " + customerName;
                     holder.tvActiveVisit.setText(nameText);
                     holder.tvTableNumber.setText(visit.getTableNumber());
@@ -82,7 +88,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         TextView tvActiveVisit;
         TextView tvTableNumber;
 
-        public ViewHolder(View itemView){
+        ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);

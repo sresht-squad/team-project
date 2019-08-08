@@ -149,15 +149,14 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             //get pointer to message from JSON data
             try {
                 messagePointer = messages.getJSONObject(i).getString("objectId");
-                Log.i("MESSAGE_ID", messagePointer);
             } catch (JSONException e) {
-                Log.i("MESS_ERROR", messagePointer);
+                e.printStackTrace();
             }
             query.whereEqualTo("objectId", messagePointer).whereEqualTo("active", true);
             queries.add(query);
         }
 
-        if  (queries.size() > 0) {
+        if(queries.size() > 0) {
             ParseQuery<Message> mainQuery = ParseQuery.or(queries);
             mainQuery.orderByAscending("createdAt");
             mainQuery.findInBackground(new FindCallback<Message>() {
