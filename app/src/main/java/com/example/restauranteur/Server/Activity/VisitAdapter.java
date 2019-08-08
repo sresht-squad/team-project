@@ -60,13 +60,14 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 //get the first name
-                final String customerName = objects.get(0).getString("firstName");
-
-                //format it like so: Name (number in party)
-                final int numCustomers = visit.getJSONArray("customers").length();
-                nameText = "(" + numCustomers +") " + customerName;
-                holder.tvActiveVisit.setText(nameText);
-                holder.tvTableNumber.setText(visit.getTableNumber());
+                if ((objects != null) && (objects.size() > 0)) {
+                    final String customerName = objects.get(0).getString("firstName");
+                    //format it like so: Name (number in party)
+                    final int numCustomers = visit.getJSONArray("customers").length();
+                    nameText = "(" + numCustomers + ") " + customerName;
+                    holder.tvActiveVisit.setText(nameText);
+                    holder.tvTableNumber.setText(visit.getTableNumber());
+                }
             }
         });
     }

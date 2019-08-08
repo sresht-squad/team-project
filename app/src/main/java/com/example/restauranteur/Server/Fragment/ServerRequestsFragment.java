@@ -135,10 +135,12 @@ public class ServerRequestsFragment extends Fragment {
             @Override
             public void done(List<Visit> objects, ParseException e) {
                 if (e == null) {
-                    // there is only one object since we are querying by object id
-                    Visit visit = objects.get(0);
-                    // find all the messages for this visit
-                    findMessages(visit);
+                    if ((objects != null) && (objects.size() > 0)) {
+                        // there is only one object since we are querying by object id
+                        Visit visit = objects.get(0);
+                        // find all the messages for this visit
+                        findMessages(visit);
+                    }
                 }
             }
         });
