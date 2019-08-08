@@ -183,7 +183,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setVisibilities(){
+    public void setVisibilities(){
         rvChat.setVisibility(View.GONE);
         clHeadings.setVisibility(View.GONE);
         tvNoRequests.setVisibility(View.VISIBLE);
