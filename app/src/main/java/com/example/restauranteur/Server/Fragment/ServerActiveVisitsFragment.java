@@ -11,18 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.example.restauranteur.Server.Activity.VisitAdapter;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ServerActiveVisitsFragment extends Fragment {
 
@@ -31,6 +26,8 @@ public class ServerActiveVisitsFragment extends Fragment {
     VisitAdapter visitAdapter;
     private SwipeRefreshLayout swipeContainer;
     Handler handler;
+
+    ServerInfo serverInfo;
 
 
     public ServerActiveVisitsFragment() {
@@ -110,21 +107,18 @@ public class ServerActiveVisitsFragment extends Fragment {
         final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
         query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
-        query.findInBackground(new FindCallback<ServerInfo>() {
-            @Override
-            public void done(List<ServerInfo> objects, ParseException e) {
-                if (e == null){
-                    visits.clear();
-                    visitAdapter.notifyDataSetChanged();
-                   final ServerInfo serverInfo = objects.get(0);
+        visits.clear();
+        visitAdapter.notifyDataSetChanged();
 
-                   for (int i = 0 ; i < serverInfo.getVisits().size() ; i++) {
+        serverInfo = ((ServerHomeActivity) getActivity()).currentServerInfo;
+        
+        for (int i = 0 ; i < serverInfo.getVisits().size() ; i++) {
 
-                       if (getActivity() instanceof ServerHomeActivity) {
-                           final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
-                           homeActivity.addBadgeActiveView(serverInfo.getVisits().size());
-                           homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
-                       }
+            if (getActivity() instanceof ServerHomeActivity) {
+                final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
+                homeActivity.addBadgeActiveView(serverInfo.getVisits().size());
+                homeActivity.refreshActiveBadgeView(serverInfo.getVisits().size());
+            }
 
                        visits.add(serverInfo.getVisits().get(i));
                        visitAdapter.notifyDataSetChanged();
