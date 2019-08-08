@@ -44,12 +44,10 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     private EditText etServerId;
     private Button btnNewVisit;
     private EditText etTableNumber;
-    private ImageView ivLogo;
     private Visit visit;
     private Server server;
     private String tableNum;
     private String serverId;
-    private Installation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
-        ivLogo = findViewById(R.id.ivLogo);
 
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
