@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="@font/baloo_bhai"
@@ -31,17 +31,15 @@
         android:layout_height="240dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="75dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/box_background"
         app:layout_constraintBottom_toBottomOf="@+id/cdIdTable"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tvIdExplanation3" />
 
 
     <androidx.cardview.widget.CardView
@@ -172,7 +170,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="90dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:elevation="24dp"
@@ -180,7 +178,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tvIdExplanation3">
 
 
         <ImageView
@@ -209,23 +207,24 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCustomers" />
 
     <Button
-        android:id="@+id/btLogout"
+        android:id="@+id/btnLogout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:background="@drawable/gradient_background"
+        android:background="#D9D9DA"
         android:fontFamily="@font/baloo_bhai"
         android:text="Log out"
-        android:textSize="18sp"
+        android:textColor="#B3050505"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cdIdTable"
-        app:layout_constraintVertical_bias="0.784" />
+        app:layout_constraintVertical_bias="0.717" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
