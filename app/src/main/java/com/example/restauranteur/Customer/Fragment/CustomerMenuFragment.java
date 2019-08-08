@@ -43,7 +43,7 @@ public class CustomerMenuFragment extends Fragment{
     private ArrayList<MenuItem> foodItems;
     private String restaurantName;
     private TextView menuName;
-    private JSONArray menus;
+    public static JSONArray menus;
 
     public CustomerMenuFragment() {
         //required empty constructor

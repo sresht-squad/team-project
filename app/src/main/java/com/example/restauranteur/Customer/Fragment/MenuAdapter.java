@@ -34,6 +34,7 @@ import static android.view.View.GONE;
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private ArrayList<MenuItem> mMenuItems;
     private Context context;
+    private int bigHeadingCounter;
 
 
     MenuAdapter(ArrayList<MenuItem> menuItems, Context context){
@@ -68,8 +69,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     private void setAppearanceBigHeading(ViewHolder holder){
-        setAppearanceHeading(holder);
-        holder.foodName.setTextSize(28);
+        if (CustomerMenuFragment.menus.length() > 1){
+            setAppearanceHeading(holder);
+            holder.foodName.setTextSize(28);
+        }
+        else{
+            holder.menuCardView.setVisibility(GONE);
+        }
     }
 
     private void setAppearanceHeading(ViewHolder holder){
