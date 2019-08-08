@@ -80,11 +80,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 sentCheck = true;
                 ibCheck.setVisibility(GONE);
                 tvCheck.setVisibility(GONE);
-
             }
-        }
-        if (!message.getActive()) {
-            removeMessage(message, position);
         }
     }
 
@@ -136,12 +132,15 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         }
                     }).setTitle(foodName).setMessage("Would you like to cancel your request?").create().show();
                 } else {
-                    builder.setPositiveButton("Mark Complete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            removeMessage(m, position);
-                        }
-                    }).setTitle(foodName).setMessage("Would you like to mark this request as complete?").create().show();
+                    if (checkBox.isChecked()) {
+                        builder.setPositiveButton("Mark Complete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                removeMessage(m, position);
+                                checkBox.setChecked(false);
+                            }
+                        }).setTitle(foodName).setMessage("Would you like to mark this request as complete?").create().show();
+                    }
                 }
             }
         }

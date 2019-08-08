@@ -69,8 +69,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
         //making Active badge Visible
-      //  addBadgeActiveView(Server.getCurrentServer().getVisits().size());
-      //  refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
+        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
+        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
         
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
