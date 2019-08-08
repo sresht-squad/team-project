@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
@@ -24,7 +25,12 @@ import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
+
+import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -39,11 +45,15 @@ public class ServerHomeActivity extends AppCompatActivity {
     public View activeNotificationBadge;
     public View requestNotificationBadge;
 
+    public ServerInfo currentServerInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        fetchServerInfo();
 
         int defaultFragment = R.id.profile;
         Intent intent = getIntent();
@@ -221,6 +231,26 @@ public class ServerHomeActivity extends AppCompatActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
         }
+    }
+
+
+    private void fetchServerInfo(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+                query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
+
+                query.findInBackground(new FindCallback<ServerInfo>() {
+                    @Override
+                    public void done(List<ServerInfo> objects, ParseException e) {
+                     currentServerInfo = objects.get(0);
+                    }
+                });
+
+            }
+        });
+        thread.start();
     }
 
 

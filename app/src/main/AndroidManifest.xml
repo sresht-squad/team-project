@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/fork_knife_blue"
+        android:roundIcon="@drawable/meal_mate_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Server.Activity.ServerVisitDetailActivity"></activity>
