@@ -65,8 +65,9 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         tvId = view.findViewById(R.id.tvId);
         etTableNum = view.findViewById(R.id.etTableNum);
         cvImageholder = view.findViewById(R.id.cvImageholder);
+        btnLogout = view.findViewById(R.id.btLogout);
 
-        cvImageholder.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
