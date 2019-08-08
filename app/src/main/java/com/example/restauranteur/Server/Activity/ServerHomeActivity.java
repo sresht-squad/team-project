@@ -3,6 +3,8 @@ package com.example.restauranteur.Server.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,12 +42,13 @@ public class ServerHomeActivity extends AppCompatActivity {
     public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
-
-
     public View activeNotificationBadge;
     public View requestNotificationBadge;
 
     public ServerInfo currentServerInfo;
+
+    Handler handler;
+    public int badgingSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        fetchServerInfo();
+        updateBadging();
 
         int defaultFragment = R.id.profile;
         Intent intent = getIntent();
@@ -80,8 +83,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
         //making Active badge Visible
-        addBadgeActiveView(Server.getCurrentServer().getVisits().size());
-        refreshActiveBadgeView(Server.getCurrentServer().getVisits().size());
+
         
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
@@ -160,6 +162,10 @@ public class ServerHomeActivity extends AppCompatActivity {
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
 
+        private ServerProfileFragment mServerProfile;
+        private ServerRequestsFragment mServerRequest;
+        private ServerActiveVisitsFragment mServerActiveVisit;
+
         private MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -235,22 +241,40 @@ public class ServerHomeActivity extends AppCompatActivity {
 
 
     private void fetchServerInfo(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
                 query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
                 query.findInBackground(new FindCallback<ServerInfo>() {
                     @Override
                     public void done(List<ServerInfo> objects, ParseException e) {
-                     currentServerInfo = objects.get(0);
+                        final ServerInfo serverInfo = objects.get(0);
+                        badgingSize = serverInfo.getVisits().size();
+                        Log.i("Size is", String.valueOf(badgingSize));
                     }
                 });
 
+    }
+
+
+    private void updateBadging() {
+        handler = new Handler();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                fetchServerInfo();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addBadgeActiveView(badgingSize);
+                        refreshActiveBadgeView(badgingSize);
+                        Log.i("badging", String.valueOf(badgingSize));
+                    }
+                });
+                handler.postDelayed(this,1000);
+
             }
-        });
-        thread.start();
+        };
+        handler.postDelayed(r, 1000);
     }
 
 
