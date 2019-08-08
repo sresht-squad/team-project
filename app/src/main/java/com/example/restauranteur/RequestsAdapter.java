@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +12,16 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
-import static android.os.SystemClock.sleep;
 import static android.view.View.GONE;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
@@ -31,9 +29,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private Boolean serverPage;
     private Boolean detailPage;
     private Context context;
-    ImageButton ibCheck;
-    static public Boolean sentCheck;
-    TextView tvCheck;
+    private ImageButton ibCheck;
+    static private Boolean sentCheck;
+    private TextView tvCheck;
 
     public RequestsAdapter(Context myContext, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
@@ -43,9 +41,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        final LayoutInflater inflater = LayoutInflater.from(context);
         View contactView;
         if (serverPage){
             if (detailPage){
@@ -63,13 +62,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             }
         }
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Message message = mMessages.get(position);
+        final Message message = mMessages.get(position);
         if (serverPage && !detailPage){
             holder.tableNum.setText(message.tableNum);
         }
@@ -105,8 +103,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 checkBox.setChecked(false);
 
             } else {
-                TextView tvCancel;
-                tvCancel = itemView.findViewById(R.id.tvCancel);
+                final TextView tvCancel = itemView.findViewById(R.id.tvCancel);
                 tvCancel.setOnClickListener(this);
             }
         }
@@ -116,8 +113,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 final Message m = mMessages.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
-                String foodName = m.getBody();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                final String foodName = m.getBody();
                 if (!serverPage) {
                     builder.setPositiveButton("Cancel Request", new DialogInterface.OnClickListener() {
                         @Override
@@ -146,14 +143,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
     };
 
-
-    // Clean all elements of the recycler
-    public void clear() {
-        mMessages.clear();
-        notifyDataSetChanged();
-    }
-
-    public void removeMessage(Message m, final int position){
+    private void removeMessage(Message m, final int position){
         m.setActive(false);
         m.saveInBackground(new SaveCallback() {
             @Override
@@ -161,6 +151,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 mMessages.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, getItemCount());
+                if (detailPage){
+                    if (mMessages.size() == 0){
+                        ((ServerVisitDetailActivity)context).setVisibilities();
+                    }
+                }
             }
         });
     }

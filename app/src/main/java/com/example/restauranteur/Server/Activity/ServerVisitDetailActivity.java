@@ -149,9 +149,8 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             //get pointer to message from JSON data
             try {
                 messagePointer = messages.getJSONObject(i).getString("objectId");
-                Log.i("MESSAGE_ID", messagePointer);
             } catch (JSONException e) {
-                Log.i("MESS_ERROR", messagePointer);
+                e.printStackTrace();
             }
             query.whereEqualTo("objectId", messagePointer).whereEqualTo("active", true);
             queries.add(query);
@@ -183,7 +182,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setVisibilities(){
+    public void setVisibilities(){
         rvChat.setVisibility(View.GONE);
         clHeadings.setVisibility(View.GONE);
         tvNoRequests.setVisibility(View.VISIBLE);
