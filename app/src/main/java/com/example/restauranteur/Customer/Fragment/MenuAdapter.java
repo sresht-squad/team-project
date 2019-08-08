@@ -68,7 +68,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     private void setAppearanceBigHeading(ViewHolder holder){
-        holder.menuCardView.setVisibility(GONE);
+        setAppearanceHeading(holder);
+        holder.foodName.setTextSize(28);
     }
 
     private void setAppearanceHeading(ViewHolder holder){
@@ -181,5 +182,4 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             }
         });
     }
-
 }

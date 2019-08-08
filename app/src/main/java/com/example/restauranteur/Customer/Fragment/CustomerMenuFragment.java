@@ -43,6 +43,7 @@ public class CustomerMenuFragment extends Fragment{
     private ArrayList<MenuItem> foodItems;
     private String restaurantName;
     private TextView menuName;
+    private JSONArray menus;
 
     public CustomerMenuFragment() {
         //required empty constructor
@@ -147,8 +148,7 @@ public class CustomerMenuFragment extends Fragment{
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-
-                searchMenu("");
+                rvMenu.setAdapter(menuAdapter);
 
                 ((CustomerHomeActivity)getActivity()).setLogoVisibility(true);
 
@@ -178,30 +178,11 @@ public class CustomerMenuFragment extends Fragment{
                         // Display the first 500 characters of the response string.
                         try {
                             final JSONObject obj = new JSONObject(response);
-                            final JSONArray menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
+                            menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
                                     .getJSONArray("items");
 
-                                //for all main menus
-                                for (int a = 0; a < menus.length(); a++) {
-                                    final JSONObject mainMenu = menus.getJSONObject(a).getJSONObject("entries");
-                                    addHeading(menus.getJSONObject(a).getString("name"), true);
-                                    final JSONArray subMenus = mainMenu.getJSONArray("items");
-                                    final int subMenuNum = Integer.valueOf(mainMenu.getString("count"));
+                            displayMenu(menus);
 
-                                    //This part gets the menu headings: breakfast, appetizers, etc
-                                    for (int i = 0; i < subMenuNum; i++) {
-                                        addHeading(subMenus.getJSONObject(i).getString("name"), false);
-                                        final JSONObject subMenu = subMenus.getJSONObject(i);
-                                        final int foodsCount = subMenu.getJSONObject("entries").getInt("count");
-                                        final JSONArray foods = subMenu.getJSONObject("entries").getJSONArray("items");
-
-                                        //Gets the specific menu items under that heading
-                                        for (int j = 0; j < foodsCount; j++) {
-                                            final JSONObject foodObject = foods.getJSONObject(j);
-                                            addFoodItem(foodObject);
-                                        }
-                                    }
-                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -217,42 +198,64 @@ public class CustomerMenuFragment extends Fragment{
             queue.add(stringRequest);
         }
 
+    private void displayMenu (JSONArray menus) throws JSONException{
+        //for all main menus
+        for (int a = 0; a < menus.length(); a++) {
+            final JSONObject mainMenu = menus.getJSONObject(a).getJSONObject("entries");
+            addHeading(menus.getJSONObject(a).getString("name"), true);
+            final JSONArray subMenus = mainMenu.getJSONArray("items");
+            final int subMenuNum = Integer.valueOf(mainMenu.getString("count"));
 
+            //This part gets the menu headings: breakfast, appetizers, etc
+            for (int i = 0; i < subMenuNum; i++) {
+                addHeading(subMenus.getJSONObject(i).getString("name"), false);
+                final JSONObject subMenu = subMenus.getJSONObject(i);
+                final int foodsCount = subMenu.getJSONObject("entries").getInt("count");
+                final JSONArray foods = subMenu.getJSONObject("entries").getJSONArray("items");
 
-
-        private void addHeading(String sectionTitle, boolean mainHeading){
-            final MenuItem heading = new MenuItem();
-            heading.setName(sectionTitle);
-            heading.setHeading(true);
-            foodItems.add(heading);
-            if (mainHeading){
-                heading.setMainHeading(true);
-            } else{
-                heading.setMainHeading(false);
+                //Gets the specific menu items under that heading
+                for (int j = 0; j < foodsCount; j++) {
+                    final JSONObject foodObject = foods.getJSONObject(j);
+                    addFoodItem(foodObject);
+                }
             }
-            menuAdapter.notifyDataSetChanged();
         }
+    }
 
 
-        private void addFoodItem(JSONObject foodObject){
-            final MenuItem food = new MenuItem();
-            try {
-                if (foodObject.has("name")) {
-                    food.setName(foodObject.getString("name"));
-                }
-                if (foodObject.has("description")) {
-                    food.setDescription(foodObject.getString("description"));
-                }
-                if (foodObject.has("price")) {
-                    food.setPrice(foodObject.getString("price"));
-                }
-            } catch (JSONException e){
-                e.printStackTrace();
+    private void addHeading(String sectionTitle, boolean mainHeading){
+        final MenuItem heading = new MenuItem();
+        heading.setName(sectionTitle);
+        heading.setHeading(true);
+        foodItems.add(heading);
+        if (mainHeading){
+            heading.setMainHeading(true);
+        } else{
+            heading.setMainHeading(false);
+        }
+        menuAdapter.notifyDataSetChanged();
+    }
+
+
+    private void addFoodItem(JSONObject foodObject){
+        final MenuItem food = new MenuItem();
+        try {
+            if (foodObject.has("name")) {
+                food.setName(foodObject.getString("name"));
             }
-            food.setHeading(false);
-            foodItems.add(food);
-            menuAdapter.notifyDataSetChanged();
+            if (foodObject.has("description")) {
+                food.setDescription(foodObject.getString("description"));
+            }
+            if (foodObject.has("price")) {
+                food.setPrice(foodObject.getString("price"));
+            }
+        } catch (JSONException e){
+            e.printStackTrace();
         }
+        food.setHeading(false);
+        foodItems.add(food);
+        menuAdapter.notifyDataSetChanged();
+    }
 
 
     private void searchMenu(String query){
@@ -267,35 +270,35 @@ public class CustomerMenuFragment extends Fragment{
     }
 
     private void getRestaurantName(RequestQueue queue, String url_venue){
-
-            final StringRequest stringRequest = new StringRequest(Request.Method.GET, url_venue,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // Display the first 500 characters of the response string.
-                            try {
-                                JSONObject obj = new JSONObject(response);
-                                obj = obj.getJSONObject("response").getJSONObject("venue");
-                                restaurantName = obj.getString("name");
-                                menuName.setText(restaurantName);
-                            }
-                            catch (JSONException e) {
-                                e.printStackTrace();
-                                String name = "Menu Not Available";
-                                menuName.setText(name);
-                            }
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, url_venue,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            obj = obj.getJSONObject("response").getJSONObject("venue");
+                            restaurantName = obj.getString("name");
+                            menuName.setText(restaurantName);
                         }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                            String name = "Menu Not Available";
+                            menuName.setText(name);
+                        }
+                    }
 
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    String name = "Menu Not Available";
-                    menuName.setText(name);
-                }
-            });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String name = "Menu Not Available";
+                menuName.setText(name);
+            }
+        });
 
-            // Add the request to the RequestQueue.
-            queue.add(stringRequest);
-        }
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+    }
 
 }
