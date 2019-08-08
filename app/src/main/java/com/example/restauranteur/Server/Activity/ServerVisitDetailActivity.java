@@ -57,22 +57,23 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         String nameText = intent.getStringExtra("NAME_TEXT");
 
         //id lookups
-        final TextView tvTableNumber = (TextView) findViewById(R.id.tvTableNumber);
-        final ImageButton ibBack = (ImageButton) findViewById(R.id.ibBack);
-        final TextView tvBack = (TextView) findViewById(R.id.tvBack);
+        final TextView tvTableNumber = findViewById(R.id.tvTableNumber);
+        final ImageButton ibBack = findViewById(R.id.ibBack);
+        final TextView tvBack = findViewById(R.id.tvBack);
 
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        clHeadings = (ConstraintLayout) findViewById(R.id.clHeadings);
-        tvNoRequests = (TextView) findViewById(R.id.tvNoRequests);
-        tvWYLT = (TextView) findViewById(R.id.tvWYLT);
-        btnComplete = (Button) findViewById(R.id.btnComplete);
-        ivNoRequests = (ImageView) findViewById(R.id.ivNoRequests);
+        rvChat = findViewById(R.id.rvChat);
+        clHeadings =  findViewById(R.id.clHeadings);
+        tvNoRequests = findViewById(R.id.tvNoRequests);
+        tvWYLT = findViewById(R.id.tvWYLT);
+        btnComplete = findViewById(R.id.btnComplete);
+        ivNoRequests = findViewById(R.id.ivNoRequests);
 
         //get table number
         final String tableNumber = visit.getTableNumber();
 
         //set table number title text
-        tvTableNumber.setText(nameText + ", Table " + tableNumber);
+        String finalText = nameText + ", Table " + tableNumber;
+        tvTableNumber.setText(finalText);
 
         //set chat adapter
         mMessages = new ArrayList<>();
@@ -156,7 +157,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             queries.add(query);
         }
 
-        if  (queries.size() > 0) {
+        if(queries.size() > 0) {
             ParseQuery<Message> mainQuery = ParseQuery.or(queries);
             mainQuery.orderByAscending("createdAt");
             mainQuery.findInBackground(new FindCallback<Message>() {

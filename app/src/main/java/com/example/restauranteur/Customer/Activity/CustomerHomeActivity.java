@@ -38,12 +38,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
         setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar));
 
         //find the viewpager and set the adapter
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        vpPager = findViewById(R.id.vpPager);
         FragmentPagerAdapter adapterViewPager = new CustomerHomeActivity.MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         
         //ViewPager page indicator
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        InkPageIndicator inkPageIndicator = findViewById(R.id.indicator);
         inkPageIndicator.setViewPager(vpPager);
 
         vpPager.setCurrentItem(0);
@@ -97,8 +97,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     //for setting logo vs title
     public void setTitleVisibility(Boolean logo){
-        ImageView ivLogo = (ImageView) findViewById(R.id.ivLogo);
-        TextView tvOrders = (TextView) findViewById(R.id.tvOrders);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        TextView tvOrders = findViewById(R.id.tvOrders);
         if(logo){
             tvOrders.setVisibility(View.GONE);
             ivLogo.setVisibility(View.VISIBLE);
@@ -111,7 +111,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     //for changing logo visibility from fragment
     public void setLogoVisibility(Boolean visible){
-        ImageView ivLogo = (ImageView) findViewById(R.id.ivLogo);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
         if (visible){
             ivLogo.setVisibility(View.VISIBLE);
         }
@@ -124,7 +124,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     public class MyPagerAdapter extends FragmentPagerAdapter {
         private int NUM_ITEMS = 2;
 
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
@@ -154,7 +154,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             if (object instanceof CustomerMenuFragment) {
                 return POSITION_UNCHANGED;
             } else {

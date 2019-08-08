@@ -1,28 +1,32 @@
 package com.example.restauranteur.Model;
 
 
-import com.parse.LogInCallback;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class Customer {
-   private ParseUser user;
+    private ParseUser user;
 
 
-   public Customer(ParseUser parseUser){
-       user = parseUser;
-   }
+    public Customer(ParseUser parseUser){
+        user = parseUser;
+    }
 
-   public void setUsername(String username){
-       user.setUsername(username);
-   }
+    public static Customer getCurrentCustomer(){
+        ParseUser user = ParseUser.getCurrentUser();
+        return new Customer(user);
+    }
 
-   public String getUsername(){
-       return user.getUsername();
-   }
+    public static void logOut(){
+        ParseUser.logOut();
+    }
 
-   public void setFirstName(String first){
+    public void setUsername(String username){
+        user.setUsername(username);
+    }
+
+    public void setFirstName(String first){
         user.put("firstName", first);
     }
 
@@ -30,24 +34,12 @@ public class Customer {
         user.put("lastName", last);
     }
 
-   public void setPassword(String password){
+    public void setPassword(String password){
         user.setPassword(password);
-   }
-
-   public void signUpInBackground(SignUpCallback callback){
-       user.signUpInBackground(callback);
-   }
-
-    public static void logInInBackground(String username, String password, LogInCallback callback){
-        ParseUser.logInInBackground(username, password, callback);
     }
 
-    public void put(String key, String value){
-        user.put(key, value);
-    }
-
-    public void put(String key, int value){
-        user.put(key, value);
+    public void signUpInBackground(SignUpCallback callback){
+        user.signUpInBackground(callback);
     }
 
     public void put(String key, boolean value){
@@ -58,29 +50,12 @@ public class Customer {
         user.put(key, object);
     }
 
-    public String getString(String key){
-        return user.getString(key);
-    }
-
-    public static Customer getCurrentCustomer(){
-        ParseUser user = ParseUser.getCurrentUser();
-        return new Customer(user);
-    }
-
-    public static void logOut(){
-       ParseUser.logOut();
-    }
-
-    public String getObjectId(){
-       return user.getObjectId();
-    }
-
     ParseUser getParseUser(){
-       return user;
+        return user;
     }
 
     public Visit getCurrentVisit(){
-       return getInfo().getVisit();
+        return getInfo().getVisit();
     }
 
     public CustomerInfo getInfo(){
@@ -90,14 +65,4 @@ public class Customer {
     public void saveInBackground(SaveCallback callback){
         user.saveInBackground(callback);
     }
-
-
-
-
-
-
-
-
-
-
 }
