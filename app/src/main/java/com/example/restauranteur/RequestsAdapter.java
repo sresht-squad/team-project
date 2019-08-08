@@ -75,11 +75,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
-        if (message.getBody().equals("Check")) {
-            sentCheck = true;
-            ibCheck.setVisibility(GONE);
-            tvCheck.setVisibility(GONE);
+        if (!serverPage) {
+            if (message.getBody().equals("Check")) {
+                sentCheck = true;
+                ibCheck.setVisibility(GONE);
+                tvCheck.setVisibility(GONE);
 
+            }
         }
         if (!message.getActive()) {
             removeMessage(message, position);
