@@ -66,7 +66,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Message message = mMessages.get(position);
         if (serverPage && !detailPage){
             holder.tableNum.setText(message.tableNum);
@@ -74,10 +74,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
         if (!serverPage) {
-            if (message.getBody().equals("Check")) {
-                sentCheck = true;
+            if (((sentCheck != null) && sentCheck) || message.getBody().equals("Check")) {
                 ibCheck.setVisibility(GONE);
                 tvCheck.setVisibility(GONE);
+                sentCheck = true;
             }
         }
     }
@@ -101,7 +101,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 checkBox = itemView.findViewById(R.id.checkBox);
                 checkBox.setOnClickListener(this);
                 checkBox.setChecked(false);
-
             } else {
                 final TextView tvCancel = itemView.findViewById(R.id.tvCancel);
                 tvCancel.setOnClickListener(this);

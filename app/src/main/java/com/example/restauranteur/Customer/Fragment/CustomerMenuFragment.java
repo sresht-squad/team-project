@@ -162,7 +162,7 @@ public class CustomerMenuFragment extends Fragment{
     // Instantiate the RequestQueue
 
 
-    void getMenu(RequestQueue queue, String url_menu) {
+    private void getMenu(RequestQueue queue, String url_menu) {
         // Request a string response from the provided URL.
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
                 new Response.Listener<String>() {
@@ -171,8 +171,7 @@ public class CustomerMenuFragment extends Fragment{
                         // Display the first 500 characters of the response string.
                         try {
                             final JSONObject obj = new JSONObject(response);
-                            menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus")
-                                    .getJSONArray("items");
+                            menus = obj.getJSONObject("response").getJSONObject("menu").getJSONObject("menus").getJSONArray("items");
 
                             displayMenu(menus);
 
