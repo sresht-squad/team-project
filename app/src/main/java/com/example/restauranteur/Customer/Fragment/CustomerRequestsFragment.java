@@ -40,7 +40,7 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private Visit visit;
-    public ImageButton ibCheck;
+    private ImageButton ibCheck;
     private SwipeRefreshLayout swipeContainer;
 
 

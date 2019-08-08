@@ -6,14 +6,12 @@ import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
-import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -29,7 +26,6 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -44,12 +40,10 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     private EditText etServerId;
     private Button btnNewVisit;
     private EditText etTableNumber;
-    private ImageView ivLogo;
     private Visit visit;
     private Server server;
     private String tableNum;
     private String serverId;
-    private Installation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
-        ivLogo = findViewById(R.id.ivLogo);
 
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +246,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
 
             String serverId = "";
             String tableNum = "";
-            NdefMessage ndefmessage = null; // only one message transferred
+            NdefMessage ndefmessage; // only one message transferred
             if (rawMessages != null) {
                 ndefmessage = (NdefMessage) rawMessages[0];
                 //get each record and convert them back into string format
@@ -263,7 +256,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
             //set the editText to contain the first message
             etServerId.setText(serverId);
             etTableNumber.setText(tableNum);
-            if (!etTableNumber.getText().equals("")){
+            if (!((etTableNumber.getText().toString()).equals(""))){
                 btnNewVisit.callOnClick();
             }
 

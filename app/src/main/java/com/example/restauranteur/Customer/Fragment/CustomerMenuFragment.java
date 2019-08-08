@@ -86,15 +86,8 @@ public class CustomerMenuFragment extends Fragment{
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvMenu.setLayoutManager(linearLayoutManager);
 
-        final String search_authentication = "&client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
         final String authentication = "?client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
         final String menuAuthentication = "/menu?client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
-
-        final String panera = "4b70720ff964a520e71a2de3";
-        final String oliveGarden = "46d715faf964a5206c4a1fe3";
-        final String restaurantWithNoMenu = "51c9f997498e17f9e5bfbb52";
-        final String appleBees = "4c349961a0ced13a7463186e"; //has prices
-        final String villageInn = "4b53440df964a520e59427e3";
 
         final Visit visit = Customer.getCurrentCustomer().getCurrentVisit();
         final String restaurant = visit.getServer().getServerInfo().getRestaurantId();
@@ -155,13 +148,11 @@ public class CustomerMenuFragment extends Fragment{
                 return false;
             }
         });
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -169,7 +160,7 @@ public class CustomerMenuFragment extends Fragment{
     // Instantiate the RequestQueue
 
 
-    void getMenu(RequestQueue queue, String url_menu) {
+    private void getMenu(RequestQueue queue, String url_menu) {
         // Request a string response from the provided URL.
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url_menu,
                 new Response.Listener<String>() {
@@ -297,5 +288,4 @@ public class CustomerMenuFragment extends Fragment{
             // Add the request to the RequestQueue.
             queue.add(stringRequest);
         }
-
 }

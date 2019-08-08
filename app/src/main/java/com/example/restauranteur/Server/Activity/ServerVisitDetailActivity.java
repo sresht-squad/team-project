@@ -3,7 +3,6 @@ package com.example.restauranteur.Server.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -89,17 +88,16 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Log.i("saved", "visit Active false");
-
                         ServerInfo serverInfo = Server.getCurrentServer().getServerInfo();
                         serverInfo.removeVisit(visit);
                         serverInfo.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
-                                Log.i("removed", "visit");
+                                if (e != null){
+                                    e.printStackTrace();
+                                }
                             }
                         });
-
 
                         final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
                         intent.putExtra("DETAIL", true);
@@ -173,7 +171,8 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                                 mAdapter.notifyDataSetChanged();
                             }
                         }
-
+                    } else {
+                        e.printStackTrace();
                     }
                 }
             });

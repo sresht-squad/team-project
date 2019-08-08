@@ -26,11 +26,11 @@ import java.util.List;
 
 public class ServerActiveVisitsFragment extends Fragment {
 
-    ArrayList<Visit> visits;
-    RecyclerView rvActiveVisit;
-    VisitAdapter visitAdapter;
+    private ArrayList<Visit> visits;
+    private RecyclerView rvActiveVisit;
+    private VisitAdapter visitAdapter;
     private SwipeRefreshLayout swipeContainer;
-    Handler handler;
+    private Handler handler;
 
 
     public ServerActiveVisitsFragment() {

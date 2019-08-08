@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Model.Visit;
@@ -32,7 +33,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View VisitView = inflater.inflate(R.layout.item_visit, parent, false);
@@ -40,7 +41,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     }
 
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         final Visit visit = mVisits.get(position);
         //get the objectId of the first customer attached to the visit
@@ -81,31 +82,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
         TextView tvName;
         TextView tvTableNumber;
 
-        public ViewHolder(View itemView){
+        private ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
             tvName = itemView.findViewById(R.id.tvName);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
             itemView.setOnClickListener(this);
         }
-
-        public void clear() {
-            mVisits.clear();
-            notifyDataSetChanged();
-        }
-
-        // Add a list of items -- change to type used
-        public void addAll(List<Visit> list) {
-            mVisits.addAll(list);
-            notifyDataSetChanged();
-        }
-
-        public void removeAt(int position) {
-            mVisits.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, mVisits.size());
-        }
-
 
         @Override
         public void onClick(View view) {
