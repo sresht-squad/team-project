@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.restauranteur.LoginSignup.LoginActivity;
@@ -59,6 +58,8 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         tvId = view.findViewById(R.id.tvId);
         etTableNum = view.findViewById(R.id.etTableNum);
         Button btnLogout = view.findViewById(R.id.btnLogout);
+        TextView tvNFC = view.findViewById(R.id.tvNFC);
+        TextView tvNoNFC = view.findViewById(R.id.tvNoNFC);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +83,14 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getContext());
         //no adapter, no NFC available on phone
         if (mAdapter == null) {
-            Toast.makeText(getContext(), "This device does not have NFC capability.", Toast.LENGTH_LONG).show();
+            tvNFC.setVisibility(View.GONE);
+            tvNoNFC.setVisibility(View.VISIBLE);
             return;
         }
         //if adapter exists but is not enabled, phone does not have NFC enabled in settings
         if (!mAdapter.isEnabled()) {
+            tvNFC.setVisibility(View.GONE);
+            tvNoNFC.setVisibility(View.VISIBLE);
             Toast.makeText(getContext(), "Please enable NFC via Settings.", Toast.LENGTH_LONG).show();
         }
 

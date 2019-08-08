@@ -194,6 +194,8 @@
         android:id="@+id/tvNoNFC"
         android:layout_width="341dp"
         android:layout_height="35dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="25dp"
         android:gravity="left|center_vertical"
         android:text="Have your customers type in your ID and the table number in their app."
