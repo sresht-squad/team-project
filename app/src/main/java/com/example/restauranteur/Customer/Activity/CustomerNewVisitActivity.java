@@ -6,12 +6,10 @@ import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +53,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
+        ImageView ivCircle = findViewById(R.id.ivCircle);
 
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
@@ -63,16 +62,24 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 serverId = etServerId.getText().toString();
                 tableNum = etTableNumber.getText().toString();
 
-                if (serverId.equals("")){
+                if (serverId.equals("")) {
                     Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for their ID", LENGTH_LONG).show();
-                }
-                else if (tableNum.equals("")) {
+                } else if (tableNum.equals("")) {
                     Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for the table number ", LENGTH_LONG).show();
 
-                }
-                else {
+                } else {
                     findServer();
                 }
+            }
+            });
+
+        ivCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Customer.logOut();
+                Intent intent = new Intent(CustomerNewVisitActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -80,7 +87,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     private void findServer(){
         //query for the server with the username/serverId that the customer entered
         final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-        parseQuery.whereEqualTo("username", serverId);
+        parseQuery.whereEqualTo("username", serverId).whereEqualTo("server",true);
 
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -211,27 +218,6 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     public void setTitle(String title) {
         getActionBar().setTitle(title);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.customer_menu_top, menu);
-
-        MenuItem miLogout = menu.findItem(R.id.ivLogout);
-        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Customer.logOut();
-                Intent intent = new Intent(CustomerNewVisitActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
 
 
     @Override

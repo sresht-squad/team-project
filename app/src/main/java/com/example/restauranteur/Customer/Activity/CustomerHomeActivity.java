@@ -24,6 +24,8 @@ import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class CustomerHomeActivity extends AppCompatActivity {
@@ -92,6 +94,24 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+                return false;
+            }
+        });
+
+        MenuItem completeVisit= menu.findItem(R.id.completeVisit);
+        completeVisit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                visit.setActive(false);
+                visit.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Customer.logOut();
+                        Intent intent = new Intent(CustomerHomeActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
                 return false;
             }
         });
