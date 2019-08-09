@@ -60,6 +60,10 @@ public class Server {
         return user.getString(key);
     }
 
+    public String getObjectId(){
+        return user.getObjectId();
+    }
+
     public static Server getCurrentServer(){
         ParseUser user = ParseUser.getCurrentUser();
         return new Server(user);

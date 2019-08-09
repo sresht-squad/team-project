@@ -1,6 +1,8 @@
 package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +45,8 @@ public class ServerRequestsFragment extends Fragment {
     public static ServerRequestsFragment newInstance(int page, String title) {
         ServerRequestsFragment fragmentFirst = new ServerRequestsFragment();
         Bundle args = new Bundle();
-        args.putInt("int", page);
-        args.putString("title", title);
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
@@ -56,17 +58,23 @@ public class ServerRequestsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_server_requests, container, false);
 
-        swipeContainer = view.findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d("REFRESHING", "we are refreshing whoooo");
+                //repopulate
+                //refreshMessages();
                 loadMessages();
+                //now make sure swipeContainer.setRefreshing is set to false
+                //but let's not do that here becauuuuuse.... ASYNCHRONOUS
+                //lets put it at the end of populateTimeline instead!
             }
         });
 
@@ -114,7 +122,7 @@ public class ServerRequestsFragment extends Fragment {
                 // look up this visit
                 lookupVisit(visitId);
             } catch (JSONException e) {
-                e.printStackTrace();
+
             }
         }
         swipeContainer.setRefreshing(false);
@@ -179,4 +187,10 @@ public class ServerRequestsFragment extends Fragment {
         }
 
     }
+
+
+
+
+
+
 }

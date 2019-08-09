@@ -111,15 +111,12 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         View.OnClickListener back = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
-                intent.putExtra("DETAIL", true);
-                startActivity(intent);
+                finish();
             }
         };
 
         ibBack.setOnClickListener(back);
         tvBack.setOnClickListener(back);
-
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

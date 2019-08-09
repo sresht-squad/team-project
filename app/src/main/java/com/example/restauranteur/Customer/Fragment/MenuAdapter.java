@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Model.Customer;
@@ -27,12 +27,14 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
+import static android.view.Gravity.LEFT;
 import static android.view.Gravity.START;
 import static android.view.View.GONE;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private ArrayList<MenuItem> mMenuItems;
     private Context context;
+    private int bigHeadingCounter;
 
 
     MenuAdapter(ArrayList<MenuItem> menuItems, Context context){
@@ -50,7 +52,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         final MenuItem item = mMenuItems.get(position);
         holder.foodName.setText(item.getName());
@@ -158,7 +160,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                             postMessage(order);
                         }
                     });
-                    builder.setTitle(order).setMessage("Would you like to order \"" + order + "\" ?").create().show();
+                    builder.setTitle(order).setMessage("Would you like to request an order of " + order + " ?").create().show();
                 }
             }
         }
@@ -181,10 +183,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     public void done(ParseException e) {
                         notifyDataSetChanged();
                         if (context instanceof CustomerHomeActivity) {
-                            PagerAdapter pAdapter = ((CustomerHomeActivity) context).vpPager.getAdapter();
-                            if (pAdapter != null) {
-                                pAdapter.notifyDataSetChanged();
-                            }
+                            ((CustomerHomeActivity)context).vpPager.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });

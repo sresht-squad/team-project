@@ -3,6 +3,8 @@ package com.example.restauranteur.Server.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.Model.Server;
+import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
@@ -24,6 +27,9 @@ import com.example.restauranteur.Server.Fragment.ServerRequestsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import java.util.List;
@@ -35,15 +41,26 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
-
     public View activeNotificationBadge;
     public View requestNotificationBadge;
+
+    public ServerInfo currentServerInfo;
+
+    Handler handler;
+    Handler newHandler;
+    public int visitBadgeSize;
+    public int messageBadgeSize;
+
+    final String mServerObjectId = Server.getCurrentServer().getObjectId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        updateVisitBadge();
+        updateMessageBadge();
 
         int defaultFragment = R.id.profile;
         Intent intent = getIntent();
@@ -213,6 +230,90 @@ public class ServerHomeActivity extends AppCompatActivity {
         public void onPageScrollStateChanged(int state) {
         }
     }
+
+
+    private void fetchServerInfo(){
+                final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+                query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
+
+                query.findInBackground(new FindCallback<ServerInfo>() {
+                    @Override
+                    public void done(List<ServerInfo> objects, ParseException e) {
+                        final ServerInfo serverInfo = objects.get(0);
+                        visitBadgeSize = serverInfo.getVisits().size();
+                    }
+                });
+
+    }
+
+
+    private void updateVisitBadge() {
+        handler = new Handler();
+        Runnable runner = new Runnable() {
+            @Override
+            public void run() {
+                fetchServerInfo();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addBadgeActiveView(visitBadgeSize);
+                        refreshActiveBadgeView(visitBadgeSize);
+                    }
+                });
+                handler.postDelayed(this,1000);
+
+            }
+        };
+        handler.postDelayed(runner, 1000);
+    }
+
+
+    private void messageListSize(){
+        final ParseQuery<Visit> visitParseQuery = ParseQuery.getQuery(Visit.class);
+        visitParseQuery.whereEqualTo("active", true);
+        //visitParseQuery.whereEqualTo("server", Server.getCurrentServer().getObjectId()).include("server");
+
+        visitParseQuery.findInBackground(new FindCallback<Visit>() {
+            @Override
+            public void done(List<Visit> objects, ParseException e) {
+                messageBadgeSize =0;
+               for (int i = 0 ; i < objects.size() ; i++){
+                   Visit singleVisit = objects.get(i);
+                   if (singleVisit.getServer().getObjectId().equals(Server.getCurrentServer().getObjectId())){
+                       messageBadgeSize+= singleVisit.getMessageList().size();
+                       Log.i("sum", String.valueOf(messageBadgeSize));
+                   }
+               }
+            }
+        });
+
+    }
+
+
+    private void updateMessageBadge(){
+        newHandler = new Handler();
+        Runnable runner = new Runnable() {
+            @Override
+            public void run() {
+                messageListSize();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addBadgeRequestView(messageBadgeSize);
+                        refreshRequestBadgeView(messageBadgeSize);
+                        Log.i("messagesBadging", String.valueOf(messageBadgeSize));
+                    }
+                });
+                newHandler.postDelayed(this,1000);
+            }
+        };
+        newHandler.postDelayed(runner,1000);
+    }
+
+
+
+
+
 
 
 }
