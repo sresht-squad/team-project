@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
@@ -29,9 +30,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -44,14 +47,14 @@ public class ServerHomeActivity extends AppCompatActivity {
     public View activeNotificationBadge;
     public View requestNotificationBadge;
 
-    public ServerInfo currentServerInfo;
 
     Handler handler;
     Handler newHandler;
     public int visitBadgeSize;
     public int messageBadgeSize;
 
-    final String mServerObjectId = Server.getCurrentServer().getObjectId();
+    ArrayList<Message> mMessages;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +161,7 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     //when to make the request badge visible
     public void refreshRequestBadgeView(int numberOfMessages){
-        requestNotificationBadge.setVisibility(numberOfMessages > 0? VISIBLE : GONE);
+        requestNotificationBadge.setVisibility(numberOfMessages != 0? VISIBLE : GONE);
     }
 
 
@@ -276,17 +279,27 @@ public class ServerHomeActivity extends AppCompatActivity {
         visitParseQuery.findInBackground(new FindCallback<Visit>() {
             @Override
             public void done(List<Visit> objects, ParseException e) {
-                messageBadgeSize =0;
-               for (int i = 0 ; i < objects.size() ; i++){
-                   Visit singleVisit = objects.get(i);
-                   if (singleVisit.getServer().getObjectId().equals(Server.getCurrentServer().getObjectId())){
-                       messageBadgeSize+= singleVisit.getMessageList().size();
-                       Log.i("sum", String.valueOf(messageBadgeSize));
-                   }
-               }
+                setMessageBadge(objects);
+
             }
         });
+    }
 
+    private void setMessageBadge (List<Visit> objects){
+        messageBadgeSize = 0;
+        for (int i = 0 ; i < objects.size() ; i++){
+            Visit singleVisit = objects.get(i);
+            if (singleVisit.getServer().getObjectId().equals(Server.getCurrentServer().getObjectId())){
+                final List<ParseObject> messageList = singleVisit.getMessageList();
+                ParseObject.fetchAllInBackground(messageList);
+                for (int j = 0 ; j < messageList.size() ; j++){
+                    Message m = (Message) messageList.get(j);
+                    if(m.getActive()){
+                        messageBadgeSize+=1;
+                    }
+                }
+            }
+        }
     }
 
 
@@ -311,9 +324,63 @@ public class ServerHomeActivity extends AppCompatActivity {
     }
 
 
+    private void serverLoadMessages() {
+        //for all visits that involve this server
+        mMessages = new ArrayList<>();
+        List<Visit> visits = Server.getCurrentServer().getVisits();
+        if (visits == null) {
+            messageBadgeSize = 0;
+            return;
+        }
+        if (mMessages != null) {
+            mMessages.clear();
+        }
+        int visitNum = visits.size();
+        String visitId;
+        //lookup the pointers to get actual visits
+        for (int i = 0; i < visitNum; i++) {
+            visitId = visits.get(i).getObjectId();
+            // look up this visit
+            serverLookupVisit(visitId);
+        }
+    }
 
 
+    private void serverLookupVisit(String visitId) {
+        ParseQuery<Visit> query = ParseQuery.getQuery(Visit.class);
+        query.whereEqualTo("objectId", visitId);
+        query.findInBackground(new FindCallback<Visit>() {
+            @Override
+            public void done(List<Visit> objects, ParseException e) {
+                if (e == null) {
+                    if ((objects != null) && (objects.size() > 0)) {
+                        // there is only one object since we are querying by object id
+                        Visit visit = objects.get(0);
+                        // find all the messages for this visit
+                        serverFindMessages(visit);
+                    }
+                }
+            }
+        });
+    }
 
+
+    private void serverFindMessages(Visit thisVisit) {
+        // get the array of pointers to messages
+        List<ParseObject> messagePointers = thisVisit.getMessageList();
+        try {
+            ParseObject.fetchAllIfNeeded(messagePointers);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < messagePointers.size(); i++) {
+            Message message = (Message) messagePointers.get(i);
+            if (message.getActive()) {
+                mMessages.add(message);
+            }
+        }
+        messageBadgeSize = mMessages.size();
+    }
 
 
 }
