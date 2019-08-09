@@ -123,7 +123,9 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvChat.setLayoutManager(linearLayoutManager);
 
-        displayCurrentMessages();
+        if (visit.getActive()) {
+            displayCurrentMessages();
+        }
     }
 
     private void displayCurrentMessages() {

@@ -122,7 +122,7 @@ public class ServerRequestsFragment extends Fragment {
                 // look up this visit
                 lookupVisit(visitId);
             } catch (JSONException e) {
-
+                e.printStackTrace();
             }
         }
         swipeContainer.setRefreshing(false);
@@ -140,7 +140,9 @@ public class ServerRequestsFragment extends Fragment {
                         // there is only one object since we are querying by object id
                         Visit visit = objects.get(0);
                         // find all the messages for this visit
-                        findMessages(visit);
+                        if (visit.getActive()) {
+                            findMessages(visit);
+                        }
                     }
                 }
             }
