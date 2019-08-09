@@ -1,5 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".BookSearchActivity">
 
     <item
@@ -10,6 +9,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="8dp"
         android:adjustViewBounds="true" />
-
-
+    <item
+        android:id="@+id/completeVisit"
+        android:title="Complete Visit" />
 </menu>
