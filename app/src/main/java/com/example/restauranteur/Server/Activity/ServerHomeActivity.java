@@ -242,8 +242,10 @@ public class ServerHomeActivity extends AppCompatActivity {
                 query.findInBackground(new FindCallback<ServerInfo>() {
                     @Override
                     public void done(List<ServerInfo> objects, ParseException e) {
-                        final ServerInfo serverInfo = objects.get(0);
-                        visitBadgeSize = serverInfo.getVisits().size();
+                        if (objects != null){
+                            final ServerInfo serverInfo = objects.get(0);
+                            visitBadgeSize = serverInfo.getVisits().size();
+                        }
                     }
                 });
 

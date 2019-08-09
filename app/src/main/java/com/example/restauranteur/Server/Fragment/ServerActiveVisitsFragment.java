@@ -88,8 +88,10 @@ public class ServerActiveVisitsFragment extends Fragment {
         query.findInBackground(new FindCallback<ServerInfo>() {
             @Override
             public void done(List<ServerInfo> objects, ParseException e) {
-                info = objects.get(0);
-                fetchActiveVisits();
+                if (objects != null){
+                    info = objects.get(0);
+                    fetchActiveVisits();
+                }
             }
         });
 
