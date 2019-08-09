@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
+import com.example.restauranteur.LoginSignup.SignupActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.MenuItem;
 import com.example.restauranteur.Model.Message;
@@ -30,6 +31,7 @@ import static android.view.Gravity.CENTER;
 import static android.view.Gravity.LEFT;
 import static android.view.Gravity.START;
 import static android.view.View.GONE;
+import static android.widget.Toast.LENGTH_LONG;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private ArrayList<MenuItem> mMenuItems;
@@ -181,6 +183,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        Toast.makeText(context, "Order has been placed", LENGTH_LONG).show();
                         notifyDataSetChanged();
                         if (context instanceof CustomerHomeActivity) {
                             ((CustomerHomeActivity)context).vpPager.getAdapter().notifyDataSetChanged();
