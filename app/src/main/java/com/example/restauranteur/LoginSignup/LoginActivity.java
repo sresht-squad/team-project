@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import static com.parse.ParseObject.fetchAll;
 import static com.parse.ParseUser.getCurrentUser;
 import static com.parse.ParseUser.logInInBackground;
 
@@ -100,11 +102,13 @@ public class LoginActivity extends AppCompatActivity {
                         intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
                     } else{
                         final Customer customer = new Customer(getCurrentUser());
-                        if (customer.getCurrentVisit() == null) {
+                        final Visit v = customer.getCurrentVisit();
+                        //persists visit for login
+                        if ((v != null) && v.getActive()) {
                             resetPreferences();
-                            intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
-                        } else {
                             intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
                         }
                     }
                     startActivity(intent);
