@@ -17,10 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
-import com.example.restauranteur.Customer.Fragment.MenuAdapter;
 import com.example.restauranteur.Model.Message;
-import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -158,5 +155,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             }
         });
     }
+
+
+
+
+
+
 
 }

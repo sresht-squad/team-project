@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,11 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.RequestsAdapter;
-import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
-import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Model.Visit;
+import com.example.restauranteur.R;
+import com.example.restauranteur.RequestsAdapter;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
@@ -108,6 +106,7 @@ public class CustomerRequestsFragment extends Fragment {
             }
         });
     }
+
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {

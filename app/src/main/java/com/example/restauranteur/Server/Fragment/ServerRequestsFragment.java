@@ -165,6 +165,7 @@ public class ServerRequestsFragment extends Fragment {
                 message.tableNum = tableNumber;
                 mMessages.add(message);
             }
+
             if (mMessages.size() > 0) {
                 mMessages.sort(new Comparator<Message>() {
                     public int compare(Message m1, Message m2) {
@@ -189,6 +190,9 @@ public class ServerRequestsFragment extends Fragment {
         }
 
     }
+
+
+
 
 
 
