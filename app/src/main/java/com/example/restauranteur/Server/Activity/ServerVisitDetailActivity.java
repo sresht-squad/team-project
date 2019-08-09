@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Model.CustomerInfo;
 import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
