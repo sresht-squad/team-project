@@ -2,49 +2,37 @@ package com.example.restauranteur.Customer.Fragment;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.restauranteur.Customer.Activity.CustomerHomeActivity;
 import com.example.restauranteur.RequestsAdapter;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static android.os.SystemClock.sleep;
 
 public class CustomerRequestsFragment extends Fragment {
 
-    private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     private RecyclerView rvChat;
     private ArrayList<Message> mMessages;
     private RequestsAdapter mAdapter;
@@ -52,20 +40,19 @@ public class CustomerRequestsFragment extends Fragment {
     private Button btSend;
     private Customer customer;
     private Visit visit;
-    private ImageButton ibCheck;
-    private boolean sentCheck;
+    public ImageButton ibCheck;
     private SwipeRefreshLayout swipeContainer;
 
 
     public CustomerRequestsFragment() {
-        //empty constructor required
+        setRetainInstance(true);
     }
 
     public static CustomerRequestsFragment newInstance(int page, String title) {
         CustomerRequestsFragment fragmentFirst = new CustomerRequestsFragment();
         Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
+        args.putInt("int", page);
+        args.putString("title", title);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
@@ -89,25 +76,25 @@ public class CustomerRequestsFragment extends Fragment {
         final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
         final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
         final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+        mMessages = new ArrayList<>();
+        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         ibCheck = view.findViewById(R.id.ibCheck);
 
+        //sending the waiter a request for general help
 
         ibServerHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverHelpRequest = "In-person assistance";
-                changeColors(ibServerHelp);
                 generateQuickRequest(serverHelpRequest);
             }
         });
 
         //sending the waiter a request to get the water
-        //still need to connect to visit
         ibRefill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String waterRequest = "Refill";
-                changeColors(ibRefill);
                 generateQuickRequest(waterRequest);
             }
         });
@@ -115,28 +102,25 @@ public class CustomerRequestsFragment extends Fragment {
 
         //sending the waiter request to get the check
         //still need to connect to visit
-        if (sentCheck) {
+        if (mAdapter.getSentCheck()) {
+        //if the check has already been requested, it will go away
             ibCheck.setVisibility(View.GONE);
         } else {
             ibCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String checkRequest = "Check";
-                    changeColors(ibCheck);
                     generateQuickRequest(checkRequest);
                     ibCheck.setVisibility(View.GONE);
-                    sentCheck = true;
                 }
             });
         }
 
         //sending the waiter request to get the check
-        //still need to connect to visit
         ibToGoBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String toGoBoxRequest = "To go boxes";
-                changeColors(ibToGoBox);
                 generateQuickRequest(toGoBoxRequest);
             }
         });
@@ -145,11 +129,11 @@ public class CustomerRequestsFragment extends Fragment {
         etMessage = view.findViewById(R.id.etMessage);
         btSend = view.findViewById(R.id.btSend);
         rvChat = view.findViewById(R.id.rvChat);
-        mMessages = new ArrayList<>();
         customer = new Customer(ParseUser.getCurrentUser());
         visit = customer.getCurrentVisit();
-        final String userId = Customer.getCurrentCustomer().getObjectId();
-        Log.d("current customer", userId);
+
+
+        //find and set the adapter
         mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         rvChat.setAdapter(mAdapter);
 
@@ -164,7 +148,7 @@ public class CustomerRequestsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 checkForCompletedOrders();
-                //now make sure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
+                //ensure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
             }
         });
 
@@ -179,15 +163,8 @@ public class CustomerRequestsFragment extends Fragment {
 
     }
 
-    private void changeColors(final ImageView view) {
-        view.setBackgroundResource(R.drawable.rounded_image_button_pressed);
-        sleep(150);
-        view.setBackgroundResource(R.drawable.rounded_image_button_selector);
-
-    }
 
     private void generateQuickRequest(final String request) {
-
         final Message message = new Message();
         message.setAuthor(customer);
         message.setBody(request);
@@ -200,14 +177,19 @@ public class CustomerRequestsFragment extends Fragment {
                 visit.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Log.i("VisitMessage", "added message to visit");
-                        mMessages.clear();
-                        displayCurrentMessages();
+                        mMessages.add(message);
+                        mAdapter.notifyItemInserted(mMessages.size() - 1);
                         rvChat.scrollToPosition(mMessages.size() - 1);
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -230,7 +212,7 @@ public class CustomerRequestsFragment extends Fragment {
 
 
     private void postMessage() {
-        String data = etMessage.getText().toString();
+        final String data = etMessage.getText().toString();
         // Using new `Message` Parse-backed model now
         final Message message = new Message();
         message.setBody(data);
@@ -262,7 +244,7 @@ public class CustomerRequestsFragment extends Fragment {
         if (mMessages != null) {
             mMessages.clear();
         }
-        List<ParseObject> messageList = visit.getMessageList();
+        final List<ParseObject> messageList = visit.getMessageList();
         ParseObject.fetchAllInBackground(messageList);
         for (int i = 0; i < messageList.size(); i++) {
             Message message = (Message) messageList.get(i);

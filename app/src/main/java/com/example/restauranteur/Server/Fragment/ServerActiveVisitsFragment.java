@@ -31,16 +31,13 @@ public class ServerActiveVisitsFragment extends Fragment {
 
     ServerInfo info;
 
-    private static ServerActiveVisitsFragment mActiveVisitsFragment;
 
     public ServerActiveVisitsFragment() {
         //required empty constructor
     }
 
     public static ServerActiveVisitsFragment newInstance(int page, String title) {
-        if (mActiveVisitsFragment == null){
-            mActiveVisitsFragment = new ServerActiveVisitsFragment();
-        }
+        ServerActiveVisitsFragment mActiveVisitsFragment = new ServerActiveVisitsFragment();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);

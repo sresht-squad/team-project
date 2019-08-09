@@ -1,6 +1,7 @@
 package com.example.restauranteur.Server.Fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -186,20 +187,8 @@ public class ServerRequestsFragment extends Fragment {
     }
 
 
-    private void refreshMessages(){
-        for (int i = 0; i < mMessages.size(); i++) {
-            Message message = mMessages.get(i);
-            if (!message.getActive()) {
-                mMessages.remove(message);
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-        getNewMessages();
-        swipeContainer.setRefreshing(false);
-    }
 
 
-    private void getNewMessages(){
 
-    }
+
 }

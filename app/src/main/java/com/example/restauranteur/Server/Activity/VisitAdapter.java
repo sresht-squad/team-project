@@ -60,13 +60,16 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 //get the first name
-                final String customerName = objects.get(0).getString("firstName");
+                if (objects != null && objects.size() > 0){
+                    final String customerName = objects.get(0).getString("firstName");
 
-                //format it like so: Name (number in party)
-                final int numCustomers = visit.getJSONArray("customers").length();
-                nameText = "(" + numCustomers +") " + customerName;
-                holder.tvActiveVisit.setText(nameText);
-                holder.tvTableNumber.setText(visit.getTableNumber());
+                    //format it like so: Name (number in party)
+                    final int numCustomers = visit.getJSONArray("customers").length();
+                    nameText = "(" + numCustomers +") " + customerName;
+                    holder.tvName.setText(nameText);
+                    holder.tvTableNumber.setText(visit.getTableNumber());
+                }
+
             }
         });
     }
@@ -78,13 +81,13 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView tvActiveVisit;
+        TextView tvName;
         TextView tvTableNumber;
 
         public ViewHolder(View itemView){
             super(itemView);
             // connects with imageView
-            tvActiveVisit = itemView.findViewById(R.id.tvActiveVisit);
+            tvName = itemView.findViewById(R.id.tvName);
             tvTableNumber = itemView.findViewById(R.id.tvTableNumber);
             itemView.setOnClickListener(this);
         }
@@ -114,7 +117,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.ViewHolder> 
                 final Intent intent = new Intent(context, ServerVisitDetailActivity.class);
                 final Visit visit = mVisits.get(position);
                 intent.putExtra("VISIT", visit);
-                intent.putExtra("NAME_TEXT", nameText);
+                intent.putExtra("NAME_TEXT", tvName.getText());
                 context.startActivity(intent);
             }
         }

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.restauranteur.LoginSignup.LoginActivity;
@@ -25,12 +24,8 @@ import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.R;
 
 public class ServerProfileFragment extends Fragment implements NfcAdapter.CreateNdefMessageCallback{
-    TextView tvId;
-    EditText etTableNum;
-    private String title;
-    private int page;
-    private Button btnLogout;
-    private CardView cvImageholder;
+    private TextView tvId;
+    private EditText etTableNum;
 
     public ServerProfileFragment() {
         // Required empty public constructor
@@ -49,8 +44,6 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
     }
 
     @Override
@@ -64,9 +57,9 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
 
         tvId = view.findViewById(R.id.tvId);
         etTableNum = view.findViewById(R.id.etTableNum);
-        cvImageholder = view.findViewById(R.id.cvImageholder);
+        Button btnLogout = view.findViewById(R.id.btnLogout);
 
-        cvImageholder.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
@@ -113,8 +106,7 @@ public class ServerProfileFragment extends Fragment implements NfcAdapter.Create
         //they will go in the same ndef message
         NdefRecord ndefRecord1 = NdefRecord.createMime("text/plain", message1.getBytes());
         NdefRecord ndefRecord2 = NdefRecord.createMime("text/plain", message2.getBytes());
-        NdefMessage ndefMessage = new NdefMessage(ndefRecord1,ndefRecord2);
-        return ndefMessage;
+        return new NdefMessage(ndefRecord1,ndefRecord2);
     }
 
 }

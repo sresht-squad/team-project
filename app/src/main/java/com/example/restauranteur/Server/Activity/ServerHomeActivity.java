@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
+import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.example.restauranteur.Server.Fragment.ServerActiveVisitsFragment;
 import com.example.restauranteur.Server.Fragment.ServerProfileFragment;
@@ -48,7 +49,11 @@ public class ServerHomeActivity extends AppCompatActivity {
     public ServerInfo currentServerInfo;
 
     Handler handler;
-    public int badgingSize;
+    Handler newHandler;
+    public int visitBadgeSize;
+    public int messageBadgeSize;
+
+    final String mServerObjectId = Server.getCurrentServer().getObjectId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,8 @@ public class ServerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_server_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        updateBadging();
+        updateVisitBadge();
+        updateMessageBadge();
 
         int defaultFragment = R.id.profile;
         Intent intent = getIntent();
@@ -248,34 +254,80 @@ public class ServerHomeActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ServerInfo> objects, ParseException e) {
                         final ServerInfo serverInfo = objects.get(0);
-                        badgingSize = serverInfo.getVisits().size();
-                        Log.i("Size is", String.valueOf(badgingSize));
+                        visitBadgeSize = serverInfo.getVisits().size();
                     }
                 });
 
     }
 
 
-    private void updateBadging() {
+    private void updateVisitBadge() {
         handler = new Handler();
-        Runnable r = new Runnable() {
+        Runnable runner = new Runnable() {
             @Override
             public void run() {
                 fetchServerInfo();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        addBadgeActiveView(badgingSize);
-                        refreshActiveBadgeView(badgingSize);
-                        Log.i("badging", String.valueOf(badgingSize));
+                        addBadgeActiveView(visitBadgeSize);
+                        refreshActiveBadgeView(visitBadgeSize);
                     }
                 });
                 handler.postDelayed(this,1000);
 
             }
         };
-        handler.postDelayed(r, 1000);
+        handler.postDelayed(runner, 1000);
     }
+
+
+    private void messageListSize(){
+        final ParseQuery<Visit> visitParseQuery = ParseQuery.getQuery(Visit.class);
+        visitParseQuery.whereEqualTo("active", true);
+        //visitParseQuery.whereEqualTo("server", Server.getCurrentServer().getObjectId()).include("server");
+
+        visitParseQuery.findInBackground(new FindCallback<Visit>() {
+            @Override
+            public void done(List<Visit> objects, ParseException e) {
+                messageBadgeSize =0;
+               for (int i = 0 ; i < objects.size() ; i++){
+                   Visit singleVisit = objects.get(i);
+                   if (singleVisit.getServer().getObjectId().equals(Server.getCurrentServer().getObjectId())){
+                       messageBadgeSize+= singleVisit.getMessageList().size();
+                       Log.i("sum", String.valueOf(messageBadgeSize));
+                   }
+               }
+            }
+        });
+
+    }
+
+
+    private void updateMessageBadge(){
+        newHandler = new Handler();
+        Runnable runner = new Runnable() {
+            @Override
+            public void run() {
+                messageListSize();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addBadgeRequestView(messageBadgeSize);
+                        refreshRequestBadgeView(messageBadgeSize);
+                        Log.i("messagesBadging", String.valueOf(messageBadgeSize));
+                    }
+                });
+                newHandler.postDelayed(this,1000);
+            }
+        };
+        newHandler.postDelayed(runner,1000);
+    }
+
+
+
+
+
 
 
 }

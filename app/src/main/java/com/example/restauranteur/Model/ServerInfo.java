@@ -30,7 +30,7 @@ public class ServerInfo extends ParseObject {
 
     public JSONArray getVisitsJSON() {
         try {
-            return fetchIfNeeded().getJSONArray("visits");
+            return fetch().getJSONArray("visits");
         } catch (ParseException e){
             return null;
         }
