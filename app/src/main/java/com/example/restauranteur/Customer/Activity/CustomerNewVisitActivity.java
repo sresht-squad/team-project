@@ -80,7 +80,7 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
     private void findServer(){
         //query for the server with the username/serverId that the customer entered
         final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-        parseQuery.whereEqualTo("username", serverId);
+        parseQuery.whereEqualTo("username", serverId).whereEqualTo("server",true);
 
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
