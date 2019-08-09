@@ -1,9 +1,11 @@
 package com.example.restauranteur.LoginSignup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -228,6 +230,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void login(final String username, final String password) {
+        resetPreferences();
         logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
@@ -243,6 +246,13 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    void resetPreferences(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showCheckButton", true); // value to store
+        editor.commit();
     }
 
 }

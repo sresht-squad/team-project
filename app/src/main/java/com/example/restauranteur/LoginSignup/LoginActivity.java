@@ -1,8 +1,10 @@
 package com.example.restauranteur.LoginSignup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -55,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent;
                 //persists current visit
                 if (customer.getCurrentVisit() == null) {
+                    resetPreferences();
                     intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
                 } else {
                     intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
@@ -68,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                resetPreferences();
                 final String username = etGetUsername.getText().toString();
                 final String password = etGetPassword.getText().toString();
                 login(username, password);
@@ -102,5 +106,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+   void resetPreferences(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showCheckButton", true); // value to store
+        editor.commit();
     }
 }

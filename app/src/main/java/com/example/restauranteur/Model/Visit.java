@@ -18,6 +18,7 @@ public class Visit extends ParseObject {
     private static final String KEY_CUSTOMERS = "customers";
     private static final String KEY_SERVER = "server";
     private static final String KEY_ACTIVE = "active";
+    public  static boolean showCheck = true;
 
     // get and setter for table number
     public void setTableNumber(String tableNum) {

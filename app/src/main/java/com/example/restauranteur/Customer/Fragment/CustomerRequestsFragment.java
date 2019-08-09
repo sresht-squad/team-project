@@ -1,7 +1,9 @@
 package com.example.restauranteur.Customer.Fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +27,6 @@ import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Model.Message;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -39,9 +40,11 @@ public class CustomerRequestsFragment extends Fragment {
     private EditText etMessage;
     private Button btSend;
     private Customer customer;
-    private Visit visit;
     private ImageButton ibCheck;
     private SwipeRefreshLayout swipeContainer;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private Visit visit;
 
 
     public CustomerRequestsFragment() {
@@ -61,6 +64,8 @@ public class CustomerRequestsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = preferences.edit();
     }
 
     @Override
@@ -73,94 +78,12 @@ public class CustomerRequestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
-        final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
-        final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
         mMessages = new ArrayList<>();
-        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
         ibCheck = view.findViewById(R.id.ibCheck);
-
-        //sending the waiter a request for general help
-
-        ibServerHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String serverHelpRequest = "In-person assistance";
-                generateQuickRequest(serverHelpRequest);
-            }
-        });
-
-        //sending the waiter a request to get the water
-        ibRefill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String waterRequest = "Refill";
-                generateQuickRequest(waterRequest);
-            }
-        });
-
-
-        //sending the waiter request to get the check
-        //still need to connect to visit
-        if (mAdapter.getSentCheck()) {
-        //if the check has already been requested, it will go away
-            ibCheck.setVisibility(View.GONE);
-        } else {
-            ibCheck.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String checkRequest = "Check";
-                    generateQuickRequest(checkRequest);
-                    ibCheck.setVisibility(View.GONE);
-                }
-            });
-        }
-
-        //sending the waiter request to get the check
-        ibToGoBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String toGoBoxRequest = "To go boxes";
-                generateQuickRequest(toGoBoxRequest);
-            }
-        });
-
-        // Find the text field and button
-        etMessage = view.findViewById(R.id.etMessage);
-        btSend = view.findViewById(R.id.btSend);
-        rvChat = view.findViewById(R.id.rvChat);
-        customer = new Customer(ParseUser.getCurrentUser());
-        visit = customer.getCurrentVisit();
-
-
-        //find and set the adapter
         mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
-        rvChat.setAdapter(mAdapter);
-
-        // associate the LayoutManager with the RecyclerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvChat.setLayoutManager(linearLayoutManager);
-
-
-        swipeContainer = view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkForCompletedOrders();
-                //ensure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
-            }
-        });
-
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(R.color.lightBlueMaterialDesign,
-                R.color.yellow,
-                android.R.color.holo_red_light);
-
-
-        setupMessagePosting();
-        displayCurrentMessages();
-
+        customer = Customer.getCurrentCustomer();
+        visit = customer.getCurrentVisit();
+        refreshView(view);
     }
 
 
@@ -184,17 +107,6 @@ public class CustomerRequestsFragment extends Fragment {
                 });
             }
         });
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     // Setup button event handler which posts the entered message to Parse
@@ -266,5 +178,101 @@ public class CustomerRequestsFragment extends Fragment {
             }
         }
         swipeContainer.setRefreshing(false);
+    }
+
+    private void refreshView(View view){
+
+        final ImageButton ibServerHelp = view.findViewById(R.id.ibServerHelp);
+        final ImageButton ibRefill = view.findViewById(R.id.ibRefill);
+        final ImageButton ibToGoBox = view.findViewById(R.id.ibToGoBox);
+
+        //sending the waiter a request for general help
+
+        ibServerHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverHelpRequest = "In-person assistance";
+                generateQuickRequest(serverHelpRequest);
+            }
+        });
+
+        //sending the waiter a request to get the water
+        ibRefill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String waterRequest = "Refill";
+                generateQuickRequest(waterRequest);
+            }
+        });
+
+
+        //sending the waiter request to get the check
+        //still need to connect to visit
+
+        if (preferences.getBoolean("showCheckButton",true)) {
+            ibCheck.setVisibility(View.VISIBLE);
+            ibCheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String checkRequest = "Check";
+                    generateQuickRequest(checkRequest);
+                    ibCheck.setVisibility(View.GONE);
+                    //saves status even if app is destroyed
+                    editor.putBoolean("showCheckButton", false);
+                    // Commit the edits!
+                    editor.commit();
+                }
+            });
+        } else {
+            ibCheck.setVisibility(View.GONE);
+        }
+
+        //sending the waiter request to get the check
+        ibToGoBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toGoBoxRequest = "To go boxes";
+                generateQuickRequest(toGoBoxRequest);
+            }
+        });
+
+        // Find the text field and button
+        etMessage = view.findViewById(R.id.etMessage);
+        btSend = view.findViewById(R.id.btSend);
+        rvChat = view.findViewById(R.id.rvChat);
+
+
+        //find and set the adapter
+        mAdapter = new RequestsAdapter(getContext(), false, false, mMessages);
+        rvChat.setAdapter(mAdapter);
+
+        // associate the LayoutManager with the RecyclerView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvChat.setLayoutManager(linearLayoutManager);
+
+
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkForCompletedOrders();
+                //ensure swipeContainer.setRefreshing is set to false in displayCurrentMessages()
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(R.color.lightBlueMaterialDesign,
+                R.color.yellow,
+                android.R.color.holo_red_light);
+
+        setupMessagePosting();
+        displayCurrentMessages();
+    }
+
+    @Override
+    public void onResume() {
+        refreshView(getView());
+        super.onResume();
     }
 }

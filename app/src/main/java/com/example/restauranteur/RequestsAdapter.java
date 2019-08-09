@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +17,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
+import com.example.restauranteur.Customer.Fragment.MenuAdapter;
 import com.example.restauranteur.Model.Message;
+import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.Server.Activity.ServerVisitDetailActivity;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
-import static android.view.View.GONE;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
     private List<Message> mMessages;
@@ -30,14 +34,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private Boolean detailPage;
     private Context context;
     private ImageButton ibCheck;
-    static private Boolean sentCheck;
     private TextView tvCheck;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+
 
     public RequestsAdapter(Context myContext, Boolean serverScreen, Boolean detailScreen, List<Message> messages) {
         mMessages = messages;
         serverPage = serverScreen;
         detailPage = detailScreen;
         context = myContext;
+        preferences = PreferenceManager.getDefaultSharedPreferences(myContext);
+        editor = preferences.edit();
     }
 
     @Override
@@ -57,9 +65,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             contactView = inflater.inflate(R.layout.item_chat_customer, parent, false);
             ibCheck = ((Activity) context).findViewById(R.id.ibCheck);
             tvCheck = ((Activity) context).findViewById(R.id.tvCheck);
-            if ((sentCheck != null) && sentCheck){
-                ibCheck.setVisibility(GONE);
-            }
         }
 
         return new ViewHolder(contactView);
@@ -73,13 +78,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         holder.body.setText(message.getBody());
-        if (!serverPage) {
-            if (((sentCheck != null) && sentCheck) || message.getBody().equals("Check")) {
-                ibCheck.setVisibility(GONE);
-                tvCheck.setVisibility(GONE);
-                sentCheck = true;
-            }
-        }
     }
 
     @Override
@@ -123,7 +121,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             if (m.getBody().equals("Check")) {
                                 ibCheck.setVisibility(View.VISIBLE);
                                 tvCheck.setVisibility(View.VISIBLE);
-                                sentCheck = false;
+                                editor.putBoolean("showCheckButton", true);
+                                // Commit the edits!
+                                editor.commit();
                             }
                         }
                     }).setTitle(foodName).setMessage("Would you like to cancel your request?").create().show();
@@ -157,13 +157,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 }
             }
         });
-    }
-
-    public Boolean getSentCheck(){
-        if (sentCheck == null){
-            return false;
-        }
-        return sentCheck;
     }
 
 }

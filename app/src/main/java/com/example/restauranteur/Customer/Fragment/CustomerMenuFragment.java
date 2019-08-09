@@ -43,7 +43,7 @@ public class CustomerMenuFragment extends Fragment{
     private ArrayList<MenuItem> foodItems;
     private String restaurantName;
     private TextView menuName;
-    private JSONArray menus;
+    public static JSONArray menus;
 
     public CustomerMenuFragment() {
         //required empty constructor
@@ -91,7 +91,11 @@ public class CustomerMenuFragment extends Fragment{
         final String menuAuthentication = "/menu?client_id=" + REST_CONSUMER_KEY + "&client_secret=" + REST_CONSUMER_SECRET + "&v=20190729";
 
         final Visit visit = Customer.getCurrentCustomer().getCurrentVisit();
-        final String restaurant = visit.getServer().getServerInfo().getRestaurantId();
+
+        String restaurant = "";
+        if (visit.getServer().getServerInfo() != null) {
+            restaurant = visit.getServer().getServerInfo().getRestaurantId();
+        }
 
         final String url_venue_details = "https://api.foursquare.com/v2/venues/" + restaurant + authentication;
         final String url_menu = "https://api.foursquare.com/v2/venues/" + restaurant + menuAuthentication;

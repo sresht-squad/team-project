@@ -21,6 +21,7 @@ import com.example.restauranteur.Customer.Fragment.CustomerMenuFragment;
 import com.example.restauranteur.Customer.Fragment.CustomerRequestsFragment;
 import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
+import com.example.restauranteur.Model.Visit;
 import com.example.restauranteur.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
@@ -28,6 +29,7 @@ import com.pixelcan.inkpageindicator.InkPageIndicator;
 public class CustomerHomeActivity extends AppCompatActivity {
     private BottomNavigationView customerBottomNavigation;
     public ViewPager vpPager;
+    public Visit visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
         customerBottomNavigation.setSelectedItemId(R.id.action_menu);
 
         vpPager.setOffscreenPageLimit(3);
+        final Customer customer = Customer.getCurrentCustomer();
+        visit = customer.getCurrentVisit();
     }
 
     @Override
