@@ -98,8 +98,14 @@ public class LoginActivity extends AppCompatActivity {
                     final Intent intent;
                     if (getCurrentUser().getBoolean("server")) {
                         intent = new Intent(LoginActivity.this, ServerHomeActivity.class);
-                    } else {
-                        intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
+                    } else{
+                        final Customer customer = new Customer(getCurrentUser());
+                        if (customer.getCurrentVisit() == null) {
+                            resetPreferences();
+                            intent = new Intent(LoginActivity.this, CustomerNewVisitActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+                        }
                     }
                     startActivity(intent);
                     finish();
