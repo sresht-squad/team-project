@@ -63,7 +63,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         updateVisitBadge();
-        updateMessageBadge();
+        //updateMessageBadge();
 
         int defaultFragment = R.id.profile;
         Intent intent = getIntent();

@@ -7,6 +7,7 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +101,14 @@ public class Visit extends ParseObject {
                 return null;
             }
         }
+
+
+
+    public void removeMessage(Message message) {
+        List<Message> removedMessage = new ArrayList<>();
+        removedMessage.add(message);
+        removeAll("messages", removedMessage);
+    }
 
     //From the order class include the waiter table and customer table
     public static class Query extends ParseQuery<Visit> {

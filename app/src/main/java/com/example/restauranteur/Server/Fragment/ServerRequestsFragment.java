@@ -181,11 +181,11 @@ public class ServerRequestsFragment extends Fragment {
             mAdapter.notifyDataSetChanged();
         }
 
-        /*if (getActivity() instanceof ServerHomeActivity) {
+        if (getActivity() instanceof ServerHomeActivity) {
             final ServerHomeActivity homeActivity = (ServerHomeActivity) getActivity();
             homeActivity.addBadgeRequestView(mMessages.size());
             homeActivity.refreshRequestBadgeView(mMessages.size());
-        }*/
+        }
 
     }
 
