@@ -57,22 +57,23 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         String nameText = intent.getStringExtra("NAME_TEXT");
 
         //id lookups
-        final TextView tvTableNumber = (TextView) findViewById(R.id.tvTableNumber);
-        final ImageButton ibBack = (ImageButton) findViewById(R.id.ibBack);
-        final TextView tvBack = (TextView) findViewById(R.id.tvBack);
+        final TextView tvTableNumber = findViewById(R.id.tvTableNumber);
+        final ImageButton ibBack = findViewById(R.id.ibBack);
+        final TextView tvBack = findViewById(R.id.tvBack);
 
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
-        clHeadings = (ConstraintLayout) findViewById(R.id.clHeadings);
-        tvNoRequests = (TextView) findViewById(R.id.tvNoRequests);
-        tvWYLT = (TextView) findViewById(R.id.tvWYLT);
-        btnComplete = (Button) findViewById(R.id.btnComplete);
-        ivNoRequests = (ImageView) findViewById(R.id.ivNoRequests);
+        rvChat = findViewById(R.id.rvChat);
+        clHeadings =  findViewById(R.id.clHeadings);
+        tvNoRequests = findViewById(R.id.tvNoRequests);
+        tvWYLT = findViewById(R.id.tvWYLT);
+        btnComplete = findViewById(R.id.btnComplete);
+        ivNoRequests = findViewById(R.id.ivNoRequests);
 
         //get table number
         final String tableNumber = visit.getTableNumber();
 
         //set table number title text
-        tvTableNumber.setText(nameText + ", Table " + tableNumber);
+        String finalText = nameText + ", Table " + tableNumber;
+        tvTableNumber.setText(finalText);
 
         //set chat adapter
         mMessages = new ArrayList<>();
@@ -95,7 +96,9 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
                         serverInfo.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
-                                Log.i("removed", "visit");
+                                if (e != null){
+                                    e.printStackTrace();
+                                }
                             }
                         });
 
@@ -111,9 +114,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         View.OnClickListener back = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(ServerVisitDetailActivity.this, ServerHomeActivity.class);
-                intent.putExtra("DETAIL", true);
-                startActivity(intent);
+                finish();
             }
         };
 
@@ -147,15 +148,14 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
             //get pointer to message from JSON data
             try {
                 messagePointer = messages.getJSONObject(i).getString("objectId");
-                Log.i("MESSAGE_ID", messagePointer);
             } catch (JSONException e) {
-                Log.i("MESS_ERROR", messagePointer);
+                e.printStackTrace();
             }
             query.whereEqualTo("objectId", messagePointer).whereEqualTo("active", true);
             queries.add(query);
         }
 
-        if  (queries.size() > 0) {
+        if(queries.size() > 0) {
             ParseQuery<Message> mainQuery = ParseQuery.or(queries);
             mainQuery.orderByAscending("createdAt");
             mainQuery.findInBackground(new FindCallback<Message>() {
@@ -181,7 +181,7 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setVisibilities(){
+    public void setVisibilities(){
         rvChat.setVisibility(View.GONE);
         clHeadings.setVisibility(View.GONE);
         tvNoRequests.setVisibility(View.VISIBLE);

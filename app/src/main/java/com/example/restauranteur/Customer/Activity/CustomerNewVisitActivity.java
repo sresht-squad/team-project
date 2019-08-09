@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.LoginSignup.LoginActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
-import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Message;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
@@ -39,13 +38,13 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class CustomerNewVisitActivity extends AppCompatActivity {
 
-    EditText etServerId;
-    Button btnNewVisit;
-    EditText etTableNumber;
-    ImageView ivLogo;
-    Visit visit;
-    Server server;
-    Installation installation;
+    private EditText etServerId;
+    private Button btnNewVisit;
+    private EditText etTableNumber;
+    private Visit visit;
+    private Server server;
+    private String tableNum;
+    private String serverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +56,13 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
         etServerId = findViewById(R.id.etServerId);
         btnNewVisit = findViewById(R.id.btnNewVisit);
         etTableNumber = findViewById(R.id.tvTableNumber);
-        ivLogo = findViewById(R.id.ivLogo);
 
 
         btnNewVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String serverId = etServerId.getText().toString();
-                final String tableNum = etTableNumber.getText().toString();
+                serverId = etServerId.getText().toString();
+                tableNum = etTableNumber.getText().toString();
 
                 if (serverId.equals("")){
                     Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for their ID", LENGTH_LONG).show();
@@ -72,114 +70,134 @@ public class CustomerNewVisitActivity extends AppCompatActivity {
                 else if (tableNum.equals("")) {
                     Toast.makeText(CustomerNewVisitActivity.this, "Please ask your server for the table number ", LENGTH_LONG).show();
 
+                }
+                else {
+                    findServer();
+                }
+            }
+        });
+    }
+
+    private void findServer(){
+        //query for the server with the username/serverId that the customer entered
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("username", serverId);
+
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(final List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() == 0) {
+                        Toast.makeText(CustomerNewVisitActivity.this, "Invalid server ID. Please ask your server for their ID", LENGTH_LONG).show();
+                        return;
+                    }
+                    server = new Server(objects.get(0));
+                    checkVisitExists();
+
+                }else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //check if visit already exists & this is another customer at same table
+    private void checkVisitExists(){
+        final Visit.Query parseVisitQuery = new Visit.Query();
+        parseVisitQuery.checkSameVisit(server, tableNum);
+
+        parseVisitQuery.findInBackground(new FindCallback<Visit>() {
+            @Override
+            public void done(List<Visit> visitObjects, ParseException e) {
+                if (e == null) {
+                    //if visit doesn't already exist, create new visit
+                    if (visitObjects.size() == 0 || !visitObjects.get(0).getActive()) {
+                        createNewVisit();
+                    }
+                    //if visit already exists, add customer to visit
+                    else {
+                        final Visit sameVisit = visitObjects.get(0);
+                        addCustomerToVisit(sameVisit);
+                    }
                 } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-                    //query for the server with the username/serverId that the customer entered
-                    final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-                    parseQuery.whereEqualTo("username", serverId);
+    private void addCustomerToVisit(Visit sameVisit){
+        sameVisit.addCustomer(Customer.getCurrentCustomer());
+        sameVisit.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+                final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
 
-                    parseQuery.findInBackground(new FindCallback<ParseUser>() {
+    private void createNewVisit(){
+        //creating new visit
+        visit = new Visit();
+        Customer customer = Customer.getCurrentCustomer();
+        //add customer to new visit
+        visit.put("customers", new ArrayList<ParseUser>());
+        visit.addCustomer(customer);
+        visit.setTableNumber(tableNum);
+        visit.setActive(true);
+        final CustomerInfo customerInfo = customer.getInfo();
+        customerInfo.setVisit(visit);
+        ArrayList<Message> messageArrayList = new ArrayList<Message>();
+        visit.put("messages", messageArrayList);
+        visit.setServer(server);
+        visit.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    addToServerInfo();
+
+                    //add to customerInfo
+                    customerInfo.saveInBackground(new SaveCallback() {
                         @Override
-                        public void done(final List<ParseUser> objects, ParseException e) {
-                            if (e == null) {
-                                if (objects.size() == 0) {
-                                    Toast.makeText(CustomerNewVisitActivity.this, "Invalid server ID. Please ask your server for their ID", LENGTH_LONG).show();
-                                    return;
-                                }
-                                    server = new Server(objects.get(0));
-
-                                    //check if visit already exists & this is another customer at same table
-                                    final Visit.Query parseVisitQuery = new Visit.Query();
-                                    parseVisitQuery.checkSameVisit(server, tableNum);
-
-                                    parseVisitQuery.findInBackground(new FindCallback<Visit>() {
-                                        @Override
-                                        public void done(List<Visit> visitObjects, ParseException e) {
-                                            if (e == null) {
-                                                //if visit doesn't already exist, create new visit
-                                                if (visitObjects.size() == 0 || !visitObjects.get(0).getActive()) {
-                                                    //creating new visit
-                                                    visit = new Visit();
-                                                    Customer customer = Customer.getCurrentCustomer();
-                                                    //add customer to new visit
-                                                    visit.put("customers", new ArrayList<ParseUser>());
-                                                    visit.addCustomer(customer);
-                                                    visit.setTableNumber(tableNum);
-                                                    visit.setActive(true);
-                                                    final CustomerInfo customerInfo = customer.getInfo();
-                                                    customerInfo.setVisit(visit);
-                                                    ArrayList<Message> messageArrayList = new ArrayList<Message>();
-                                                    visit.put("messages", messageArrayList);
-                                                    visit.setServer(server);
-                                                    visit.saveInBackground(new SaveCallback() {
-                                                        @Override
-                                                        public void done(ParseException e) {
-                                                            if (e != null) {
-                                                                e.printStackTrace();
-                                                            } else {
-                                                                //Adds the current new Visit into the serverInfo's visit's array
-                                                                //Query to find the serverInfo object that matches the server
-                                                                ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
-                                                                query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
-
-                                                                query.findInBackground(new FindCallback<ServerInfo>() {
-                                                                    @Override
-                                                                    public void done(List<ServerInfo> objects, ParseException e) {
-                                                                        // ServerInfo is made into the ServerInfo Object found
-                                                                        ServerInfo serverInfo = objects.get(0);
-                                                                        // inside the serverInfo object we add a visit to the Visit array
-                                                                        serverInfo.addVisit(visit);
-                                                                        serverInfo.saveInBackground(new SaveCallback() {
-                                                                            @Override
-                                                                            public void done(ParseException e) {
-                                                                            }
-                                                                        });
-
-                                                                    }
-                                                                });
-
-                                                                customerInfo.saveInBackground(new SaveCallback() {
-                                                                    @Override
-                                                                    public void done(ParseException e) {
-                                                                        if (e != null) {
-                                                                            e.printStackTrace();
-                                                                        }
-                                                                    }
-                                                                });
-                                                                final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                                                startActivity(intent);
-                                                                finish();
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                                //if visit already exists, add customer to visit
-                                                else {
-                                                    final Visit sameVisit = visitObjects.get(0);
-                                                    sameVisit.addCustomer(Customer.getCurrentCustomer());
-                                                    sameVisit.saveInBackground(new SaveCallback() {
-                                                        @Override
-                                                        public void done(ParseException e) {
-                                                            if (e != null) {
-                                                                e.printStackTrace();
-                                                            }
-                                                            final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
-                            }else {
+                        public void done(ParseException e) {
+                            if (e != null) {
                                 e.printStackTrace();
                             }
                         }
                     });
+
+                    final Intent intent = new Intent(CustomerNewVisitActivity.this, CustomerHomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
+            }
+        });
+    }
+
+    private void addToServerInfo(){
+        //Adds the current new Visit into the serverInfo's visit's array
+        //Query to find the serverInfo object that matches the server
+        ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
+        query.whereEqualTo("objectId", server.getServerInfo().getObjectId());
+
+        query.findInBackground(new FindCallback<ServerInfo>() {
+            @Override
+            public void done(List<ServerInfo> objects, ParseException e) {
+                // ServerInfo is made into the ServerInfo Object found
+                ServerInfo serverInfo = objects.get(0);
+                // inside the serverInfo object we add a visit to the Visit array
+                serverInfo.addVisit(visit);
+                serverInfo.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                    }
+                });
+
             }
         });
     }

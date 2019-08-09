@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restauranteur.Customer.Activity.CustomerNewVisitActivity;
 import com.example.restauranteur.Model.Customer;
 import com.example.restauranteur.Model.CustomerInfo;
-import com.example.restauranteur.Model.Installation;
 import com.example.restauranteur.Model.Server;
 import com.example.restauranteur.Model.ServerInfo;
 import com.example.restauranteur.Model.Visit;
@@ -27,7 +25,6 @@ import com.example.restauranteur.Server.Activity.ServerHomeActivity;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -53,7 +50,6 @@ public class SignupActivity extends AppCompatActivity {
     private Server server;
     private ServerInfo serverInfo;
     private CustomerInfo customerInfo;
-    private ParseInstallation installation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +131,6 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void done(ParseException e) {
                                         //create the installation for that user
-                                        createInstallation();
-                                        server.put("installation", installation);
                                         server.saveInBackground(new SaveCallback() {
                                             @Override
                                             public void done(ParseException e) {
@@ -152,24 +146,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void createInstallation (){
-
-       installation = new Installation();
-       installation.put("channels", new ArrayList<String>());
-       installation.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.i("Installation", "New Installation");
-
-                } else {
-                    Log.i("Installation", "installation failed");
-                }
-            }
-        });
-
     }
 
 
@@ -190,7 +166,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void createCustomerInfo (){
-        // call this in callBack to gurantee association
+        // call this in callBack to guarantee association
         // put into the method and doing it the save callBack
         customerInfo = new CustomerInfo();
         //invoke saveInBackground
@@ -225,12 +201,6 @@ public class SignupActivity extends AppCompatActivity {
                 //if there is another user with this username, toast
                 if (objects.size() > 0){
                     final Toast toast = Toast.makeText(SignupActivity.this, "Username is already taken", LENGTH_LONG);
-                    final View view = toast.getView();
-                    //Gets the actual oval background of the Toast then sets the colour filter
-                    view.getBackground().setColorFilter(getResources().getColor(R.color.lightBlueMaterialDesign), PorterDuff.Mode.SRC_IN);
-                    //Gets the TextView from the Toast so it can be edited
-                    final TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(getResources().getColor(R.color.white));
                     toast.show();
                 }
                 //otherwise, sign up the user

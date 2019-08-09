@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +39,6 @@ import static android.view.View.VISIBLE;
 
 public class ServerHomeActivity extends AppCompatActivity {
 
-    public ImageView logout;
     BottomNavigationView bottomNavigationView;
     FragmentPagerAdapter adapterViewPager;
     public View activeNotificationBadge;
@@ -75,21 +73,25 @@ public class ServerHomeActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
-        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        final ViewPager vpPager = findViewById(R.id.vpPager);
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
         //viewPager transformation when swiping
         //ViewPager page indicator
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        InkPageIndicator inkPageIndicator = findViewById(R.id.indicator);
         inkPageIndicator.setViewPager(vpPager);
 
         //implementing fragments
         bottomNavigationView =  findViewById(R.id.bottom_navigation);
 
         //making Active badge Visible
-
+        List<Visit> visits = Server.getCurrentServer().getVisits();
+        if (visits != null) {
+            addBadgeActiveView(visits.size());
+            refreshActiveBadgeView(visits.size());
+        }
         
         vpPager.setCurrentItem(0);
         vpPager.setOnPageChangeListener(new PageChange());
@@ -97,7 +99,6 @@ public class ServerHomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.profile:
                         vpPager.setCurrentItem(0);
@@ -109,7 +110,6 @@ public class ServerHomeActivity extends AppCompatActivity {
                         vpPager.setCurrentItem(2);
                         return true;
                 }
-                //fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
                 return false;
             }
         });
@@ -138,9 +138,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     //when to make the Active Visits badge visible
      public void refreshActiveBadgeView(int size) {
         activeNotificationBadge.setVisibility(size != 0? VISIBLE : GONE);
-
-
-
     }
 
     //connecting badge to textView and setting text
@@ -168,10 +165,6 @@ public class ServerHomeActivity extends AppCompatActivity {
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
 
-        private ServerProfileFragment mServerProfile;
-        private ServerRequestsFragment mServerRequest;
-        private ServerActiveVisitsFragment mServerActiveVisit;
-
         private MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -197,7 +190,9 @@ public class ServerHomeActivity extends AppCompatActivity {
             }
         }
 
-        public int getItemPosition(Object object) {
+
+        //This forces the visits and requests fragments to refresh when notifydatasetchanged is called
+        public int getItemPosition(@NonNull Object object) {
             if (object instanceof ServerProfileFragment) {
                 return POSITION_UNCHANGED;
             } else {
@@ -210,16 +205,7 @@ public class ServerHomeActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return "page" + position;
         }
-
     }
-
-    /*
-    public void setTitle(String title) {
-        mActionBarToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mActionBarToolbar);
-        getSupportActionBar().setTitle(title);
-    }
-    */
 
 
     public class PageChange implements ViewPager.OnPageChangeListener {
