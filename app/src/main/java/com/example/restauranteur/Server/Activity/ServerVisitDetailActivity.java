@@ -125,6 +125,8 @@ public class ServerVisitDetailActivity extends AppCompatActivity {
 
         if (visit.getActive()) {
             displayCurrentMessages();
+        } else {
+            setVisibilities();
         }
     }
 
