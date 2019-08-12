@@ -237,18 +237,19 @@ public class ServerHomeActivity extends AppCompatActivity {
 
     private void fetchServerInfo(){
                 final ParseQuery<ServerInfo> query = ParseQuery.getQuery(ServerInfo.class);
-                query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
+                if (Server.getCurrentServer().getServerInfo() != null) {
+                    query.whereEqualTo("objectId", Server.getCurrentServer().getServerInfo().getObjectId());
 
-                query.findInBackground(new FindCallback<ServerInfo>() {
-                    @Override
-                    public void done(List<ServerInfo> objects, ParseException e) {
-                        if (objects != null){
-                            final ServerInfo serverInfo = objects.get(0);
-                            visitBadgeSize = serverInfo.getVisits().size();
+                    query.findInBackground(new FindCallback<ServerInfo>() {
+                        @Override
+                        public void done(List<ServerInfo> objects, ParseException e) {
+                            if ((objects != null) && (objects.size() > 0)) {
+                                final ServerInfo serverInfo = objects.get(0);
+                                visitBadgeSize = serverInfo.getVisits().size();
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
     }
 
 

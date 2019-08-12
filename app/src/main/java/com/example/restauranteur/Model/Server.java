@@ -48,9 +48,13 @@ public class Server {
 
     //being able to get the serverInfo object
     public ServerInfo getServerInfo(){
-        try {
-            return (ServerInfo) user.fetchIfNeeded().getParseObject("serverInfo");
-        } catch (ParseException e) {
+        if (user != null) {
+            try {
+                return (ServerInfo) user.fetchIfNeeded().getParseObject("serverInfo");
+            } catch (ParseException e) {
+                return null;
+            }
+        } else {
             return null;
         }
     }
